@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/ancestrar/!svn/ver/53/trunk/Realm/src/common
+END
+Ancestra.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/ancestrar/!svn/ver/50/trunk/Realm/src/common/Ancestra.java
+END
+Realm.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/ancestrar/!svn/ver/48/trunk/Realm/src/common/Realm.java
+END
+SocketManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/ancestrar/!svn/ver/50/trunk/Realm/src/common/SocketManager.java
+END
+SendManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/ancestrar/!svn/ver/48/trunk/Realm/src/common/SendManager.java
+END
+SQLManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/ancestrar/!svn/ver/53/trunk/Realm/src/common/SQLManager.java
+END
+CryptManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/ancestrar/!svn/ver/48/trunk/Realm/src/common/CryptManager.java
+END

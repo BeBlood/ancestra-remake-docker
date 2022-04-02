@@ -1,0 +1,28 @@
+Ouvrez votre fichier dofus/config.xlm
+
+LOCAL:
+
+Remplacer cette ligne:
+<dataserver url="http://staticns.ankama.com/dofus/gamedata/dofus/" priority="3" />
+Par:
+<dataserver url="http://127.0.0.1/dofus/" priority="3" />
+
+
+SERVEUR:
+
+Remplacer cette ligne:
+<dataserver url="http://staticns.ankama.com/dofus/gamedata/dofus/" priority="3" />
+Par:
+<dataserver url="http://votre lien/dofus/" priority="3" />
+
+
+_________________________________________________________________________________________________
+LOCAL:
+Dans le dossier www/ si vous utilisez wamp/easyphp !
+
+
+SERVEUR:
+Ensuite placer le dossier lang que vous venez de télécharger sur votre serveur (l'emplacement du no-ip)
+
+_____________________________________________
+Les fichiers dates du 30/12/09
