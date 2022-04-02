@@ -16,87 +16,40 @@ services:
 
   adminer:
     image: adminer
-    deploy:
-      labels:
-        - "traefik.http.routers.adminer.rule=Host(`adminer.ancestra.docker`)"
-        - "traefik.http.routers.adminer-https.rule=Host(`adminer.ancestra.docker`)"
-        - "traefik.docker.network=traefik_reverse_proxy"
-        - "traefik.http.services.adminer.loadbalancer.server.port=8080"
-        - "traefik.enable=true"
-        - "traefik.docker.lbswarm=true"
-        - "traefik.http.routers.adminer.entryPoints=web"
-        - "traefik.http.routers.adminer-https.entryPoints=websecure"
-        - "traefik.http.routers.adminer-https.tls=true"
-        - "traefik.http.routers.adminer-https.tls.certresolver=letsencrypt"
+    ports:
+      - 9090:8080
     networks:
-      - traefik_reverse_proxy
       - mysql
 
   static:
     image: 'bitnami/apache:2.4'
-    deploy:
-      labels:
-        - "traefik.http.routers.static.rule=Host(`ancestra-static.beblood.fr`)"
-        - "traefik.http.routers.static-https.rule=Host(`ancestra-static.beblood.fr`)"
-        - "traefik.docker.network=traefik_reverse_proxy"
-        - "traefik.http.services.static.loadbalancer.server.port=8080"
-        - "traefik.enable=true"
-        - "traefik.docker.lbswarm=true"
-        - "traefik.http.routers.static.entryPoints=web"
-        - "traefik.http.routers.static-https.entryPoints=websecure"
-        - "traefik.http.routers.static-https.tls=true"
-        - "traefik.http.routers.static-https.tls.certresolver=letsencrypt"
+    ports:
+      - 8081:8080
     volumes:
       - ./www:/app
-    networks:
-      - traefik_reverse_proxy
 
   realm:
     image: ancestra/realm:latest
     ports:
       - 444:444
-    deploy:
-      labels:
-        - "traefik.http.routers.realm.rule=Host(`ancestra-realm.beblood.fr`)"
-        - "traefik.docker.network=traefik_reverse_proxy"
-        - "traefik.http.services.realm.loadbalancer.server.port=444"
-        - "traefik.enable=true"
-        - "traefik.docker.lbswarm=true"
-        - "traefik.http.routers.realm.entryPoints=ancestra-realm"
     configs:
       - source: realm_conf
         target: /ancestra/Realm_Config.txt
     networks:
       game:
-        aliases:
-          - ancestra-realm.beblood.fr
       realm:
-        aliases:
-          - ancestra-realm.beblood.fr
       mysql: ~
 
   game:
     image: ancestra/game:latest
     ports:
       - 5555:5555
-    deploy:
-      labels:
-        - "traefik.http.routers.game.rule=Host(`ancestra-game.beblood.fr`)"
-        - "traefik.docker.network=traefik_reverse_proxy"
-        - "traefik.http.services.game.loadbalancer.server.port=5555"
-        - "traefik.enable=true"
-        - "traefik.docker.lbswarm=true"
-        - "traefik.http.routers.game.entryPoints=ancestra-game"
     configs:
       - source: server_game_conf
         target: /ancestra/Game_Config.txt
     networks:
       game:
-        aliases:
-          - ancestra-game.beblood.fr
       realm:
-        aliases:
-          - ancestra-game.beblood.fr
       mysql: ~
 
 configs:

@@ -4,6 +4,9 @@ mysql_container_id = $(shell docker ps --filter name="$(stack_name)_mysql" -q)
 start:
 	docker stack deploy -c docker-compose.yml $(stack_name)
 
+start-with-traefik:
+	docker stack deploy -c docker-compose-traefik.yml $(stack_name)
+
 stop:
 	docker stack rm $(stack_name)
 

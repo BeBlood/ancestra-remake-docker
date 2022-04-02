@@ -1,63 +1,12 @@
-# Ancestra Remake on docker (TEST)
-
-Just a test to host an ancestra remake server on docker.
-
-## Prequisites
-
-- Make
-- Docker
-
-## How to install
-
-1 - Build docker images
-
-```shell
-$ make build-images
-```
-
-2 - Start the stack
-
-```shell
-$ make start
-```
-
-Default list of ports (you may want to redirect if you want to use DNS):
-
-- Realm = 127.0.0.1:444
-- Game = 127.0.0.1:5555
-- Static (lang) = 127.0.0.1:8081
-- Adminer = 127.0.0.1:9090
-
-3 - Initialize databases
-
-Update `./servers/game/game.sql` file:
-
-```sql
-`ServerIP` = 'YOUR SERVER IP',
-```
-
-Then start the import script (may take a few time)
-
-```shell
-$ make import-database
-```
-
-4 - Download client
-
-From https://gitlab.com/bouh2pmg/Client-Dofus-1-29/-/tree/master/Client
-
-5 - Update [config.xml](./servers/game/config.xml) file
-
-```
 <config>
 	<delay value="500"/>
 	<rdelay value="3000"/>
 	<rcount value="10"/>
 
 	<conf name="En ligne">
-        <connserver ip="YOUR REALM SERVER IP OR HOST" name="TEST" port="444"/>
+        <connserver ip="ancestra-realm.beblood.fr" name="TEST" port="444"/>
 		<dataserver url="data/" type="local" priority="3" />
-		<dataserver url="http://[YOUR STATIC SERVER IP OR HOST]/dofus/" priority="2" />
+		<dataserver url="http://ancestra-static.beblood.fr/dofus/" priority="2" />
 	</conf>
 
 	<cacheasbitmap>
@@ -83,13 +32,3 @@ From https://gitlab.com/bouh2pmg/Client-Dofus-1-29/-/tree/master/Client
 		<cache element="Zone/Pointers" value="true" />
 	</cacheasbitmap>
 </config>
-```
-
-6 - Launch game & connect to the server
-
-Login: admin
-Password: admin
-
-## How to add a new server
-
-TODO

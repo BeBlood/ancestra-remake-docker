@@ -3,7 +3,7 @@
 # AR - REALM
 
 # IP du serveur
-REALM_IP = ancestra-realm.beblood.fr
+REALM_IP = realm
 
 #Configuration de la base de donn�e du serveur de connexion
 REALM_DB_HOST = mysql
@@ -19,7 +19,7 @@ LOG = false
 
 # IP du serveur
 USE_IP = false
-HOST_IP = ancestra-game.beblood.fr
+HOST_IP = game
 LOCALIP_LOOPBACK = true
 
 # Clef d'identification

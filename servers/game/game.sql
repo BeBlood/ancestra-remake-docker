@@ -1,6 +1,6 @@
 UPDATE `gameservers` SET
 `ID` = '1',
-`ServerIP` = 'ancestra-game.beblood.fr',
+`ServerIP` = 'YOUR SERVER IP',
 `ServerPort` = '5555',
 `State` = '0',
 `ServerBDD` = 'mysql',
