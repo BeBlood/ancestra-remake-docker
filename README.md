@@ -94,7 +94,7 @@ Password: admin
 
 TODO
 
-## Build jar files from source code
+## Build jar files from source
 
 #### Game
 
