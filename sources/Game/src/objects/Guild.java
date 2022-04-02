@@ -21,15 +21,15 @@ public class Guild {
 	private Map<Integer,GuildMember> _members = new TreeMap<Integer,GuildMember>();
 	private int _lvl;
 	private long _xp;
-	
+
 	//Percepteur
 	private int _capital = 0;
 	private int _nbrPerco = 0;
 	private Map<Integer, SortStats> Spells = new TreeMap<Integer, SortStats>();	//<ID, Level>
-	private Map<Integer, Integer> stats = new TreeMap<Integer, Integer>(); //<Effet, Quantité>
+	private Map<Integer, Integer> stats = new TreeMap<Integer, Integer>(); //<Effet, QuantitÃ©>
 	//Stats en combat
 	private Map<Integer,Integer> statsFight = new TreeMap<Integer,Integer>();
-	
+
 	public static class GuildMember
 	{
 		private int _guid;
@@ -43,7 +43,7 @@ public class Guild {
 		private long _xpGave = 0;
 		private int _rights = 0;
 		private String _lastCo;
-		
+
 		//Droit
 		private Map<Integer,Boolean> haveRight = new TreeMap<Integer,Boolean>();
 
@@ -62,27 +62,27 @@ public class Guild {
 			_lastCo = lastCo;
 			parseIntToRight(_rights);
 		}
-		
+
 		public int getAlign()
 		{
 			return _align;
 		}
-		
+
 		public int getGfx()
 		{
 			return _gfx;
 		}
-		
+
 		public int getLvl()
 		{
 			return _level;
 		}
-		
+
 		public String getName()
 		{
 			return _name;
 		}
-		
+
 		public int getGuid()
 		{
 			return _guid;
@@ -91,7 +91,7 @@ public class Guild {
 		{
 			return _rank;
 		}
-		
+
 		public Guild getGuild()
 		{
 			return _guild;
@@ -115,19 +115,19 @@ public class Guild {
 		{
 			return _pXpGive;
 		}
-		
+
 		public String getLastCo()
 		{
 			return _lastCo;
 		}
-		
+
 		public int getHoursFromLastCo()
 		{
 			String[] strDate = _lastCo.toString().split("~");
-			
+
 			LocalDate lastCo = new LocalDate(Integer.parseInt(strDate[0]),Integer.parseInt(strDate[1]),Integer.parseInt(strDate[2]));
 			LocalDate now = new LocalDate();
-			
+
 			return Days.daysBetween(lastCo,now).getDays()*24;
 		}
 
@@ -140,7 +140,7 @@ public class Guild {
 		{
 			if(this._rights == 1)
 				return true;
-			
+
 			return haveRight.get(rightValue);
 		}
 
@@ -148,42 +148,42 @@ public class Guild {
 		{
 			_rank = i;
 		}
-		
+
 		public void setAllRights(int rank,byte xp,int right)
 		{
 			if(rank == -1)
 				rank = this._rank;
-			
+
 			if(xp < 0)
 				xp = this._pXpGive;
 			if(xp > 90)
 				xp = 90;
-			
+
 			if(right == -1)
 				right = this._rights;
-			
+
 			this._rank = rank;
 			this._pXpGive = xp;
-			
-			if(right != this._rights && right != 1)	//Vérifie si les droits sont pareille ou si des droits de meneur; pour ne pas faire la conversion pour rien
+
+			if(right != this._rights && right != 1)	//VÃ©rifie si les droits sont pareille ou si des droits de meneur; pour ne pas faire la conversion pour rien
 				parseIntToRight(right);
 			this._rights = right;
-			
+
 			SQLManager.UPDATE_GUILDMEMBER(this);
 		}
 
-		
+
 		public void setLevel(int lvl)
 		{
 			this._level = lvl;
 		}
-		
+
 		public void giveXpToGuild(long xp)
 		{
 			this._xpGave+=xp;
 			this._guild.addXp(xp);
 		}
-		
+
 		public void initRight()
 		{
 			haveRight.put(Constants.G_BOOST,false);
@@ -199,7 +199,7 @@ public class Guild {
 			haveRight.put(Constants.G_AMENCLOS,false);
 			haveRight.put(Constants.G_OTHDINDE,false);
 		}
-		
+
 		public void parseIntToRight(int total)
 		{
 			if(haveRight.isEmpty())
@@ -208,14 +208,14 @@ public class Guild {
 			}
 			if(total == 1)
 				return;
-			
-			if(haveRight.size() > 0)	//Si les droits contiennent quelque chose -> Vidage (Même si le TreeMap supprimerais les entrées doublon lors de l'ajout)
+
+			if(haveRight.size() > 0)	//Si les droits contiennent quelque chose -> Vidage (MÃ©me si le TreeMap supprimerais les entrÃ©es doublon lors de l'ajout)
 				haveRight.clear();
-				
+
 			initRight();	//Remplissage des droits
-			
-			Integer[] mapKey = haveRight.keySet().toArray(new Integer[haveRight.size()]);	//Récupère les clef de map dans un tableau d'Integer
-			
+
+			Integer[] mapKey = haveRight.keySet().toArray(new Integer[haveRight.size()]);	//RÃ©cupÃ©re les clef de map dans un tableau d'Integer
+
 			while(total > 0)
 			{
 				for (int i = haveRight.size()-1; i < haveRight.size(); i--)
@@ -229,7 +229,7 @@ public class Guild {
 				}
 			}
 		}
-		
+
 		public void setLastCo(String lastCo)
 		{
 			_lastCo = lastCo;
@@ -243,8 +243,8 @@ public class Guild {
 		_emblem = emblem;
 		_lvl = 1;
 		_xp= 0;
-		decompileSpell("462;0|461;0|460;0|459;0|458;0|457;0|456;0|455;0|454;0|453;0|452;0|451;0|"); 
-		decompileStats("176;100|158;1000|124;100|"); 
+		decompileSpell("462;0|461;0|460;0|459;0|458;0|457;0|456;0|455;0|454;0|453;0|452;0|451;0|");
+		decompileStats("176;100|158;1000|124;100|");
 	}
 	public Guild(int id,String name, String emblem,int lvl,long xp,
 			int capital, int nbrmax,
@@ -292,7 +292,7 @@ public class Guild {
 	{
 		return _id;
 	}
-	
+
 	public int get_nbrPerco()
 	{
 		return _nbrPerco;
@@ -301,7 +301,7 @@ public class Guild {
 	{
 		_nbrPerco = nbr;
 	}
-	
+
 	public int get_Capital()
 	{
 		return _capital;
@@ -310,7 +310,7 @@ public class Guild {
 	{
 		_capital = nbr;
 	}
-	
+
 	public Map<Integer,SortStats> getSpells() {
 		return Spells;
 	}
@@ -320,7 +320,7 @@ public class Guild {
 	public void addStat(int stat, int qte)
 	{
 		int old = stats.get(stat);
-		
+
 		stats.put(stat, old + qte);
 	}
 	public void boostSpell(int ID)
@@ -333,7 +333,7 @@ public class Guild {
 	{
 		return new Stats(statsFight);
 	}
-	
+
 	public String get_name() {
 		return _name;
 	}
@@ -387,7 +387,7 @@ public class Guild {
 	}
 	public void removeMember(Personnage perso)
 	{
-		House h = House.get_HouseByPerso(perso);//On prend ça maison
+		House h = House.get_HouseByPerso(perso);//On prend Ã©a maison
 		if(h != null)
 		{
 			if(House.HouseOnGuild(_id) > 0)
@@ -398,66 +398,66 @@ public class Guild {
 		_members.remove(perso.get_GUID());
 		SQLManager.DEL_GUILDMEMBER(perso.get_GUID());
 	}
-	
+
 	public void addXp(long xp)
 	{
 		this._xp+=xp;
-		
+
 		while(_xp >= World.getGuildXpMax(_lvl) && _lvl<200)
 			levelUp();
 	}
-	
+
 	public void levelUp()
 	{
 		this._lvl++;
 		this._capital = this._capital+5;
 	}
-	
+
 	public void decompileSpell(String spellStr) //ID;lvl|ID;lvl|...
 	{
 		int id;
 		int lvl;
-		
+
 		for(String split : spellStr.split("\\|"))
 		{
 			id = Integer.parseInt(split.split(";")[0]);
 			lvl = Integer.parseInt(split.split(";")[1]);
-			
+
 			Spells.put(id, World.getSort(id).getStatsByLevel(lvl));
 		}
 	}
-	
+
 	public void decompileStats(String statsStr) //ID;lvl|ID;lvl|...
 	{
 		int id;
 		int value;
-		
+
 		for(String split : statsStr.split("\\|"))//pp pod sagesse
 		{
 			id = Integer.parseInt(split.split(";")[0]);
 			value = Integer.parseInt(split.split(";")[1]);
-			
+
 			stats.put(id, value);
 		}
 	}
-	
+
 	public String compileSpell()
 	{
 		if(Spells.isEmpty())return "";
-		
+
 		StringBuilder toReturn = new StringBuilder();
 		boolean isFirst = true;
-		
+
 		for(Entry<Integer, SortStats> curSpell : Spells.entrySet())
 		{
 			if(!isFirst)
 				toReturn.append("|");
-			
+
 			toReturn.append(curSpell.getKey()).append(";").append(((curSpell.getValue() == null)?0:curSpell.getValue().getLevel()));
-			
+
 			isFirst = false;
 		}
-		
+
 		return toReturn.toString();
 	}
 	public String compileStats()
@@ -466,26 +466,26 @@ public class Guild {
 
 		StringBuilder toReturn = new StringBuilder();
 		boolean isFirst = true;
-		
+
 		for(Entry<Integer, Integer> curStats : stats.entrySet())
 		{
 			if(!isFirst)
 				toReturn.append("|");
-			
+
 			toReturn.append(curStats.getKey()).append(";").append(curStats.getValue());
-			
+
 			isFirst = false;
 		}
-		
+
 		return toReturn.toString();
 	}
-	
+
 	public void upgrade_Stats(int statsid, int add)
 	{
 		int actual = stats.get(statsid).intValue();
 		stats.put(statsid, (actual+add));
 	}
-	
+
 	public int get_Stats(int statsid)
 	{
 		int value = 0;
@@ -498,12 +498,12 @@ public class Guild {
 		}
 		return value;
 	}
-	
+
 	public String parsePercotoGuild()
 	{
 		//Percomax|NbPerco|100*level|level|perco_add_pods|perco_prospection|perco_sagesse|perco_max|perco_boost|1000+10*level|perco_spells
 		StringBuilder packet = new StringBuilder();
-		
+
 		packet.append(get_nbrPerco()).append("|");
 		packet.append(Percepteur.CountPercoGuild(get_id())).append("|");
 		packet.append(100*get_lvl()).append("|").append(get_lvl()).append("|");
@@ -512,8 +512,8 @@ public class Guild {
 		packet.append(get_Capital()).append("|").append((1000+(10*get_lvl()))).append("|").append(compileSpell());
 		return packet.toString();
 	}
-	
-	public String parseQuestionTaxCollector() 
+
+	public String parseQuestionTaxCollector()
 	{
         StringBuilder packet = new StringBuilder(10);
         packet.append('1').append(';');

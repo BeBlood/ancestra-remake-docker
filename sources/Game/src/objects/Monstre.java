@@ -28,7 +28,7 @@ public class Monstre
 	private Map<Integer,MobGrade> grades = new TreeMap<Integer,MobGrade>();
 	private ArrayList<Drop> drops = new ArrayList<Drop>();
 	private boolean isCapturable;
-	
+
 	public static class MobGroup
 	{
 		private int id;
@@ -41,16 +41,16 @@ public class Monstre
 		private String condition = "";
 		private Timer _condTimer;
 		private long creationTime;
-		
+
 		public MobGroup(int Aid,int Aalign, ArrayList<MobGrade> possibles,Carte Map,int cell,int maxSize)
 		{
 			id = Aid;
 			align = Aalign;
-			//Détermination du nombre de mob du groupe
+			//DÃ©termination du nombre de mob du groupe
 
 			int rand = 0;
 			int nbr = 0;
-			
+
 			switch (maxSize)
 			{
 				case 0:
@@ -141,17 +141,17 @@ public class Monstre
 						nbr = 8;
 					break;
 			}
-			//On vérifie qu'il existe des monstres de l'alignement demandé pour éviter les boucles infinies
+			//On vÃ©rifie qu'il existe des monstres de l'alignement demandÃ© pour Ã©viter les boucles infinies
 			boolean haveSameAlign = false;
 			for(MobGrade mob : possibles)
 			{
 				if(mob.getTemplate().getAlign() == align)
 					haveSameAlign = true;
 			}
-			
+
 			if(!haveSameAlign)return;//S'il n'y en a pas
 			int guid = -1;
-			
+
 			int maxLevel = 0;
 			for(int a =0; a<nbr;a++)
 			{
@@ -159,28 +159,28 @@ public class Monstre
 				do
 				{
 					int random = Formulas.getRandomValue(0, possibles.size()-1);//on prend un mob au hasard dans le tableau
-					Mob = possibles.get(random).getCopy();	
+					Mob = possibles.get(random).getCopy();
 				}while(Mob.getTemplate().getAlign() != align);
-				
+
 				if(Mob.getLevel() > maxLevel)
 					maxLevel = Mob.getLevel();
-				
+
 				_Mobs.put(guid, Mob);
 				guid--;
 			}
 			aggroDistance = Constants.getAggroByLevel(maxLevel);
-			
+
 			if(align != Constants.ALIGNEMENT_NEUTRE)
 				aggroDistance = 15;
-			
+
 			cellID = (cell==-1?Map.getRandomFreeCellID():cell);
 			if(cellID == 0)return;
-			
+
 			orientation = (Formulas.getRandomValue(0, 3)*2)+1;
 			isFix = false;
 			creationTime = System.currentTimeMillis();
 		}
-		
+
 		public MobGroup(int Aid, int cID, String groupData)
 		{
 			int maxLevel = 0;
@@ -216,17 +216,17 @@ public class Monstre
 		{
 			return id;
 		}
-		
+
 		public int getCellID()
 		{
 			return cellID;
 		}
-		
+
 		public int getOrientation()
 		{
 			return orientation;
 		}
-		
+
 		public int getAggroDistance()
 		{
 			return aggroDistance;
@@ -239,22 +239,22 @@ public class Monstre
 		{
 			orientation = o;
 		}
-		
+
 		public void setCellID(int id)
 		{
 			cellID = id;
 		}
-		
+
 		public int getAlignement()
 		{
 			return align;
 		}
-		
+
 		public MobGrade getMobGradeByID(int id)
 		{
 			return _Mobs.get(id);
 		}
-		
+
 		public int getSize()
 		{
 			return _Mobs.size();
@@ -267,10 +267,10 @@ public class Monstre
 			StringBuilder mobLevels = new StringBuilder();
 			StringBuilder colors = new StringBuilder();
 			StringBuilder toreturn = new StringBuilder();
-			
+
 			boolean isFirst = true;
 			if(_Mobs.isEmpty())return "";
-			
+
 			for(Entry<Integer,MobGrade> entry : _Mobs.entrySet())
 			{
 				if(!isFirst)
@@ -283,7 +283,7 @@ public class Monstre
 				mobGFX.append(entry.getValue().getTemplate().getGfxID()).append("^100");
 				mobLevels.append(entry.getValue().getLevel());
 				colors.append(entry.getValue().getTemplate().getColors()).append(";0,0,0,0;");
-				
+
 				isFirst = false;
 			}
 			toreturn.append("+").append(cellID).append(";").append(orientation).append(";");
@@ -300,7 +300,7 @@ public class Monstre
 		   if(percent > 200) percent = 200;
 		   return percent;
 		}
-		
+
 		public Map<Integer, MobGrade> getMobs() {
 			return _Mobs;
 		}
@@ -320,10 +320,10 @@ public class Monstre
 		{
 			this._condTimer = new Timer();
 			_condTimer.schedule(new TimerTask() {
-				
+
 				public void run() {
 					condition = "";
-					
+
 				}
 			}, Ancestra.CONFIG_ARENA_TIMER);
 		}
@@ -334,12 +334,12 @@ public class Monstre
 				this._condTimer.cancel();
 			}catch(Exception e)
 			{
-				
+
 			}
 		}
-			
+
 	}
-	
+
 	public static class MobGrade
 	{
 		private Monstre template;
@@ -356,7 +356,7 @@ public class Monstre
 		private ArrayList<SpellEffect> _fightBuffs = new ArrayList<SpellEffect>();
 		private Map<Integer,Integer> stats = new TreeMap<Integer,Integer>();
 		private Map<Integer,SortStats> spells = new TreeMap<Integer,SortStats>();
-		
+
 		public MobGrade(Monstre aTemp, int Agrade, int Alevel,int aPA,int aPM, String Aresist, String Astats, String Aspells,int pdvMax,int aInit, int xp)
 		{
 			template = aTemp;
@@ -386,7 +386,7 @@ public class Monstre
 				chance = Integer.parseInt(statsArray[3]);
 				agilite = Integer.parseInt(statsArray[4]);
 			}catch(Exception e){e.printStackTrace();};
-			
+
 			stats.clear();
 			stats.put(Constants.STATS_ADD_FORC, force);
 			stats.put(Constants.STATS_ADD_SAGE, sagesse);
@@ -400,7 +400,7 @@ public class Monstre
 			stats.put(Constants.STATS_ADD_RP_TER, RT);
 			stats.put(Constants.STATS_ADD_AFLEE, AF);
 			stats.put(Constants.STATS_ADD_MFLEE, MF);
-			
+
 			spells.clear();
 			String[] spellsArray = Aspells.split(";");
 			for(String str : spellsArray)
@@ -415,16 +415,16 @@ public class Monstre
 					spellLvl = Integer.parseInt(spellInfo[1]);
 				}catch(Exception e){continue;};
 				if(spellID == 0 || spellLvl == 0)continue;
-				
+
 				Sort sort = World.getSort(spellID);
 				if(sort == null)continue;
 				SortStats SpellStats = sort.getStatsByLevel(spellLvl);
 				if(SpellStats == null)continue;
-				
+
 				spells.put(spellID, SpellStats);
 			}
 		}
-	
+
 		private MobGrade(Monstre template2, int grade2, int level2, int pdv2,int pdvmax2,int aPA,int aPM, Map<Integer, Integer> stats2,Map<Integer, SortStats> spells2,int xp)
 		{
 			template = template2;
@@ -462,37 +462,37 @@ public class Monstre
 		{
 			return new Stats(stats);
 		}
-		
+
 		public int getLevel()
 		{
 			return level;
 		}
-		
+
 		public ArrayList<SpellEffect> getBuffs()
 		{
 			return _fightBuffs;
 		}
-		
+
 		public Case getFightCell()
 		{
 			return fightCell;
 		}
-		
+
 		public void setFightCell(Case cell)
 		{
 			fightCell = cell;
 		}
-		
+
 		public Map<Integer,SortStats> getSpells()
 		{
 			return spells;
 		}
-		
+
 		public Monstre getTemplate()
 		{
 			return template;
 		}
-		
+
 		public int getPDV() {
 			return PDV;
 		}
@@ -542,7 +542,7 @@ public class Monstre
 			stats.put(Constants.STATS_ADD_INTE, intel);
 			stats.put(Constants.STATS_ADD_AGIL, agili);
 			stats.put(Constants.STATS_ADD_SAGE, sages);
-			stats.put(Constants.STATS_ADD_CHAN, chanc);	
+			stats.put(Constants.STATS_ADD_CHAN, chanc);
 		}
 	}
 
@@ -617,10 +617,10 @@ public class Monstre
 						)
 					);
 				G++;
-			}catch(Exception e){continue;};	
-		}	
+			}catch(Exception e){continue;};
+		}
 	}
-	
+
 	public int getID() {
 		return ID;
 	}
@@ -635,7 +635,7 @@ public class Monstre
 	public int getGfxID() {
 		return gfxID;
 	}
-	
+
 	public int getMinKamas() {
 		return minKamas;
 	}
@@ -647,15 +647,15 @@ public class Monstre
 	public int getAlign() {
 		return align;
 	}
-	
+
 	public String getColors() {
 		return colors;
 	}
-	
+
 	public int getIAType() {
 		return IAType;
 	}
-	
+
 	public Map<Integer, MobGrade> getGrades() {
 		return grades;
 	}
@@ -669,10 +669,10 @@ public class Monstre
 		}
 		return null;
 	}
-	
+
 	public MobGrade getRandomGrade()
 	{
-		int randomgrade = (int)(Math.random() * (6-1)) + 1; 
+		int randomgrade = (int)(Math.random() * (6-1)) + 1;
 		int graderandom=1;
 		for(Entry<Integer,MobGrade> grade : grades.entrySet())
 		{
@@ -686,7 +686,7 @@ public class Monstre
 		}
 		return null;
 	}
-	
+
 	public boolean isCapturable()
 	{
 		return this.isCapturable;

@@ -16,7 +16,7 @@ public class Challenge
 	private Fight fight;
 	private Fighter _cible;
 	private List<Fight.Fighter> _ordreJeu = new ArrayList<Fighter>();
-	
+
 	private int xpWin;
 	private int dropWin;
 	private boolean challengeAlive = false;
@@ -25,7 +25,7 @@ public class Challenge
 	private int Arg = -1;
 	private long lastActions_time;
 	private String lastActions;
-	
+
 	public Challenge(Fight fight, int type, int xp, int drop)
 	{
 	    this.challengeAlive = true;
@@ -33,37 +33,37 @@ public class Challenge
 	    this.type = type;
 	    this.xpWin = xp;
 	    this.dropWin = drop;
-	    
+
 	    this._ordreJeu.clear();
 	    this._ordreJeu.addAll(fight.get_ordreJeu());
-	    
+
 	    this.lastActions = "";
 	    this.lastActions_time = System.currentTimeMillis();
-	    
+
 	}
-	
+
 	public int getXp()
 	{
 		return xpWin;
 	}
-	
+
 	public int getDrop()
 	{
 		return dropWin;
 	}
-	
+
 	public boolean get_win()
 	{
 		return challengeWin;
 	}
-	
+
 	public void challenge_win()
 	{
 		challengeWin = true;
 		challengeAlive = false;
 		SocketManager.GAME_SEND_CHALLENGE_FIGHT(fight, 1, "OK" + type);
 	}
-	
+
 	public void challenge_loose(Fighter fighter)
 	{
 		String name = "";
@@ -73,7 +73,7 @@ public class Challenge
 		SocketManager.GAME_SEND_CHALLENGE_FIGHT(fight, 7, "KO"+type);
 	    SocketManager.GAME_SEND_Im_PACKET_TO_CHALLENGE(fight, 1, "0188;"+name);
 	}
-	
+
 	public String parsePacket()
 	{
 		StringBuilder packet = new StringBuilder();
@@ -85,20 +85,20 @@ public class Challenge
 		}
 		return packet.toString();
 	}
-	
+
 	public void show_cibleToPerso(Personnage p)
 	{
 		if(!challengeAlive || _cible == null || _cible.get_fightCell() == null || p == null) return;
-		
+
 		ArrayList<PrintWriter> Pws = new ArrayList<PrintWriter>();
 		Pws.add(p.get_compte().getGameThread().get_out());
 		SocketManager.GAME_SEND_FIGHT_SHOW_CASE(Pws, _cible.getGUID(), _cible.get_fightCell().getID());
 	}
-	
+
 	public void show_cibleToFight()
 	{
 		if(!challengeAlive || _cible == null || _cible.get_fightCell() == null) return;
-		
+
 		ArrayList<PrintWriter> Pws = new ArrayList<PrintWriter>();
 		for(Fighter fighter : fight.getFighters(1))
 		{
@@ -108,22 +108,22 @@ public class Challenge
 		}
 		SocketManager.GAME_SEND_FIGHT_SHOW_CASE(Pws, _cible.getGUID(), _cible.get_fightCell().getID());
 	}
-	
-	public void fightStart()//Définit les cibles au début du combat
+
+	public void fightStart()//DÃ©finit les cibles au dÃ©but du combat
 	{
 		if(!challengeAlive) return;
-	
+
 		switch (type)
 		{
-			case 3://Désigné Volontaire
+			case 3://DÃ©signÃ© Volontaire
 			case 4://Sursis
 			case 32://Elitiste
-			case 35://Tueur à gages
+			case 35://Tueur Ã© gages
 			    if(_cible == null && _ordreJeu.size() > 0)//Si aucun cible n'est choise on en choisie une
 			    {
 	    			List<Fighter> Choix = new ArrayList<Fighter>();
 	    			Choix.addAll(_ordreJeu);
-	    			Collections.shuffle(Choix);//Mélange l'ArrayList
+	    			Collections.shuffle(Choix);//MÃ©lange l'ArrayList
 			    	for(Fighter f : Choix)
 			    	{
 			    		if(f.getPersonnage() != null) continue;
@@ -144,9 +144,9 @@ public class Challenge
 	    		}
 		  		if(_cible != null) show_cibleToFight();
 		  	break;
-			case 25://Ordonné
+			case 25://OrdonnÃ©
 				int levelMax = 0;
-		  		for(Fighter fighter : fight.getFighters(2))//la cible sera le niveau le plus élevé
+		  		for(Fighter fighter : fight.getFighters(2))//la cible sera le niveau le plus Ã©levÃ©
 		  		{
 		  			if(fighter.getPersonnage() == null && fighter.getMob() != null && fighter.get_lvl() > levelMax)
 		  			{
@@ -158,11 +158,11 @@ public class Challenge
 		   	break;
 		}
 	}
-	
-	public void fightEnd()//Vérifie la validité des challenges en fin de combat (si nécessaire)
+
+	public void fightEnd()//VÃ©rifie la validitÃ© des challenges en fin de combat (si nÃ©cessaire)
 	{
 		if(!challengeAlive) return;
-		 
+
 		switch(type)
 		{
 		 	case 44://Partage
@@ -179,17 +179,17 @@ public class Challenge
 		}
 		challenge_win();
 	}
-	  
-	public void fighterDie(Fighter Deadtarget)//Si un Fighter meurt on vérifie la validité des challenges
+
+	public void fighterDie(Fighter Deadtarget)//Si un Fighter meurt on vÃ©rifie la validitÃ© des challenges
 	{
 		if(!challengeAlive) return;
-		
+
 		switch (type)
 		{
 			case 33://Survivant
 				challenge_loose(fight.getCurFighter());
-			break;			
-			case 49://Protégez vos mules
+			break;
+			case 49://ProtÃ©gez vos mules
 				if(Deadtarget.getPersonnage() != null)
 				{
 					int levelMin = 2000;
@@ -198,7 +198,7 @@ public class Challenge
 						if(f.get_lvl() < levelMin) levelMin = f.get_lvl();
 						if(Deadtarget.get_lvl() <= levelMin)
 						{
-							challenge_loose(fight.getCurFighter()); 
+							challenge_loose(fight.getCurFighter());
 							break;
 						}
 					}
@@ -206,7 +206,7 @@ public class Challenge
 			break;
 		}
 	}
-	
+
 	public void onFighters_attacked(ArrayList<Fighter> targets, Fighter caster, int effectID)//Si on attaque un fighter (soins ou attaque)
 	{
 		if(!challengeAlive) return;
@@ -251,7 +251,7 @@ public class Challenge
 					}
 				}
 			break;
-			case 20://Elémentaire
+			case 20://ElÃ©mentaire
 				if((caster.getTeam() == 0) && DamagingEffects.contains("|"+effectID+"|") && effectID != 141)
 				{
 					eID -= 96;
@@ -294,7 +294,7 @@ public class Challenge
 							challenge_loose(caster);
 						}
 					}
-				}			
+				}
 			break;
 			case 21://Circulez !
 				if((caster.getTeam() == 0) && MPEffects.contains("|"+effectID+"|"))
@@ -349,11 +349,11 @@ public class Challenge
 				}
 			break;
 			case 32://Elitiste
-			case 34://Imprévisible
+			case 34://ImprÃ©visible
 				if((caster.getTeam() == 0) && DamagingEffects.contains("|"+effectID+"|"))
 				{
 					for(Fighter target : targets)
-					{	
+					{
 						if(target.getTeam() == 1)
 						{
 							if(_cible == null || _cible.getGUID() != target.getGUID()) challenge_loose(caster);
@@ -378,7 +378,7 @@ public class Challenge
 						}
 					}
 				}
-			case 43://Abnégation
+			case 43://AbnÃ©gation
 				if((caster.getTeam() == 0) && HealingEffects.contains("|"+effectID+"|") && caster.getInvocator() == null)
 				{
 					for(Fighter target : targets)
@@ -415,7 +415,7 @@ public class Challenge
 			break;
 		  }
 	  }
-	
+
 	public void onMob_die(Fighter mob, Fighter caster)
 	{
 		if(!challengeAlive) return;
@@ -424,12 +424,12 @@ public class Challenge
 			challenge_loose(null);
 			return;
 		}
-		
+
 		boolean isKiller = (caster.getGUID() == mob.getGUID() ? false : true);
-		
+
 		switch (type)
 		{
-			case 3://Désigné Volontaire
+			case 3://DÃ©signÃ© Volontaire
 				if(_cible == null) return;
 				if (_cible.getGUID() != mob.getGUID())
 				{
@@ -473,12 +473,12 @@ public class Challenge
 				if(_cible == null) return;
 				if(_cible.getGUID() == mob.getGUID()) challenge_win();
 			break;
-			case 34://Imprévisible
+			case 34://ImprÃ©visible
 				_cible = null;
 			case 42://Deux pour le prix d'un
 			case 44://Partage
 			case 46://Chacun son monstre
-				if(isKiller) Args += ";"+caster.getGUID()+";";		
+				if(isKiller) Args += ";"+caster.getGUID()+";";
 			break;
 			case 30://Les petits d'abord
 			case 48://Les mules d'abord
@@ -495,7 +495,7 @@ public class Challenge
 					}
 				}
 			break;
-			case 35://Tueur à gages
+			case 35://Tueur Ã© gages
 		    	if(_cible == null) return;
 				if(_cible.getGUID() != mob.getGUID())
 				{
@@ -506,7 +506,7 @@ public class Challenge
 			    {
 	    			List<Fighter> Choix = new ArrayList<Fighter>();
 	    			Choix.addAll(_ordreJeu);
-	    			Collections.shuffle(Choix);//Mélange l'ArrayList
+	    			Collections.shuffle(Choix);//MÃ©lange l'ArrayList
 			    	for(Fighter f : Choix)
 			    	{
 			    		if(f.getPersonnage() != null) continue;
@@ -521,7 +521,7 @@ public class Challenge
 				{
 					challenge_loose(fight.getCurFighter());
 				}
-		    	
+
 				int levelMin = 2000;
 		    	for(Fighter fighter : fight.getFighters(2))
 		    	{
@@ -534,13 +534,13 @@ public class Challenge
 		    	}
 		    	if(_cible != null) show_cibleToFight();
 		    break;
-		    case 25://Ordonné
+		    case 25://OrdonnÃ©
 		    	if (_cible == null) return;
 				if (_cible.getGUID() != mob.getGUID())
 				{
 					challenge_loose(fight.getCurFighter());
 				}
-				
+
 		    	int levelMax = 0;
 		    	for(Fighter fighter : fight.getFighters(2))
 		    	{
@@ -555,7 +555,7 @@ public class Challenge
 		    break;
 		}
 	}
-	  
+
 	public void onPlayer_move(Fighter f)
 	{
 		if(!challengeAlive) return;
@@ -569,17 +569,17 @@ public class Challenge
 			break;
 		}
 	}
-	  
+
 	public void onPlayer_action(Fighter fighter, int actionID)
 	{
 		if(!challengeAlive || fighter == null || fighter.getTeam() == 1) return;
 		if(System.currentTimeMillis() - lastActions_time < 500) return;
-			
+
 		lastActions_time = System.currentTimeMillis();
 		StringBuilder action = new StringBuilder();
 		action.append(";").append(fighter.getGUID());
 		action.append(",").append(actionID).append(";");
-		
+
 		switch(type)
 		{
 			case 6://Versatile
@@ -587,18 +587,18 @@ public class Challenge
 				if(lastActions.contains(action.toString())) challenge_loose(fight.getCurFighter());
 				lastActions += action.toString();
 			break;
-			case 24://Borné
+			case 24://BornÃ©
 				if(!lastActions.contains(action.toString()) && lastActions.contains(";"+fighter.getGUID()+",")) challenge_loose(fight.getCurFighter());
 				lastActions += action.toString();
 			break;
 		  }
 		  return;
 	  }
-	
+
 	public void onPlayer_cac(Fighter fighter)
 	{
 		if(!challengeAlive) return;
-		
+
 		switch(type)
 		{
 			case 11://Mystique
@@ -613,10 +613,10 @@ public class Challenge
 				action.append(",").append("cac").append(";");
 				if(lastActions.contains(action.toString())) challenge_loose(fight.getCurFighter());
 				lastActions += action.toString();
-			break;		
+			break;
 		  }
 	  }
-	
+
 	public void onPlayer_spell(Fighter fighter)
 	{
 		if(!challengeAlive) return;
@@ -627,11 +627,11 @@ public class Challenge
 			break;
 		}
 	}
-	
+
 	public void onfight_StartTurn(Fighter fighter)
 	{
 		if(!challengeAlive) return;
-		
+
 		switch(type)
 		{
 			case 2://Statue
@@ -640,14 +640,14 @@ public class Challenge
 			case 6://Versatile
 				lastActions = "";
 			break;
-			case 34://Imprévisible
+			case 34://ImprÃ©visible
 				if(fighter.getTeam() == 1) return;
 				_cible = null;
 			    if(_cible == null && _ordreJeu.size() > 0)//Si aucun cible n'est choise on en choisie une
 			    {
 	    			List<Fighter> Choix = new ArrayList<Fighter>();
 	    			Choix.addAll(_ordreJeu);
-	    			Collections.shuffle(Choix);//Mélange l'ArrayList
+	    			Collections.shuffle(Choix);//MÃ©lange l'ArrayList
 			    	for(Fighter f : Choix)
 			    	{
 			    		if(f.getPersonnage() != null) continue;
@@ -689,15 +689,15 @@ public class Challenge
 			break;
 		  }
 	  }
-	
+
 	public void onfight_EndTurn(Fighter fighter)
 	{
 		if(!challengeAlive) return;
-		
+
 		ArrayList<Fighter> Neighbours = new ArrayList<Fighter>();
 		Neighbours = Pathfinding.getFightersAround(fighter.get_fightCell().getID(), fight.get_map(), fight);
 		boolean hasFailed = false;
-		
+
 		switch(type)
 		{
 			case 1://Zombie
@@ -754,7 +754,7 @@ public class Challenge
 					}
 				}
 			break;
-			case 39://Anachorète
+			case 39://AnachorÃ©te
 				if(!Neighbours.isEmpty())
 				{
 					for(Fighter f : Neighbours)
@@ -772,14 +772,14 @@ public class Challenge
 					}
 				}
 			break;
-			case 41://Pétulant
+			case 41://PÃ©tulant
 				if(fighter.getCurPA(fight) > 0) challenge_loose(fighter);
 			break;
 			case 42://Deux pour le prix d'un
 				String GUID = ""+fighter.getGUID();
 				int compteur = 0;
 				for(String ID : Args.split(";"))
-				{	
+				{
 					if(ID.equals(GUID))
 						compteur++;
 				}

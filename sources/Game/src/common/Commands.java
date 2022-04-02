@@ -38,7 +38,7 @@ public class Commands {
 	//Sauvegarde
 	private boolean _TimerStart = false;
 	Timer _timer;
-	
+
 	private Timer createTimer(final int time)
 	{
 	    ActionListener action = new ActionListener ()
@@ -64,36 +64,36 @@ public class Commands {
 	        	}
 	        }
 	      };
-	    // GÈnÈration du repeat toutes les minutes.
+	    // G√©n√©ration du repeat toutes les minutes.
 	    return new Timer (60000, action);//60000
 	}
-	
+
 	public Commands(Personnage perso)
 	{
 		this._compte = perso.get_compte();
 		this._perso = perso;
 		this._out = _compte.getGameThread().get_out();
 	}
-	
+
 	public void consoleCommand(String packet)
 	{
-		
+
 		if(_compte.get_gmLvl() < 1)
 		{
 			_compte.getGameThread().kick();
 			return;
 		}
-		
+
 		String msg = packet.substring(2);
 		String[] infos = msg.split(" ");
 		if(infos.length == 0)return;
 		String command = infos[0];
-		
+
 		if(Ancestra.canLog)
 		{
 			Ancestra.addToMjLog(_compte.get_curIP()+": "+_compte.get_name()+" "+_perso.get_name()+"=>"+msg);
 		}
-		
+
 		if(_compte.get_gmLvl() == 1)
 		{
 			commandGmOne(command, infos, msg);
@@ -113,7 +113,7 @@ public class Commands {
 			commandGmFour(command, infos, msg);
 		}
 	}
-	
+
 	public void commandGmOne(String command, String[] infos, String msg)
 	{
 		if(_compte.get_gmLvl() < 1)
@@ -131,7 +131,7 @@ public class Commands {
 			int min = (int) (uptime/(1000*60));
 			uptime %= (1000*60);
 			int sec = (int) (uptime/(1000));
-			
+
 			String mess =	"===========\n"+Ancestra.makeHeader()
 				+			"Uptime: "+jour+"j "+hour+"h "+min+"m "+sec+"s\n"
 				+			"Joueurs en lignes: "+Ancestra.gameServer.getPlayerNumber()+"\n"
@@ -189,7 +189,7 @@ public class Commands {
 				Personnage P = GT.getPerso();
 				if(P == null)continue;
 				mess = P.get_name()+"("+P.get_GUID()+") ";
-				
+
 				switch(P.get_classe())
 				{
 					case Constants.CLASS_FECA:
@@ -297,7 +297,7 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,mess);
 				return;
 			}
-			
+
 			if(!perso.isOnline())
 			{
 				String mess = "Le personnage "+perso.get_name()+" n'etait pas connecte";
@@ -318,28 +318,28 @@ public class Commands {
 		if(command.equalsIgnoreCase("TOOGLEAGGRO"))
 		{
 			Personnage perso = _perso;
-			
+
 			String name = null;
 			try
 			{
 				name = infos[1];
 			}catch(Exception e){};
-			
+
 			perso = World.getPersoByName(name);
-			
+
 			if(perso == null)
 			{
 				String mess = "Le personnage n'existe pas.";
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,mess);
 				return;
 			}
-			
+
 			perso.set_canAggro(!perso.canAggro());
 			String mess = perso.get_name();
 			if(perso.canAggro()) mess += " peut maintenant etre aggresser";
 			else mess += " ne peut plus etre agresser";
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,mess);
-			
+
 			if(!perso.isOnline())
 			{
 				mess = "(Le personnage "+perso.get_name()+" n'etait pas connecte)";
@@ -355,7 +355,7 @@ public class Commands {
 		if(command.equalsIgnoreCase("DEMORPH"))
 		{
 			Personnage target = _perso;
-			if(infos.length > 1)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 1)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[1]);
 				if(target == null)
@@ -384,9 +384,9 @@ public class Commands {
 			}
 			short mapID = P.get_curCarte().get_id();
 			int cellID = P.get_curCell().getID();
-			
+
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -422,7 +422,7 @@ public class Commands {
 				return;
 			}
 			Personnage P = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				P = World.getPersoByName(infos[2]);
 				if(P == null)
@@ -474,7 +474,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 3)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 3)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[3]);
 				if(target == null  || target.get_fight() != null)
@@ -493,7 +493,7 @@ public class Commands {
 			int mapX = 0;
 			int mapY = 0;
 			int cellID = 0;
-			int contID = 0;//Par dÈfaut Amakna
+			int contID = 0;//Par d√©faut Amakna
 			try
 			{
 				mapX = Integer.parseInt(infos[1]);
@@ -515,7 +515,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 5)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 5)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[5]);
 				if(target == null || target.get_fight() != null)
@@ -570,7 +570,7 @@ public class Commands {
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,mess);
 		}
 	}
-	
+
 	public void commandGmTwo(String command, String[] infos, String msg)
 	{
 		if(_compte.get_gmLvl() < 2)
@@ -578,7 +578,7 @@ public class Commands {
 			_compte.getGameThread().kick();
 			return;
 		}
-		
+
 		if(command.equalsIgnoreCase("MUTE"))
 		{
 			Personnage perso = _perso;
@@ -592,7 +592,7 @@ public class Commands {
 			{
 				time = Integer.parseInt(infos[2]);
 			}catch(Exception e){};
-			
+
 			perso = World.getPersoByName(name);
 			if(perso == null || time < 0)
 			{
@@ -609,7 +609,7 @@ public class Commands {
 			}
 			perso.get_compte().mute(true,time);
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,mess);
-			
+
 			if(!perso.isOnline())
 			{
 				mess = "(Le personnage "+perso.get_name()+" n'etait pas connecte)";
@@ -623,13 +623,13 @@ public class Commands {
 		if(command.equalsIgnoreCase("UNMUTE"))
 		{
 			Personnage perso = _perso;
-			
+
 			String name = null;
 			try
 			{
 				name = infos[1];
 			}catch(Exception e){};
-			
+
 			perso = World.getPersoByName(name);
 			if(perso == null)
 			{
@@ -637,11 +637,11 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,mess);
 				return;
 			}
-			
+
 			perso.get_compte().mute(false,0);
 			String mess = "Vous avez unmute "+perso.get_name();
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,mess);
-			
+
 			if(!perso.isOnline())
 			{
 				mess = "(Le personnage "+perso.get_name()+" n'etait pas connecte)";
@@ -689,7 +689,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -718,7 +718,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -728,9 +728,9 @@ public class Commands {
 					return;
 				}
 			}
-			
+
 			target.learnSpell(spell, 1, true,true);
-			
+
 			String str = "Le sort a ete appris";
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 		}else
@@ -748,7 +748,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -758,9 +758,9 @@ public class Commands {
 					return;
 				}
 			}
-			
+
 			target.modifAlignement(align);
-			
+
 			String str = "L'alignement du joueur a ete modifie";
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 		}else
@@ -819,7 +819,7 @@ public class Commands {
 				honor = Integer.parseInt(infos[1]);
 			}catch(Exception e){};
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -839,7 +839,7 @@ public class Commands {
 			if(honor < 0) target.remHonor(honor);
 			else target.addHonor(honor);
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
-			
+
 		}else
 		if(command.equalsIgnoreCase("ADDJOBXP"))
 		{
@@ -857,7 +857,7 @@ public class Commands {
 				return;
 			}
 				Personnage target = _perso;
-			if(infos.length > 3)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 3)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[3]);
 				if(target == null)
@@ -874,9 +874,9 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 				return;
 			}
-				
+
 			SM.addXp(target, xp);
-			
+
 			String str = "Le metier a ete experimenter";
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 		}else
@@ -894,7 +894,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -904,9 +904,9 @@ public class Commands {
 					return;
 				}
 			}
-			
+
 			target.learnJob(World.getMetier(job));
-			
+
 			String str = "Le metier a ete appris";
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 		}else
@@ -924,7 +924,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -953,7 +953,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -983,7 +983,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -1031,7 +1031,7 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 			else
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,"Erreur au moment de sauvegarder la position");
-		}else	
+		}else
 		if(command.equalsIgnoreCase("ITEMSET"))
 		{
 			int tID = 0;
@@ -1047,9 +1047,9 @@ public class Commands {
 				return;
 			}
 			boolean useMax = false;
-			if(infos.length == 3)useMax = infos[2].equals("MAX");//Si un jet est spÈcifiÈ
+			if(infos.length == 3)useMax = infos[2].equals("MAX");//Si un jet est sp√©cifi√©
 
-			
+
 			for(ObjTemplate t : IS.getItemTemplates())
 			{
 				Objet obj = t.createNewItem(1,useMax);
@@ -1069,7 +1069,7 @@ public class Commands {
 				if(count < 1)	count = 1;
 				if(count > World.getExpLevelSize())	count = World.getExpLevelSize();
 				Personnage perso = _perso;
-				if(infos.length == 3)//Si le nom du perso est spÈcifiÈ
+				if(infos.length == 3)//Si le nom du perso est sp√©cifi√©
 				{
 					String name = infos[2];
 					perso = World.getPersoByName(name);
@@ -1106,7 +1106,7 @@ public class Commands {
 				if(count < 0)	count = 0;
 				if(count > 100)	count = 100;
 				Personnage perso = _perso;
-				if(infos.length == 3)//Si le nom du perso est spÈcifiÈ
+				if(infos.length == 3)//Si le nom du perso est sp√©cifi√©
 				{
 					String name = infos[2];
 					perso = World.getPersoByName(name);
@@ -1137,9 +1137,9 @@ public class Commands {
 				return;
 			};
 			if(count == 0)return;
-			
+
 			Personnage perso = _perso;
-			if(infos.length == 3)//Si le nom du perso est spÈcifiÈ
+			if(infos.length == 3)//Si le nom du perso est sp√©cifi√©
 			{
 				String name = infos[2];
 				perso = World.getPersoByName(name);
@@ -1178,7 +1178,7 @@ public class Commands {
 				return;
 			}
 			int qua = 1;
-			if(infos.length == 3)//Si une quantitÈ est spÈcifiÈe
+			if(infos.length == 3)//Si une quantit√© est sp√©cifi√©e
 			{
 				try
 				{
@@ -1186,7 +1186,7 @@ public class Commands {
 				}catch(Exception e){};
 			}
 			boolean useMax = false;
-			if(infos.length == 4 && !isOffiCmd)//Si un jet est spÈcifiÈ
+			if(infos.length == 4 && !isOffiCmd)//Si un jet est sp√©cifi√©
 			{
 				if(infos[3].equalsIgnoreCase("MAX"))useMax = true;
 			}
@@ -1205,7 +1205,7 @@ public class Commands {
 			if(useMax) str += " avec des stats maximums";
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 			SocketManager.GAME_SEND_Ow_PACKET(_perso);
-		}else 
+		}else
 		if (command.equalsIgnoreCase("SPAWN"))
 		{
 			String Mob = null;
@@ -1218,21 +1218,21 @@ public class Commands {
 		}else
 		if (command.equalsIgnoreCase("TITLE"))
 		{
-			Personnage target = null; 
+			Personnage target = null;
 			byte TitleID = 0;
 			try
 			{
 				target = World.getPersoByName(infos[1]);
 				TitleID = Byte.parseByte(infos[2]);
 			}catch(Exception e){};
-			
+
 			if(target == null)
 			{
 				String str = "Le personnage n'a pas ete trouve";
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 				return;
 			}
-			
+
 			target.set_title(TitleID);
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, "Titre mis en place.");
 			SQLManager.SAVE_PERSONNAGE(target, false);
@@ -1242,7 +1242,7 @@ public class Commands {
 			this.commandGmOne(command, infos, msg);
 		}
 	}
-	
+
 	public void commandGmThree(String command, String[] infos, String msg)
 	{
 		if(_compte.get_gmLvl() < 3)
@@ -1250,7 +1250,7 @@ public class Commands {
 			_compte.getGameThread().kick();
 			return;
 		}
-		
+
 		if(command.equalsIgnoreCase("EXIT"))
 		{
 			System.exit(0);
@@ -1286,7 +1286,7 @@ public class Commands {
 			{
 				team1 = p[1];
 			}catch(Exception e){};
-			
+
 			for(int a = 0;a<=team0.length()-2;a+=2)
 			{
 				String c = p[0].substring(a,a+2);
@@ -1373,8 +1373,8 @@ public class Commands {
 			{
 				team1 = p[1];
 			}catch(Exception e){};
-			
-			//Si case dÈj‡ utilisÈe
+
+			//Si case d√©j√© utilis√©e
 			System.out.println("0 => "+team0+"\n1 =>"+team1+"\nCell: "+CryptManager.cellID_To_Code(cell));
 			for(int a = 0; a <= team0.length()-2;a+=2)if(cell == CryptManager.cellCode_To_ID(team0.substring(a,a+2)))already = true;
 			for(int a = 0; a <= team1.length()-2;a+=2)if(cell == CryptManager.cellCode_To_ID(team1.substring(a,a+2)))already = true;
@@ -1385,9 +1385,9 @@ public class Commands {
 			}
 			if(team == 0)team0 += CryptManager.cellID_To_Code(cell);
 			else if(team == 1)team1 += CryptManager.cellID_To_Code(cell);
-			
+
 			String newPlaces = team0+"|"+team1;
-			
+
 			_perso.get_curCarte().setPlaces(newPlaces);
 			if(!SQLManager.SAVE_MAP_DATA(_perso.get_curCarte()))return;
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,"Les places ont ete modifiees ("+newPlaces+")");
@@ -1432,7 +1432,7 @@ public class Commands {
 				return;
 			}
 			String mess = "L'action a ete ajoute";
-			
+
 			rep.addAction(new Action(id,args,""));
 			boolean ok = SQLManager.ADD_REPONSEACTION(repID,id,args);
 			if(ok)mess += " et ajoute a la BDD";
@@ -1456,7 +1456,7 @@ public class Commands {
 			}
 			String mess = "L'action a ete ajoute";
 			NPC_tmpl npc = World.getNPCTemplate(id);
-			
+
 			npc.setInitQuestion(q);
 			boolean ok = SQLManager.UPDATE_INITQUESTION(id,q);
 			if(ok)mess += " et ajoute a la BDD";
@@ -1473,7 +1473,7 @@ public class Commands {
 			{
 				type = Integer.parseInt(infos[1]);
 				id = Integer.parseInt(infos[2]);
-				
+
 			}catch(Exception e){};
 			if(id == -30)
 			{
@@ -1521,7 +1521,7 @@ public class Commands {
 					|| _perso.get_orientation() == 4
 					|| _perso.get_orientation() == 6)
 						str += " mais est invisible (orientation diagonale invalide).";
-			
+
 			if(SQLManager.ADD_NPC_ON_MAP(_perso.get_curCarte().get_id(), id, _perso.get_curCell().getID(), _perso.get_orientation()))
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 			else
@@ -1545,7 +1545,7 @@ public class Commands {
 			//on l'efface de la map
 			SocketManager.GAME_SEND_ERASE_ON_MAP_TO_MAP(_perso.get_curCarte(), id);
 			_perso.get_curCarte().removeNpcOrMobGroup(id);
-			
+
 			String str = "Le PNJ a ete supprime";
 			if(SQLManager.DELETE_NPC_ON_MAP(_perso.get_curCarte().get_id(),exC))
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
@@ -1565,7 +1565,7 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 				return;
 			}
-			
+
 			_perso.get_curCarte().getCase(cellID).clearOnCellAction();
 			boolean success = SQLManager.REMOVE_TRIGGER(_perso.get_curCarte().get_id(),cellID);
 			String str = "";
@@ -1589,7 +1589,7 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 				return;
 			}
-			
+
 			_perso.get_curCell().addOnCellStopAction(actionID,args, cond);
 			boolean success = SQLManager.SAVE_TRIGGER(_perso.get_curCarte().get_id(),_perso.get_curCell().getID(),actionID,1,args,cond);
 			String str = "";
@@ -1614,8 +1614,8 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 				return;
 			}
-			
-			
+
+
 			String str = "";
 			if(npc.delItemVendor(itmID))str = "L'objet a ete retire";
 			else str = "L'objet n'a pas ete retire";
@@ -1639,8 +1639,8 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 				return;
 			}
-			
-			
+
+
 			String str = "";
 			if(npc.addItemVendor(item))str = "L'objet a ete rajoute";
 			else str = "L'objet n'a pas ete rajoute";
@@ -1670,7 +1670,7 @@ public class Commands {
 			SQLManager.SAVE_MOUNTPARK(MP);
 			String str = "L'enclos a ete config. avec succes";
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
-		}else 
+		}else
 		if (command.equalsIgnoreCase("SHUTDOWN"))
 		{
 			int time = 30, OffOn = 0;
@@ -1679,8 +1679,8 @@ public class Commands {
 				OffOn = Integer.parseInt(infos[1]);
 				time = Integer.parseInt(infos[2]);
 			}catch(Exception e){};
-			
-			if(OffOn == 1 && _TimerStart)// demande de dÈmarer le reboot
+
+			if(OffOn == 1 && _TimerStart)// demande de d√©marer le reboot
 			{
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, "Un shutdown est deja programmer.");
 			}else if(OffOn == 1 && !_TimerStart)
@@ -1709,7 +1709,7 @@ public class Commands {
 			this.commandGmTwo(command, infos, msg);
 		}
 	}
-	
+
 	public void commandGmFour(String command, String[] infos, String msg)
 	{
 		if(_compte.get_gmLvl() < 4)
@@ -1717,7 +1717,7 @@ public class Commands {
 			_compte.getGameThread().kick();
 			return;
 		}
-		
+
 		if(command.equalsIgnoreCase("SETADMIN"))
 		{
 			int gmLvl = -100;
@@ -1732,7 +1732,7 @@ public class Commands {
 				return;
 			}
 			Personnage target = _perso;
-			if(infos.length > 2)//Si un nom de perso est spÈcifiÈ
+			if(infos.length > 2)//Si un nom de perso est sp√©cifi√©
 			{
 				target = World.getPersoByName(infos[2]);
 				if(target == null)
@@ -1754,16 +1754,16 @@ public class Commands {
 			{
 				LockValue = Byte.parseByte(infos[1]);
 			}catch(Exception e){};
-			
+
 			if(LockValue > 2) LockValue = 2;
 			if(LockValue < 0) LockValue = 0;
-			
+
 			char c = 0;
 			if(LockValue == 0) c = 'D';
 			if(LockValue == 1) c = 'O';
 			if(LockValue == 2) c = 'S';
 			Ancestra.comServer.sendChangeState(c);
-			
+
 			if(LockValue == 1)
 			{
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, "Serveur accessible.");
@@ -1784,12 +1784,12 @@ public class Commands {
 				GmAccess = Byte.parseByte(infos[1]);
 				KickPlayer = Byte.parseByte(infos[2]);
 			}catch(Exception e){};
-			
+
 			Ancestra.comServer.lockGMlevel(GmAccess);
 			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, "Serveur bloque au GmLevel : "+GmAccess);
 			if(KickPlayer > 0)
 			{
-				for(Personnage z : World.getOnlinePersos()) 
+				for(Personnage z : World.getOnlinePersos())
 				{
 					if(z.get_compte().get_gmLvl() < GmAccess)
 						z.get_compte().getGameThread().kick();
@@ -1810,14 +1810,14 @@ public class Commands {
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,str);
 				return;
 			}
-			
+
 			Ancestra.comServer.addBanIP(P.get_compte().get_curIP());
-			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, "L'IP a ete banni.");	
+			SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, "L'IP a ete banni.");
 			if(P.isOnline())
 			{
 				P.get_compte().getGameThread().kick();
 				SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, "Le joueur a ete kick.");
-			}	
+			}
 		}else
 		if(command.equalsIgnoreCase("FULLHDV"))
 		{
@@ -1852,16 +1852,16 @@ public class Commands {
 			this.commandGmThree(command, infos, msg);
 		}
 	}
-	
+
 	private void fullHdv(int ofEachTemplate)
 	{
-		SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,"DÈmarrage du remplissage!");
-		
+		SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out,"D√©marrage du remplissage!");
+
 		Objet objet = null;
 		byte amount = 0;
 		int rAmount = 0;
 		int hdv = 0;
-		
+
 		int lastSend = 0;
 		long time1 = System.currentTimeMillis();//TIME
 		for (ObjTemplate curTemp : World.getObjTemplates())//Boucler dans les template
@@ -1869,22 +1869,22 @@ public class Commands {
 			try
 			{
 				if(Ancestra.NOTINHDV.contains(curTemp.getID())) continue;
-				
+
 				for (int j = 0; j < ofEachTemplate; j++)//Ajouter plusieur fois le template
 				{
 					if(curTemp.getType() == 85) break;
-					
+
 					objet = curTemp.createNewItem(1, false);
-					hdv = getHdv(objet.getTemplate().getType());//Obtient la map (liÈe a l'HDV) correspondant au template de l'item
-					
+					hdv = getHdv(objet.getTemplate().getType());//Obtient la map (li√©e a l'HDV) correspondant au template de l'item
+
 					if(hdv < 0) break;
-					
+
 					Hdv curHdv = World.getHdv(hdv);
-					
+
 					amount = (byte) Formulas.getRandomValue(1, 3);
 					rAmount = (int)(Math.pow(10,amount)/10);
 					objet.setQuantity(rAmount);
-					HdvEntry toAdd = new HdvEntry(objet.getGuid(), objet, curHdv.get_mapID(), -1,  calculPrice(objet, rAmount), rAmount);//CrÈer l'entry
+					HdvEntry toAdd = new HdvEntry(objet.getGuid(), objet, curHdv.get_mapID(), -1,  calculPrice(objet, rAmount), rAmount);//Cr√©er l'entry
 					World.addHdvItem(-1, curHdv.get_mapID(), toAdd);//Ajoute l'entry dans le world
 					World.addObjet(objet, false);
 				}
@@ -1892,7 +1892,7 @@ public class Commands {
 			{
 				continue;
 			}
-			
+
 			if((System.currentTimeMillis() - time1)/1000 != lastSend
 				&& (System.currentTimeMillis() - time1)/1000 % 3 == 0)
 			{
@@ -1904,23 +1904,23 @@ public class Commands {
 		World.saveAll(null);
 		SocketManager.GAME_SEND_MESSAGE_TO_ALL("HDV remplis!",Ancestra.CONFIG_MOTD_COLOR);
 	}
-	
+
 	private int getHdv(int type)
 	{
 		int rand = Formulas.getRandomValue(1, 4);
 		int map = -1;
-		
+
 		switch(type)
 		{
 			case 12:
-			case 14: 
-			case 26: 
-			case 43: 
-			case 44: 
-			case 45: 
-			case 66: 
-			case 70: 
-			case 71: 
+			case 14:
+			case 26:
+			case 43:
+			case 44:
+			case 45:
+			case 66:
+			case 70:
+			case 71:
 			case 86:
 				if(rand == 1)
 				{
@@ -1948,12 +1948,12 @@ public class Commands {
 					map = 7514;
 				}
 				return map;
-			case 18: 
-			case 72: 
-			case 77: 
-			case 90: 
-			case 97: 
-			case 113: 
+			case 18:
+			case 72:
+			case 77:
+			case 90:
+			case 97:
+			case 113:
 			case 116:
 				if(rand == 1)
 				{
@@ -1996,9 +1996,9 @@ public class Commands {
 					map = 7510;
 				}
 				return map;
-			case 84: 
-			case 93: 
-			case 112: 
+			case 84:
+			case 93:
+			case 112:
 			case 114:
 				if(rand == 1)
 				{
@@ -2012,10 +2012,10 @@ public class Commands {
 					map = 12262;
 				}
 				return map;
-			case 38: 
-			case 95: 
-			case 96: 
-			case 98: 
+			case 38:
+			case 95:
+			case 96:
+			case 98:
 			case 108:
 				if(rand == 1)
 				{
@@ -2043,10 +2043,10 @@ public class Commands {
 					map = 7602;
 				}
 				return map;
-			case 13: 
-			case 25: 
-			case 73: 
-			case 75: 
+			case 13:
+			case 25:
+			case 73:
+			case 75:
 			case 76:
 				if(rand == 1)
 				{
@@ -2056,13 +2056,13 @@ public class Commands {
 					map = 8754;
 				}
 				return map;
-			case 5: 
-			case 6: 
-			case 7: 
-			case 8: 
-			case 19: 
-			case 20: 
-			case 21: 
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 19:
+			case 20:
+			case 21:
 			case 22:
 				if(rand == 1)
 				{
@@ -2076,10 +2076,10 @@ public class Commands {
 					map = 7511;
 				}
 				return map;
-			case 39: 
-			case 40: 
-			case 50: 
-			case 51: 
+			case 39:
+			case 40:
+			case 50:
+			case 51:
 			case 88:
 				if(rand == 1)
 				{
@@ -2136,28 +2136,28 @@ public class Commands {
 					map = 7348;
 				}
 				return map;
-			case 15: 
-			case 35: 
-			case 36: 
-			case 46: 
-			case 47: 
-			case 48: 
-			case 53: 
-			case 54: 
-			case 55: 
-			case 56: 
-			case 57: 
-			case 58: 
-			case 59: 
-			case 65: 
-			case 68: 
-			case 103: 
-			case 104: 
-			case 105: 
-			case 106: 
-			case 107: 
-			case 109: 
-			case 110: 
+			case 15:
+			case 35:
+			case 36:
+			case 46:
+			case 47:
+			case 48:
+			case 53:
+			case 54:
+			case 55:
+			case 56:
+			case 57:
+			case 58:
+			case 59:
+			case 65:
+			case 68:
+			case 103:
+			case 104:
+			case 105:
+			case 106:
+			case 107:
+			case 109:
+			case 110:
 			case 111:
 				if(rand == 1)
 				{
@@ -2225,11 +2225,11 @@ public class Commands {
 				return -1;
 		}
 	}
-	
+
 	private int calculPrice(Objet obj, int amount)
 	{
 		int stats = 0;
-		
+
 		for(int curStat : obj.getStats().getMap().values())
 		{
 			stats += curStat;

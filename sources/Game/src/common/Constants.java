@@ -31,19 +31,19 @@ public class Constants
 	public static final String ALL_PHOENIX = "-11;-54|2;-12|-41;-17|5;-9|25;-4|36;5|12;12|10;19|-10;13|-14;31|-43;0|-60;-3|-58;18|24;-43|27;-33";
 
 	//Valeur des droits de guilde
-	public static int G_BOOST = 2;			//Gérer les boost
-	public static int G_RIGHT = 4;			//Gérer les droits
+	public static int G_BOOST = 2;			//GÃ©rer les boost
+	public static int G_RIGHT = 4;			//GÃ©rer les droits
 	public static int G_INVITE = 8;			//Inviter de nouveaux membres
 	public static int G_BAN = 16;				//Bannir
-	public static int G_ALLXP = 32;			//Gérer les répartitions d'xp
-	public static int G_HISXP = 256;			//Gérer sa répartition d'xp
-	public static int G_RANK = 64;			//Gérer les rangs
+	public static int G_ALLXP = 32;			//GÃ©rer les rÃ©partitions d'xp
+	public static int G_HISXP = 256;			//GÃ©rer sa rÃ©partition d'xp
+	public static int G_RANK = 64;			//GÃ©rer les rangs
 	public static int G_POSPERCO = 128;		//Poser un percepteur
 	public static int G_COLLPERCO = 512;		//Collecter les percepteurs
 	public static int G_USEENCLOS = 4096;		//Utiliser les enclos
-	public static int G_AMENCLOS = 8192;		//Aménager les enclos
-	public static int G_OTHDINDE = 16384;		//Gérer les montures des autres membres
-	
+	public static int G_AMENCLOS = 8192;		//AmÃ©nager les enclos
+	public static int G_OTHDINDE = 16384;		//GÃ©rer les montures des autres membres
+
 	//Valeur des droits de maison
 	public static int H_GBLASON = 2; //Afficher blason pour membre de la guilde
 	public static int H_OBLASON = 4; //Afficher blason pour les autres
@@ -53,7 +53,7 @@ public class Constants
 	public static int C_OCANTOPEN = 64; //Coffre impossible pour les non-guildeux
 	public static int H_GREPOS = 256; //Guilde droit au repos
 	public static int H_GTELE = 128; //Guilde droit a la TP
-	
+
 	//ETAT
 	public static final int ETAT_NEUTRE				= 0;
 	public static final int ETAT_SAOUL				= 1;
@@ -75,7 +75,7 @@ public class Constants
 	public static final int IOBJECT_STATE_FULLING	= 5;
 	//FIGHT
 	public static final int TIME_BY_TURN			= 29*1000;
-	public static final int FIGHT_TYPE_CHALLENGE 	= 0;//Défies
+	public static final int FIGHT_TYPE_CHALLENGE 	= 0;//DÃ©fies
 	public static final int FIGHT_TYPE_AGRESSION 	= 1;//Aggros
 	public static final int FIGHT_TYPE_PVMA			= 2;//??
 	public static final int FIGHT_TYPE_MXVM			= 3;//??
@@ -123,7 +123,7 @@ public class Constants
 	public static final int JOB_BRICOLEUR			= 65;
 	public static final int JOB_JOAILLER			= 66;
 	public static final int JOB_BIJOUTIER2			= 67;
-	
+
 	//Items
 	//Positions
 	public static final int ITEM_POS_NO_EQUIPED 	= -1;
@@ -143,7 +143,7 @@ public class Constants
 	public static final int ITEM_POS_DOFUS5			= 13;
 	public static final int ITEM_POS_DOFUS6			= 14;
 	public static final int ITEM_POS_BOUCLIER		= 15;
-		
+
 	//Types
 	public static final int ITEM_TYPE_AMULETTE			= 1;
 	public static final int ITEM_TYPE_ARC				= 2;
@@ -259,14 +259,14 @@ public class Constants
 	public static final int ITEM_TYPE_ARME_MAGIQUE		=114;
 	public static final int ITEM_TYPE_FRAGM_AME_SHUSHU	=115;
 	public static final int ITEM_TYPE_POTION_FAMILIER	=116;
-		
+
 	//Alignement
 	public static final int ALIGNEMENT_NEUTRE		=	-1;
 	public static final int ALIGNEMENT_BONTARIEN	=	1;
 	public static final int ALIGNEMENT_BRAKMARIEN	=	2;
 	public static final int ALIGNEMENT_MERCENAIRE	=	3;
-	
-	//Elements 
+
+	//Elements
 	public static final int ELEMENT_NULL		=	-1;
 	public static final int ELEMENT_NEUTRE		= 	0;
 	public static final int ELEMENT_TERRE		= 	1;
@@ -291,7 +291,7 @@ public class Constants
 	public static final int SEX_FEMALE			=	1;
 	//GamePlay
 	public static final int MAX_EFFECTS_ID 		=	1500;
-	//Buff a vérifier en début de tour
+	//Buff a vÃ©rifier en dÃ©but de tour
 	public static final int[] BEGIN_TURN_BUFF	=	{91,92,93,94,95,96,97,98,99,100,108};
 	//Buff des Armes
 	public static final int[] ARMES_EFFECT_IDS	=	{91,92,93,94,95,96,97,98,99,100,101};
@@ -299,21 +299,21 @@ public class Constants
 	public static final int[] NO_BOOST_CC_IDS	=	{101};
 	//Invocation Statiques
 	public static final int[] STATIC_INVOCATIONS 		= 	{282,556};//Arbre et Cawotte s'tout :p
-	
-	//Verif d'Etat au lancement d'un sort {spellID,stateID}, à completer avant d'activer
+
+	//Verif d'Etat au lancement d'un sort {spellID,stateID}, Ã© completer avant d'activer
 	public static final int[][] STATE_REQUIRED =
 	{
 		{699,Constants.ETAT_SAOUL},
 		{690,Constants.ETAT_SAOUL}
 	};
-	//Action de Métier {skillID,objetRecolté,objSpécial}
+	//Action de MÃ©tier {skillID,objetRecoltÃ©,objSpÃ©cial}
 	public static final int[][] JOB_ACTION =
 	{
 		//Bucheron
 		{101},{6,303},{39,473},{40,476},{10,460},{141,2357},{139,2358},{37,471},{154,7013},{33,461},{41,474},{34,449},{174,7925},{155,7016},{38,472},{35,470},{158,7963},
 		//Mineur
 		{48},{32},{24,312},{25,441},{26,442},{28,443},{56,445},{162,7032},{55,444},{29,350},{31,446},{30,313},{161,7033},
-		//Pêcheur
+		//PÃ©cheur
 		{133},{128,598,1786},{128,1757,1759},{128,1750,1754},{124,603,1762},{124,1782,1790},{124,1844,607},{136,2187},{125,1847,1849},{125,1794,1796},{140,1799,1759},{129,600,1799},{129,1805,1807},{126,1779,1792},{130,1784,1788},{127,1801,1803},{131,602,1853},
 		//Alchi
 		{23},{68,421},{54,428},{71,395},{72,380},{73,593},{74,594},{160,7059},
@@ -333,7 +333,7 @@ public class Constants
 		{11},{12},
 		//Cordonnier
 		{13},{14},
-		//Forgeur Epée
+		//Forgeur EpÃ©e
 		{145},{20},
 		//Forgeur Marteau
 		{144},{19},
@@ -355,7 +355,7 @@ public class Constants
 		{1},
 		//Forgemage de marteau
 		{116},
-		//Forgemage d'épée
+		//Forgemage d'Ã©pÃ©e
 		{113},
 		//Forgemage Pelle
 		{117},
@@ -374,7 +374,7 @@ public class Constants
 		//Bricoleur
 		{171},{182}
 	};
-	
+
 	public static final int[][] JOB_PROTECTORS = //{protectorId, itemId}
 	{
 		{684,289},{684,2018},{685,400},{685,2032},{686,533},{686,1671},{687,401},{687,2021},{688,423},{688,2026},
@@ -386,7 +386,7 @@ public class Constants
 		{732,1749},{733,1794},{733,1796},{734,1805},{734,1807},{735,600},{735,1799},{736,1779},{736,1792},{737,1784},
 		{737,1788},{738,1801},{738,1803},{739,602},{739,1853}
 	};
- 
+
 	public static int getProtectorLvl(int lvl)
 	{
 		if(lvl < 40)
@@ -401,18 +401,18 @@ public class Constants
 			return 50;
 		return 10;
 	}
-	
-	//Buff déclenché en cas de frappe
+
+	//Buff dÃ©clenchÃ© en cas de frappe
 	public static final int[] ON_HIT_BUFFS		=	{9,79,107,788};
-	
+
 	//Effects
 	public static final int STATS_ADD_PM2			= 	78;
-	
+
 	public static final int STATS_REM_PA			= 	101;
 	public static final int STATS_ADD_VIE			= 	110;
 	public static final int STATS_ADD_PA			= 	111;
 	public static final int STATS_ADD_DOMA			=	121;
-	
+
 	public static final int STATS_MULTIPLY_DOMMAGE	=	114;
 	public static final int STATS_ADD_CC			=	115;
 	public static final int STATS_REM_PO			= 	116;
@@ -427,11 +427,11 @@ public class Constants
 	public static final int STATS_ADD_INTE			= 	126;
 	public static final int STATS_REM_PM			= 	127;
 	public static final int STATS_ADD_PM			= 	128;
-	
+
 	public static final int STATS_ADD_PERDOM		=	138;
-	
+
 	public static final int STATS_ADD_PDOM			=	142;
-	
+
 	public static final int STATS_REM_DOMA			= 	145;
 
 	public static final int STATS_REM_CHAN			= 	152;
@@ -446,23 +446,23 @@ public class Constants
 	public static final int STATS_ADD_MFLEE			=	161;
 	public static final int STATS_REM_AFLEE			=	162;
 	public static final int STATS_REM_MFLEE			=	163;
-	
+
 	public static final int STATS_ADD_MAITRISE		=	165;
-	
+
 	public static final int STATS_REM_PA2			=	168;
 	public static final int STATS_REM_PM2			=	169;
-	
+
 	public static final int STATS_REM_CC			=	171;
-	
+
 	public static final int STATS_ADD_INIT			= 	174;
 	public static final int STATS_REM_INIT			= 	175;
 	public static final int STATS_ADD_PROS			= 	176;
 	public static final int STATS_REM_PROS			= 	177;
 	public static final int STATS_ADD_SOIN			= 	178;
 	public static final int STATS_REM_SOIN			= 	179;
-	
+
 	public static final int STATS_CREATURE			= 	182;
-	
+
 	public static final int STATS_ADD_RP_TER		=	210;
 	public static final int STATS_ADD_RP_EAU 		=	211;
 	public static final int STATS_ADD_RP_AIR		=	212;
@@ -474,10 +474,10 @@ public class Constants
 	public static final int STATS_REM_RP_FEU 		=	218;
 	public static final int STATS_REM_RP_NEU		= 	219;
 	public static final int STATS_RETDOM			=	220;
-	
+
 	public static final int STATS_TRAPDOM			=	225;
 	public static final int STATS_TRAPPER			=	226;
-	
+
 	public static final int STATS_ADD_R_FEU 		= 	240;
 	public static final int STATS_ADD_R_NEU			=	241;
 	public static final int STATS_ADD_R_TER			=	242;
@@ -513,8 +513,8 @@ public class Constants
 	public static final int STATS_PETS_DATE			=	808;
 	public static final int STATS_PETS_EPO			=	940;
 	public static final int STATS_PETS_SOUL 		= 	717;
-	
-	
+
+
 	//Methodes
 	public static short getStartMap(int classID)
 	{
@@ -529,7 +529,7 @@ public class Constants
 		}
 		return pos;
 	}
-	
+
 	public static int getStartCell(int classID)
 	{
 		int pos = 314;
@@ -543,7 +543,7 @@ public class Constants
 		}
 		return pos;
 	}
-	
+
 	public static short getClassStatueMap(int classID)
 	{
 		short pos = 10298;
@@ -576,7 +576,7 @@ public class Constants
 		}
 		return pos;
 	}
-	
+
 	public static int getClassStatueCell(int classID)
 	{
 		int pos = 314;
@@ -609,7 +609,7 @@ public class Constants
 		}
 		return pos;
 	}
-	
+
 	public static TreeMap<Integer, Character> getStartSortsPlaces(int classID)
 	{
 		TreeMap<Integer,Character> start = new TreeMap<Integer,Character>();
@@ -622,7 +622,7 @@ public class Constants
 			break;
 			case CLASS_SRAM:
 				start.put(61,'b');//Sournoiserie
-				start.put(72,'c');//Invisibilité
+				start.put(72,'c');//InvisibilitÃ©
 				start.put(65,'d');//Piege sournois
 			break;
 			case CLASS_ENIRIPSA:
@@ -638,7 +638,7 @@ public class Constants
 			case CLASS_CRA:
 				start.put(161,'b');//Fleche Magique
 				start.put(169,'c');//Fleche de Recul
-				start.put(164,'d');//Fleche Empoisonnée(ex Fleche chercheuse)
+				start.put(164,'d');//Fleche EmpoisonnÃ©e(ex Fleche chercheuse)
 			break;
 			case CLASS_IOP:
 				start.put(143,'b');//Intimidation
@@ -663,22 +663,22 @@ public class Constants
 			case CLASS_PANDAWA:
 				start.put(686,'b');//Picole
 				start.put(692,'c');//Gueule de bois
-				start.put(687,'d');//Poing enflammé
+				start.put(687,'d');//Poing enflammÃ©
 			break;
 			case CLASS_ENUTROF:
 				start.put(51,'b');//Lancer de Piece
 				start.put(43,'c');//Lancer de Pelle
-				start.put(41,'d');//Sac animé
+				start.put(41,'d');//Sac animÃ©
 			break;
 			case CLASS_SACRIEUR:
 				start.put(432,'b');//Pied du Sacrieur
-				start.put(431,'c');//Chatiment Osé
+				start.put(431,'c');//Chatiment OsÃ©
 				start.put(434,'d');//Attirance
 			break;
 		}
 		return start;
 	}
-	
+
 	public static TreeMap<Integer,SortStats> getStartSorts(int classID)
 	{
 		TreeMap<Integer,SortStats> start = new TreeMap<Integer,SortStats>();
@@ -691,7 +691,7 @@ public class Constants
 			break;
 			case CLASS_SRAM:
 				start.put(61,World.getSort(61).getStatsByLevel(1));//Sournoiserie
-				start.put(72,World.getSort(72).getStatsByLevel(1));//Invisibilité
+				start.put(72,World.getSort(72).getStatsByLevel(1));//InvisibilitÃ©
 				start.put(65,World.getSort(65).getStatsByLevel(1));//Piege sournois
 			break;
 			case CLASS_ENIRIPSA:
@@ -707,7 +707,7 @@ public class Constants
 			case CLASS_CRA:
 				start.put(161,World.getSort(161).getStatsByLevel(1));//Fleche Magique
 				start.put(169,World.getSort(169).getStatsByLevel(1));//Fleche de Recul
-				start.put(164,World.getSort(164).getStatsByLevel(1));//Fleche Empoisonnée(ex Fleche chercheuse)
+				start.put(164,World.getSort(164).getStatsByLevel(1));//Fleche EmpoisonnÃ©e(ex Fleche chercheuse)
 			break;
 			case CLASS_IOP:
 				start.put(143,World.getSort(143).getStatsByLevel(1));//Intimidation
@@ -732,22 +732,22 @@ public class Constants
 			case CLASS_PANDAWA:
 				start.put(686,World.getSort(686).getStatsByLevel(1));//Picole
 				start.put(692,World.getSort(692).getStatsByLevel(1));//Gueule de bois
-				start.put(687,World.getSort(687).getStatsByLevel(1));//Poing enflammé
+				start.put(687,World.getSort(687).getStatsByLevel(1));//Poing enflammÃ©
 			break;
 			case CLASS_ENUTROF:
 				start.put(51,World.getSort(51).getStatsByLevel(1));//Lancer de Piece
 				start.put(43,World.getSort(43).getStatsByLevel(1));//Lancer de Pelle
-				start.put(41,World.getSort(41).getStatsByLevel(1));//Sac animé
+				start.put(41,World.getSort(41).getStatsByLevel(1));//Sac animÃ©
 			break;
 			case CLASS_SACRIEUR:
 				start.put(432,World.getSort(432).getStatsByLevel(1));//Pied du Sacrieur
-				start.put(431,World.getSort(431).getStatsByLevel(1));//Chatiment Forcé
+				start.put(431,World.getSort(431).getStatsByLevel(1));//Chatiment ForcÃ©
 				start.put(434,World.getSort(434).getStatsByLevel(1));//Attirance
 			break;
 		}
 		return start;
 	}
-	
+
 	public static int getBasePdv(int classID)
 	{
 		return 50;
@@ -766,7 +766,7 @@ public class Constants
 				{
 					case CLASS_SACRIEUR:
 						return 3;
-						
+
 					case CLASS_FECA:
 						if(val < 50)
 							return 2;
@@ -775,7 +775,7 @@ public class Constants
 						if(val < 250)
 							return 4;
 						return 5;
-						
+
 					case CLASS_XELOR:
 						if(val < 50)
 							return 2;
@@ -784,7 +784,7 @@ public class Constants
 						if(val < 250)
 							return 4;
 						return 5;
-						
+
 					case CLASS_SRAM:
 						if(val < 100)
 							return 1;
@@ -795,7 +795,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_OSAMODAS:
 						if(val < 50)
 							return 2;
@@ -804,7 +804,7 @@ public class Constants
 						if(val < 250)
 							return 4;
 						return 5;
-					
+
 					case CLASS_ENIRIPSA:
 						if(val < 50)
 							return 2;
@@ -813,14 +813,14 @@ public class Constants
 						if(val < 250)
 							return 4;
 						return 5;
-					
+
 					case CLASS_PANDAWA:
 						if(val < 50)
 							return 1;
 						if(val < 200)
 							return 2;
 						return 3;
-						
+
 					case CLASS_SADIDA:
 						if(val < 50)
 							return 1;
@@ -831,7 +831,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_CRA:
 						if(val < 50)
 							return 1;
@@ -842,7 +842,7 @@ public class Constants
 						if(val < 350)
 							return 4;
 						return 5;
-						
+
 					case CLASS_ENUTROF:
 						if(val < 50)
 							return 1;
@@ -852,8 +852,8 @@ public class Constants
 							return 3;
 						if(val < 350)
 							return 4;
-						return 5;	
-						
+						return 5;
+
 					case CLASS_ECAFLIP:
 						if(val < 100)
 							return 1;
@@ -864,7 +864,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_IOP:
 						if(val < 100)
 							return 1;
@@ -875,7 +875,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 				}
 			break;
 			case 13://Chance
@@ -891,7 +891,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-						
+
 					case CLASS_XELOR:
 						if(val < 20)
 							return 1;
@@ -902,10 +902,10 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-						
+
 					case CLASS_SACRIEUR:
 						return 3;
-						
+
 					case CLASS_SRAM:
 						if(val < 20)
 							return 1;
@@ -916,7 +916,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-						
+
 					case CLASS_SADIDA:
 						if(val < 100)
 							return 1;
@@ -927,14 +927,14 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_PANDAWA:
 						if(val < 50)
 							return 1;
 						if(val < 200)
 							return 2;
 						return 3;
-						
+
 					case CLASS_IOP:
 						if(val < 20)
 							return 1;
@@ -945,7 +945,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-					
+
 					case CLASS_ENUTROF:
 						if(val < 100)
 							return 1;
@@ -956,7 +956,7 @@ public class Constants
 						if(val < 330)
 							return 4;
 						return 5;
-						
+
 					case CLASS_OSAMODAS:
 						if(val < 100)
 							return 1;
@@ -967,7 +967,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_ECAFLIP:
 						if(val < 20)
 							return 1;
@@ -978,7 +978,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-						
+
 					case CLASS_ENIRIPSA:
 						if(val < 20)
 							return 1;
@@ -989,7 +989,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-						
+
 					case CLASS_CRA:
 						if(val < 20)
 							return 1;
@@ -1002,7 +1002,7 @@ public class Constants
 						return 5;
 				}
 			break;
-			case 14://Agilité
+			case 14://AgilitÃ©
 				switch(classID)
 				{
 					case CLASS_FECA:
@@ -1015,7 +1015,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-					
+
 					case CLASS_XELOR:
 						if(val < 20)
 							return 1;
@@ -1026,10 +1026,10 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-						
+
 					case CLASS_SACRIEUR:
 						return 3;
-						
+
 					case CLASS_SRAM:
 						if(val < 100)
 							return 1;
@@ -1040,7 +1040,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_SADIDA:
 						if(val < 20)
 							return 1;
@@ -1051,14 +1051,14 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-						
+
 					case CLASS_PANDAWA:
 						if(val < 50)
 							return 1;
 						if(val < 200)
 							return 2;
 						return 3;
-						
+
 					case CLASS_ENIRIPSA:
 						if(val < 20)
 							return 1;
@@ -1069,7 +1069,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-					
+
 					case CLASS_IOP:
 						if(val < 20)
 							return 1;
@@ -1080,7 +1080,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-					
+
 					case CLASS_ENUTROF:
 						if(val < 20)
 							return 1;
@@ -1090,8 +1090,8 @@ public class Constants
 							return 3;
 						if(val < 80)
 							return 4;
-						return 5;	
-					
+						return 5;
+
 					case CLASS_ECAFLIP:
 						if(val < 50)
 							return 1;
@@ -1102,7 +1102,7 @@ public class Constants
 						if(val < 200)
 							return 4;
 						return 5;
-						
+
 					case CLASS_CRA:
 						if(val < 50)
 							return 1;
@@ -1113,7 +1113,7 @@ public class Constants
 						if(val < 200)
 							return 4;
 						return 5;
-					
+
 					case CLASS_OSAMODAS:
 						if(val < 20)
 							return 1;
@@ -1139,7 +1139,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_FECA:
 						if(val < 100)
 							return 1;
@@ -1150,10 +1150,10 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_SACRIEUR:
 						return 3;
-					
+
 					case CLASS_SRAM:
 						if(val < 50)
 							return 2;
@@ -1162,7 +1162,7 @@ public class Constants
 						if(val < 250)
 							return 4;
 						return 5;
-						
+
 					case CLASS_SADIDA:
 						if(val < 100)
 							return 1;
@@ -1173,7 +1173,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_ENUTROF:
 						if(val < 20)
 							return 1;
@@ -1183,15 +1183,15 @@ public class Constants
 							return 3;
 						if(val < 140)
 							return 4;
-						return 5;	
-					
+						return 5;
+
 					case CLASS_PANDAWA:
 						if(val < 50)
 							return 1;
 						if(val < 200)
 							return 2;
 						return 3;
-						
+
 					case CLASS_IOP:
 						if(val < 20)
 							return 1;
@@ -1202,7 +1202,7 @@ public class Constants
 						if(val < 80)
 							return 4;
 						return 5;
-					
+
 					case CLASS_ENIRIPSA:
 						if(val < 100)
 							return 1;
@@ -1213,7 +1213,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_CRA:
 						if(val < 50)
 							return 1;
@@ -1224,7 +1224,7 @@ public class Constants
 						if(val < 350)
 							return 4;
 						return 5;
-						
+
 					case CLASS_OSAMODAS:
 						if(val < 100)
 							return 1;
@@ -1235,7 +1235,7 @@ public class Constants
 						if(val < 400)
 							return 4;
 						return 5;
-						
+
 					case CLASS_ECAFLIP:
 						if(val < 20)
 							return 1;
@@ -1251,7 +1251,7 @@ public class Constants
 		}
 		return 5;
 	}
-	
+
 	public static int getAggroByLevel(int lvl)
 	{
 		int aggro = 0;
@@ -1260,7 +1260,7 @@ public class Constants
 			aggro = 3;
 		return aggro;
 	}
-	
+
 	public static boolean isValidPlaceForItem(ObjTemplate template, int place)
 	{
 		switch(template.getType())
@@ -1268,7 +1268,7 @@ public class Constants
 			case ITEM_TYPE_AMULETTE:
 				if(place == ITEM_POS_AMULETTE)return true;
 			break;
-			
+
 			case ITEM_TYPE_ARC:
 			case ITEM_TYPE_BAGUETTE:
 			case ITEM_TYPE_BATON:
@@ -1283,34 +1283,34 @@ public class Constants
 			case ITEM_TYPE_PIERRE_AME:
 				if(place == ITEM_POS_ARME)return true;
 			break;
-			
+
 			case ITEM_TYPE_ANNEAU:
 				if(place == ITEM_POS_ANNEAU1 || place == ITEM_POS_ANNEAU2)return true;
 			break;
-			
+
 			case ITEM_TYPE_CEINTURE:
 				if(place == ITEM_POS_CEINTURE)return true;
 			break;
-			
+
 			case ITEM_TYPE_BOTTES:
 				if(place == ITEM_POS_BOTTES)return true;
 			break;
-			
+
 			case ITEM_TYPE_COIFFE:
 				if(place == ITEM_POS_COIFFE)return true;
 			break;
-			
+
 			case ITEM_TYPE_CAPE:
 			case ITEM_TYPE_SAC_DOS:
 				if(place == ITEM_POS_CAPE)return true;
 			break;
-			
+
 			case ITEM_TYPE_FAMILIER:
 				if(place == ITEM_POS_FAMILIER)return true;
 			break;
-			
+
 			case ITEM_TYPE_DOFUS:
-				if(place == ITEM_POS_DOFUS1 
+				if(place == ITEM_POS_DOFUS1
 				|| place == ITEM_POS_DOFUS2
 				|| place == ITEM_POS_DOFUS3
 				|| place == ITEM_POS_DOFUS4
@@ -1318,11 +1318,11 @@ public class Constants
 				|| place == ITEM_POS_DOFUS6
 				)return true;
 			break;
-			
+
 			case ITEM_TYPE_BOUCLIER:
 				if(place == ITEM_POS_BOUCLIER)return true;
 			break;
-			
+
 			//Barre d'objets TODO : Normalement le client bloque les items interdits
 			case ITEM_TYPE_POTION:
 			case ITEM_TYPE_PARCHO_EXP:
@@ -1351,7 +1351,7 @@ public class Constants
 		}
 		return false;
 	}
-	
+
 	public static void onLevelUpSpells(Personnage perso,int lvl)
 	{
 		switch(perso.get_classe())
@@ -1368,38 +1368,38 @@ public class Constants
 				if(lvl == 17)
 					perso.learnSpell(18, 1,true,false);//Armure Aqueuse
 				if(lvl == 21)
-					perso.learnSpell(20, 1,true,false);//Immunité
+					perso.learnSpell(20, 1,true,false);//ImmunitÃ©
 				if(lvl == 26)
 					perso.learnSpell(14, 1,true,false);//Armure Venteuse
 				if(lvl == 31)
 					perso.learnSpell(19, 1,true,false);//Bulle
 				if(lvl == 36)
-					perso.learnSpell(5, 1,true,false);//Trêve
+					perso.learnSpell(5, 1,true,false);//TrÃ©ve
 				if(lvl == 42)
-					perso.learnSpell(16, 1,true,false);//Science du bâton
+					perso.learnSpell(16, 1,true,false);//Science du bÃ©ton
 				if(lvl == 48)
-					perso.learnSpell(8, 1,true,false);//Retour du bâton
+					perso.learnSpell(8, 1,true,false);//Retour du bÃ©ton
 				if(lvl == 54)
 					perso.learnSpell(12, 1,true,false);//glyphe d'Aveuglement
 				if(lvl == 60)
-					perso.learnSpell(11, 1,true,false);//Téléportation
+					perso.learnSpell(11, 1,true,false);//TÃ©lÃ©portation
 				if(lvl == 70)
-					perso.learnSpell(10, 1,true,false);//Glyphe Enflammé
+					perso.learnSpell(10, 1,true,false);//Glyphe EnflammÃ©
 				if(lvl == 80)
-					perso.learnSpell(7, 1,true,false);//Bouclier Féca
+					perso.learnSpell(7, 1,true,false);//Bouclier FÃ©ca
 				if(lvl == 90)
 					perso.learnSpell(15, 1,true,false);//Glyphe d'Immobilisation
 				if(lvl == 100)
 					perso.learnSpell(13, 1,true,false);//Glyphe de Silence
 				if(lvl == 200)
-					perso.learnSpell(1901, 1,true,false);//Invocation de Dopeul Féca
+					perso.learnSpell(1901, 1,true,false);//Invocation de Dopeul FÃ©ca
 			break;
-			
+
 			case CLASS_OSAMODAS:
 				if(lvl == 3)
-					perso.learnSpell(26, 1,true,false);//Bénédiction Animale
+					perso.learnSpell(26, 1,true,false);//BÃ©nÃ©diction Animale
 				if(lvl == 6)
-					perso.learnSpell(22, 1,true,false);//Déplacement Félin
+					perso.learnSpell(22, 1,true,false);//DÃ©placement FÃ©lin
 				if(lvl == 9)
 					perso.learnSpell(35, 1,true,false);//Invocation de Bouftou
 				if(lvl == 13)
@@ -1409,7 +1409,7 @@ public class Constants
 				if(lvl == 21)
 					perso.learnSpell(30, 1,true,false);//Fouet
 				if(lvl == 26)
-					perso.learnSpell(27, 1,true,false);//Piqûre Motivante
+					perso.learnSpell(27, 1,true,false);//PiqÃ©re Motivante
 				if(lvl == 31)
 					perso.learnSpell(24, 1,true,false);//Corbeau
 				if(lvl == 36)
@@ -1421,7 +1421,7 @@ public class Constants
 				if(lvl == 54)
 					perso.learnSpell(36, 1,true,false);//Frappe du Craqueleur
 				if(lvl == 60)
-					perso.learnSpell(32, 1,true,false);//Résistance Naturelle
+					perso.learnSpell(32, 1,true,false);//RÃ©sistance Naturelle
 				if(lvl == 70)
 					perso.learnSpell(29, 1,true,false);//Crocs du Mulou
 				if(lvl == 80)
@@ -1440,17 +1440,17 @@ public class Constants
 				if(lvl == 6)
 					perso.learnSpell(42, 1,true,false);//Chance
 				if(lvl == 9)
-					perso.learnSpell(47, 1,true,false);//Boîte de Pandore
+					perso.learnSpell(47, 1,true,false);//BoÃ©te de Pandore
 				if(lvl == 13)
 					perso.learnSpell(48, 1,true,false);//Remblai
 				if(lvl == 17)
-					perso.learnSpell(45, 1,true,false);//Clé Réductrice
+					perso.learnSpell(45, 1,true,false);//ClÃ© RÃ©ductrice
 				if(lvl == 21)
 					perso.learnSpell(53, 1,true,false);//Force de l'Age
 				if(lvl == 26)
-					perso.learnSpell(46, 1,true,false);//Désinvocation
+					perso.learnSpell(46, 1,true,false);//DÃ©sinvocation
 				if(lvl == 31)
-					perso.learnSpell(52, 1,true,false);//Cupidité
+					perso.learnSpell(52, 1,true,false);//CupiditÃ©
 				if(lvl == 36)
 					perso.learnSpell(44, 1,true,false);//Roulage de Pelle
 				if(lvl == 42)
@@ -1458,7 +1458,7 @@ public class Constants
 				if(lvl == 48)
 					perso.learnSpell(54, 1,true,false);//Maladresse de Masse
 				if(lvl == 54)
-					perso.learnSpell(55, 1,true,false);//Accélération
+					perso.learnSpell(55, 1,true,false);//AccÃ©lÃ©ration
 				if(lvl == 60)
 					perso.learnSpell(56, 1,true,false);//Pelle du Jugement
 				if(lvl == 70)
@@ -1466,9 +1466,9 @@ public class Constants
 				if(lvl == 80)
 					perso.learnSpell(59, 1,true,false);//Corruption
 				if(lvl == 90)
-					perso.learnSpell(57, 1,true,false);//Pelle Animée
+					perso.learnSpell(57, 1,true,false);//Pelle AnimÃ©e
 				if(lvl == 100)
-					perso.learnSpell(60, 1,true,false);//Coffre Animé
+					perso.learnSpell(60, 1,true,false);//Coffre AnimÃ©
 				if(lvl == 200)
 					perso.learnSpell(1903, 1,true,false);//Invocation de Dopeul Enutrof
 			break;
@@ -1483,21 +1483,21 @@ public class Constants
 				if(lvl == 13)
 					perso.learnSpell(74, 1,true,false);//Double
 				if(lvl == 17)
-					perso.learnSpell(64, 1,true,false);//Repérage
+					perso.learnSpell(64, 1,true,false);//RepÃ©rage
 				if(lvl == 21)
-					perso.learnSpell(79, 1,true,false);//Piège de Masse
+					perso.learnSpell(79, 1,true,false);//PiÃ©ge de Masse
 				if(lvl == 26)
-					perso.learnSpell(78, 1,true,false);//Invisibilité d'Autrui
+					perso.learnSpell(78, 1,true,false);//InvisibilitÃ© d'Autrui
 				if(lvl == 31)
-					perso.learnSpell(71, 1,true,false);//Piège Empoisonné
+					perso.learnSpell(71, 1,true,false);//PiÃ©ge EmpoisonnÃ©
 				if(lvl == 36)
 					perso.learnSpell(62, 1,true,false);//Concentration de Chakra
 				if(lvl == 42)
-					perso.learnSpell(69, 1,true,false);//Piège d'Immobilisation
+					perso.learnSpell(69, 1,true,false);//PiÃ©ge d'Immobilisation
 				if(lvl == 48)
-					perso.learnSpell(77, 1,true,false);//Piège de Silence
+					perso.learnSpell(77, 1,true,false);//PiÃ©ge de Silence
 				if(lvl == 54)
-					perso.learnSpell(73, 1,true,false);//Piège répulsif
+					perso.learnSpell(73, 1,true,false);//PiÃ©ge rÃ©pulsif
 				if(lvl == 60)
 					perso.learnSpell(67, 1,true,false);//Peur
 				if(lvl == 70)
@@ -1507,7 +1507,7 @@ public class Constants
 				if(lvl == 90)
 					perso.learnSpell(76, 1,true,false);//Attaque Mortelle
 				if(lvl == 100)
-					perso.learnSpell(80, 1,true,false);//Piège Mortel
+					perso.learnSpell(80, 1,true,false);//PiÃ©ge Mortel
 				if(lvl == 200)
 					perso.learnSpell(1904, 1,true,false);//Invocation de Dopeul Sram
 			break;
@@ -1516,27 +1516,27 @@ public class Constants
 				if(lvl == 3)
 					perso.learnSpell(84, 1,true,false);//Gelure
 				if(lvl == 6)
-					perso.learnSpell(100, 1,true,false);//Sablier de Xélor
+					perso.learnSpell(100, 1,true,false);//Sablier de XÃ©lor
 				if(lvl == 9)
 					perso.learnSpell(92, 1,true,false);//Rayon Obscur
 				if(lvl == 13)
-					perso.learnSpell(88, 1,true,false);//Téléportation
+					perso.learnSpell(88, 1,true,false);//TÃ©lÃ©portation
 				if(lvl == 17)
-					perso.learnSpell(93, 1,true,false);//Flétrissement
+					perso.learnSpell(93, 1,true,false);//FlÃ©trissement
 				if(lvl == 21)
 					perso.learnSpell(85, 1,true,false);//Flou
 				if(lvl == 26)
-					perso.learnSpell(96, 1,true,false);//Poussière Temporelle
+					perso.learnSpell(96, 1,true,false);//PoussiÃ©re Temporelle
 				if(lvl == 31)
 					perso.learnSpell(98, 1,true,false);//Vol du Temps
 				if(lvl == 36)
 					perso.learnSpell(86, 1,true,false);//Aiguille Chercheuse
 				if(lvl == 42)
-					perso.learnSpell(89, 1,true,false);//Dévouement
+					perso.learnSpell(89, 1,true,false);//DÃ©vouement
 				if(lvl == 48)
 					perso.learnSpell(90, 1,true,false);//Fuite
 				if(lvl == 54)
-					perso.learnSpell(87, 1,true,false);//Démotivation
+					perso.learnSpell(87, 1,true,false);//DÃ©motivation
 				if(lvl == 60)
 					perso.learnSpell(94, 1,true,false);//Protection Aveuglante
 				if(lvl == 70)
@@ -1544,11 +1544,11 @@ public class Constants
 				if(lvl == 80)
 					perso.learnSpell(95, 1,true,false);//Horloge
 				if(lvl == 90)
-					perso.learnSpell(91, 1,true,false);//Frappe de Xélor
+					perso.learnSpell(91, 1,true,false);//Frappe de XÃ©lor
 				if(lvl == 100)
-					perso.learnSpell(97, 1,true,false);//Cadran de Xélor
+					perso.learnSpell(97, 1,true,false);//Cadran de XÃ©lor
 				if(lvl == 200)
-					perso.learnSpell(1905, 1,true,false);//Invocation de Dopeul Xélor
+					perso.learnSpell(1905, 1,true,false);//Invocation de Dopeul XÃ©lor
 			break;
 
 			case CLASS_ECAFLIP:
@@ -1559,7 +1559,7 @@ public class Constants
 				if(lvl == 9)
 					perso.learnSpell(111, 1,true,false);//Contrecoup
 				if(lvl == 13)
-					perso.learnSpell(104, 1,true,false);//Trèfle
+					perso.learnSpell(104, 1,true,false);//TrÃ©fle
 				if(lvl == 17)
 					perso.learnSpell(119, 1,true,false);//Tout ou rien
 				if(lvl == 21)
@@ -1567,17 +1567,17 @@ public class Constants
 				if(lvl == 26)
 					perso.learnSpell(107, 1,true,false);//Topkaj
 				if(lvl == 31)
-					perso.learnSpell(116, 1,true,false);//Langue Râpeuse
+					perso.learnSpell(116, 1,true,false);//Langue RÃ©peuse
 				if(lvl == 36)
 					perso.learnSpell(106, 1,true,false);//Roue de la Fortune
 				if(lvl == 42)
 					perso.learnSpell(117, 1,true,false);//Griffe Invocatrice
 				if(lvl == 48)
-					perso.learnSpell(108, 1,true,false);//Esprit Félin
+					perso.learnSpell(108, 1,true,false);//Esprit FÃ©lin
 				if(lvl == 54)
 					perso.learnSpell(115, 1,true,false);//Odorat
 				if(lvl == 60)
-					perso.learnSpell(118, 1,true,false);//Réflexes
+					perso.learnSpell(118, 1,true,false);//RÃ©flexes
 				if(lvl == 70)
 					perso.learnSpell(110, 1,true,false);//Griffe Joueuse
 				if(lvl == 80)
@@ -1598,13 +1598,13 @@ public class Constants
 				if(lvl == 9)
 					perso.learnSpell(126, 1,true,false);//Mot Stimulant
 				if(lvl == 13)
-					perso.learnSpell(127, 1,true,false);//Mot de Prévention
+					perso.learnSpell(127, 1,true,false);//Mot de PrÃ©vention
 				if(lvl == 17)
 					perso.learnSpell(123, 1,true,false);//Mot Drainant
 				if(lvl == 21)
 					perso.learnSpell(130, 1,true,false);//Mot Revitalisant
 				if(lvl == 26)
-					perso.learnSpell(131, 1,true,false);//Mot de Régénération
+					perso.learnSpell(131, 1,true,false);//Mot de RÃ©gÃ©nÃ©ration
 				if(lvl == 31)
 					perso.learnSpell(132, 1,true,false);//Mot d'Epine
 				if(lvl == 36)
@@ -1614,7 +1614,7 @@ public class Constants
 				if(lvl == 48)
 					perso.learnSpell(135, 1,true,false);//Mot de Sacrifice
 				if(lvl == 54)
-					perso.learnSpell(129, 1,true,false);//Mot d'Amitié
+					perso.learnSpell(129, 1,true,false);//Mot d'AmitiÃ©
 				if(lvl == 60)
 					perso.learnSpell(136, 1,true,false);//Mot d'Immobilisation
 				if(lvl == 70)
@@ -1633,76 +1633,76 @@ public class Constants
 				if(lvl == 3)
 					perso.learnSpell(144, 1,true,false);//Compulsion
 				if(lvl == 6)
-					perso.learnSpell(145, 1,true,false);//Epée Divine
+					perso.learnSpell(145, 1,true,false);//EpÃ©e Divine
 				if(lvl == 9)
-					perso.learnSpell(146, 1,true,false);//Epée du Destin
+					perso.learnSpell(146, 1,true,false);//EpÃ©e du Destin
 				if(lvl == 13)
 					perso.learnSpell(147, 1,true,false);//Guide de Bravoure
 				if(lvl == 17)
 					perso.learnSpell(148, 1,true,false);//Amplification
 				if(lvl == 21)
-					perso.learnSpell(154, 1,true,false);//Epée Destructrice
+					perso.learnSpell(154, 1,true,false);//EpÃ©e Destructrice
 				if(lvl == 26)
 					perso.learnSpell(150, 1,true,false);//Couper
 				if(lvl == 31)
 					perso.learnSpell(151, 1,true,false);//Souffle
 				if(lvl == 36)
-					perso.learnSpell(155, 1,true,false);//Vitalité
+					perso.learnSpell(155, 1,true,false);//VitalitÃ©
 				if(lvl == 42)
-					perso.learnSpell(152, 1,true,false);//Epée du Jugement
+					perso.learnSpell(152, 1,true,false);//EpÃ©e du Jugement
 				if(lvl == 48)
 					perso.learnSpell(153, 1,true,false);//Puissance
 				if(lvl == 54)
 					perso.learnSpell(149, 1,true,false);//Mutilation
 				if(lvl == 60)
-					perso.learnSpell(156, 1,true,false);//Tempête de Puissance
+					perso.learnSpell(156, 1,true,false);//TempÃ©te de Puissance
 				if(lvl == 70)
-					perso.learnSpell(157, 1,true,false);//Epée Céleste
+					perso.learnSpell(157, 1,true,false);//EpÃ©e CÃ©leste
 				if(lvl == 80)
 					perso.learnSpell(158, 1,true,false);//Concentration
 				if(lvl == 90)
-					perso.learnSpell(160, 1,true,false);//Epée de Iop
+					perso.learnSpell(160, 1,true,false);//EpÃ©e de Iop
 				if(lvl == 100)
-					perso.learnSpell(159, 1,true,false);//Colère de Iop
+					perso.learnSpell(159, 1,true,false);//ColÃ©re de Iop
 				if(lvl == 200)
 					perso.learnSpell(1908, 1,true,false);//Invocation de Dopeul Iop
 			break;
 
 			case CLASS_CRA:
 				if(lvl == 3)
-					perso.learnSpell(163, 1,true,false);//Flèche Glacée
+					perso.learnSpell(163, 1,true,false);//FlÃ©che GlacÃ©e
 				if(lvl == 6)
-					perso.learnSpell(165, 1,true,false);//Flèche enflammée
+					perso.learnSpell(165, 1,true,false);//FlÃ©che enflammÃ©e
 				if(lvl == 9)
-					perso.learnSpell(172, 1,true,false);//Tir Eloigné
+					perso.learnSpell(172, 1,true,false);//Tir EloignÃ©
 				if(lvl == 13)
-					perso.learnSpell(167, 1,true,false);//Flèche d'Expiation
+					perso.learnSpell(167, 1,true,false);//FlÃ©che d'Expiation
 				if(lvl == 17)
 					perso.learnSpell(168, 1,true,false);//Oeil de Taupe
 				if(lvl == 21)
 					perso.learnSpell(162, 1,true,false);//Tir Critique
 				if(lvl == 26)
-					perso.learnSpell(170, 1,true,false);//Flèche d'Immobilisation
+					perso.learnSpell(170, 1,true,false);//FlÃ©che d'Immobilisation
 				if(lvl == 31)
-					perso.learnSpell(171, 1,true,false);//Flèche Punitive
+					perso.learnSpell(171, 1,true,false);//FlÃ©che Punitive
 				if(lvl == 36)
 					perso.learnSpell(166, 1,true,false);//Tir Puissant
 				if(lvl == 42)
-					perso.learnSpell(173, 1,true,false);//Flèche Harcelante
+					perso.learnSpell(173, 1,true,false);//FlÃ©che Harcelante
 				if(lvl == 48)
-					perso.learnSpell(174, 1,true,false);//Flèche Cinglante
+					perso.learnSpell(174, 1,true,false);//FlÃ©che Cinglante
 				if(lvl == 54)
-					perso.learnSpell(176, 1,true,false);//Flèche Persécutrice
+					perso.learnSpell(176, 1,true,false);//FlÃ©che PersÃ©cutrice
 				if(lvl == 60)
-					perso.learnSpell(175, 1,true,false);//Flèche Destructrice
+					perso.learnSpell(175, 1,true,false);//FlÃ©che Destructrice
 				if(lvl == 70)
-					perso.learnSpell(178, 1,true,false);//Flèche Absorbante
+					perso.learnSpell(178, 1,true,false);//FlÃ©che Absorbante
 				if(lvl == 80)
-					perso.learnSpell(177, 1,true,false);//Flèche Ralentissante
+					perso.learnSpell(177, 1,true,false);//FlÃ©che Ralentissante
 				if(lvl == 90)
-					perso.learnSpell(179, 1,true,false);//Flèche Explosive
+					perso.learnSpell(179, 1,true,false);//FlÃ©che Explosive
 				if(lvl == 100)
-					perso.learnSpell(180, 1,true,false);//Maîtrise de l'Arc
+					perso.learnSpell(180, 1,true,false);//MaÃ©trise de l'Arc
 				if(lvl == 200)
 					perso.learnSpell(1909, 1,true,false);//Invocation de Dopeul Cra
 			break;
@@ -1719,17 +1719,17 @@ public class Constants
 				if(lvl == 17)
 					perso.learnSpell(197, 1,true,false);//Puissance Sylvestre
 				if(lvl == 21)
-					perso.learnSpell(189, 1,true,false);//Invocation de la Sacrifiée
+					perso.learnSpell(189, 1,true,false);//Invocation de la SacrifiÃ©e
 				if(lvl == 26)
 					perso.learnSpell(181, 1,true,false);//Tremblement
 				if(lvl == 31)
-					perso.learnSpell(199, 1,true,false);//Connaissance des Poupées
+					perso.learnSpell(199, 1,true,false);//Connaissance des PoupÃ©es
 				if(lvl == 36)
 					perso.learnSpell(191, 1,true,false);//Ronce Multiples
 				if(lvl == 42)
 					perso.learnSpell(186, 1,true,false);//Arbre
 				if(lvl == 48)
-					perso.learnSpell(196, 1,true,false);//Vent Empoisonné
+					perso.learnSpell(196, 1,true,false);//Vent EmpoisonnÃ©
 				if(lvl == 54)
 					perso.learnSpell(190, 1,true,false);//Invocation de la Gonflable
 				if(lvl == 60)
@@ -1748,27 +1748,27 @@ public class Constants
 
 			case CLASS_SACRIEUR:
 				if(lvl == 3)
-					perso.learnSpell(444, 1,true,false);//Dérobade
+					perso.learnSpell(444, 1,true,false);//DÃ©robade
 				if(lvl == 6)
-					perso.learnSpell(449, 1,true,false);//Détour
+					perso.learnSpell(449, 1,true,false);//DÃ©tour
 				if(lvl == 9)
 					perso.learnSpell(436, 1,true,false);//Assaut
 				if(lvl == 13)
-					perso.learnSpell(437, 1,true,false);//Châtiment Agile
+					perso.learnSpell(437, 1,true,false);//ChÃ©timent Agile
 				if(lvl == 17)
 					perso.learnSpell(439, 1,true,false);//Dissolution
 				if(lvl == 21)
-					perso.learnSpell(433, 1,true,false);//Châtiment Osé
+					perso.learnSpell(433, 1,true,false);//ChÃ©timent OsÃ©
 				if(lvl == 26)
-					perso.learnSpell(443, 1,true,false);//Châtiment Spirituel
+					perso.learnSpell(443, 1,true,false);//ChÃ©timent Spirituel
 				if(lvl == 31)
 					perso.learnSpell(440, 1,true,false);//Sacrifice
 				if(lvl == 36)
 					perso.learnSpell(442, 1,true,false);//Absorption
 				if(lvl == 42)
-					perso.learnSpell(441, 1,true,false);//Châtiment Vilatesque
+					perso.learnSpell(441, 1,true,false);//ChÃ©timent Vilatesque
 				if(lvl == 48)
-					perso.learnSpell(445, 1,true,false);//Coopération
+					perso.learnSpell(445, 1,true,false);//CoopÃ©ration
 				if(lvl == 54)
 					perso.learnSpell(438, 1,true,false);//Transposition
 				if(lvl == 60)
@@ -1776,7 +1776,7 @@ public class Constants
 				if(lvl == 70)
 					perso.learnSpell(447, 1,true,false);//Furie
 				if(lvl == 80)
-					perso.learnSpell(448, 1,true,false);//Epée Volante
+					perso.learnSpell(448, 1,true,false);//EpÃ©e Volante
 				if(lvl == 90)
 					perso.learnSpell(435, 1,true,false);//Tansfert de Vie
 				if(lvl == 100)
@@ -1789,29 +1789,29 @@ public class Constants
 				if(lvl == 3)
 					perso.learnSpell(689, 1,true,false);//Epouvante
 				if(lvl == 6)
-					perso.learnSpell(690, 1,true,false);//Souffle Alcoolisé
+					perso.learnSpell(690, 1,true,false);//Souffle AlcoolisÃ©
 				if(lvl == 9)
-					perso.learnSpell(691, 1,true,false);//Vulnérabilité Aqueuse
+					perso.learnSpell(691, 1,true,false);//VulnÃ©rabilitÃ© Aqueuse
 				if(lvl == 13)
-					perso.learnSpell(688, 1,true,false);//Vulnérabilité Incandescente
+					perso.learnSpell(688, 1,true,false);//VulnÃ©rabilitÃ© Incandescente
 				if(lvl == 17)
 					perso.learnSpell(693, 1,true,false);//Karcham
 				if(lvl == 21)
-					perso.learnSpell(694, 1,true,false);//Vulnérabilité Venteuse
+					perso.learnSpell(694, 1,true,false);//VulnÃ©rabilitÃ© Venteuse
 				if(lvl == 26)
 					perso.learnSpell(695, 1,true,false);//Stabilisation
 				if(lvl == 31)
 					perso.learnSpell(696, 1,true,false);//Chamrak
 				if(lvl == 36)
-					perso.learnSpell(697, 1,true,false);//Vulnérabilité Terrestre
+					perso.learnSpell(697, 1,true,false);//VulnÃ©rabilitÃ© Terrestre
 				if(lvl == 42)
 					perso.learnSpell(698, 1,true,false);//Souillure
 				if(lvl == 48)
 					perso.learnSpell(699, 1,true,false);//Lait de Bambou
 				if(lvl == 54)
-					perso.learnSpell(700, 1,true,false);//Vague à Lame
+					perso.learnSpell(700, 1,true,false);//Vague Ã© Lame
 				if(lvl == 60)
-					perso.learnSpell(701, 1,true,false);//Colère de Zatoïshwan
+					perso.learnSpell(701, 1,true,false);//ColÃ©re de ZatoÃ©shwan
 				if(lvl == 70)
 					perso.learnSpell(702, 1,true,false);//Flasque Explosive
 				if(lvl == 80)
@@ -1830,7 +1830,7 @@ public class Constants
 	{
 		switch(spell)
 		{
-			case 10://Enflammé
+			case 10://EnflammÃ©
 			case 2033://Dopeul
 				return 4;//Rouge
 			case 12://Aveuglement
@@ -1859,7 +1859,7 @@ public class Constants
 				return 7;
 			case 69://Immobilisation
 				return 10;
-			case 71://Empoisonnée
+			case 71://EmpoisonnÃ©e
 			case 2068://Dopeul
 				return 9;
 			case 73://Repulsif
@@ -1883,13 +1883,13 @@ public class Constants
 		if(lvl == 100)return 9;
 		return (int)(lvl/20)+3;
 	}
-	
+
 	public static int getChanceForMaxCase(int lvl)
 	{
 		if(lvl <10)return 50;
 		return  54 + (int)((lvl/10)-1)*5;
 	}
-	
+
 	public static int calculXpWinCraft(int lvl,int numCase)
 	{
 		if(lvl == 100)return 0;
@@ -1922,7 +1922,7 @@ public class Constants
 		}
 		return 0;
 	}
-	
+
 	public static ArrayList<JobAction> getPosActionsToJob(int tID, int lvl)
 	{
 		ArrayList<JobAction> list = new ArrayList<JobAction>();
@@ -1931,7 +1931,7 @@ public class Constants
 		switch(tID)
 		{
 			case JOB_BIJOUTIER:
-			//Faire Anneau 
+			//Faire Anneau
 			list.add(new JobAction(11,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			//Faire Amullette
 			list.add(new JobAction(12,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
@@ -2010,9 +2010,9 @@ public class Constants
 			break;
 
 			case JOB_F_EPEE:
-			//Forger Epée
+			//Forger EpÃ©e
 			list.add(new JobAction(20,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
-			//Reforger Epée
+			//Reforger EpÃ©e
 			list.add(new JobAction(145,3,0,true,getChanceForMaxCase(lvl),-1));
 			break;
 
@@ -2038,7 +2038,7 @@ public class Constants
 			break;
 
 			case JOB_F_HACHES:
-			//Forger Hache 
+			//Forger Hache
 			list.add(new JobAction(65,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			//Reforger Hache
 			list.add(new JobAction(143,3,0,true,getChanceForMaxCase(lvl),-1));
@@ -2053,7 +2053,7 @@ public class Constants
 			list.add(new JobAction(1,3,0,true,lvl,0));
 			break;
 			case JOB_FM_EPEE:
-			//Reforger une épée
+			//Reforger une Ã©pÃ©e
 			list.add(new JobAction(113,3,0,true,lvl,0));
 			break;
 			case JOB_FM_MARTEAU:
@@ -2076,29 +2076,29 @@ public class Constants
 			//Resculpter une baguette
 			list.add(new JobAction(119,3,0,true,lvl,0));
 			break;
-			
+
 			case JOB_CHASSEUR:
-			//Préparer une Viande
+			//PrÃ©parer une Viande
 			list.add(new JobAction(134,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			break;
-			
+
 			case JOB_BOUCHER:
-			//Préparer une Viande
+			//PrÃ©parer une Viande
 			list.add(new JobAction(132,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			break;
-			
+
 			case JOB_POISSONNIER:
 			//Preparer un Poisson
 			list.add(new JobAction(135,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			break;
-			
+
 			case JOB_BOULANGER:
 			//Cuir le Pain
 			list.add(new JobAction(27,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			//Faire des Bonbons
 			list.add(new JobAction(109,3,0,true,100,-1));
 			break;
-			
+
 			case JOB_MINEUR:
 			if(lvl > 99)
 			{
@@ -2129,7 +2129,7 @@ public class Constants
 			}
 			if(lvl > 39)
 			{
-			//Miner Manganèse
+			//Miner ManganÃ©se
 			list.add(new JobAction(56,-7 + dropWin,-6 + dropWin,false,12000-timeWin,30));
 			}
 			if(lvl >29)
@@ -2154,50 +2154,50 @@ public class Constants
 			//Polir
 			list.add(new JobAction(48,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			break;
-			
+
 			case JOB_PECHEUR:
 			if(lvl > 74)
 			{
-			//Pêcher Poissons géants de mer
+			//PÃ©cher Poissons gÃ©ants de mer
 			list.add(new JobAction(131,0,1,false,12000-timeWin,35));
 			}
 			if(lvl > 69)
 			{
-			//Pêcher Poissons géants de rivière
+			//PÃ©cher Poissons gÃ©ants de riviÃ©re
 			list.add(new JobAction(127,0,1,false,12000-timeWin,35));
 			}
 			if(lvl > 49)
 			{
-			//Pêcher Gros poissons de mers
+			//PÃ©cher Gros poissons de mers
 			list.add(new JobAction(130,0,1,false,12000-timeWin,30));
 			}
 			if(lvl >39)
 			{
-			//Pêcher Gros poissons de rivière
+			//PÃ©cher Gros poissons de riviÃ©re
 			list.add(new JobAction(126,0,1,false,12000-timeWin,25));
 			}
 			if(lvl >19)
 			{
-			//Pêcher Poissons de mer
+			//PÃ©cher Poissons de mer
 			list.add(new JobAction(129,0,1,false,12000-timeWin,20));
 			}
 			if(lvl >9)
 			{
-			//Pêcher Poissons de rivière
+			//PÃ©cher Poissons de riviÃ©re
 			list.add(new JobAction(125,0,1,false,12000-timeWin,15));
 			}
-			//Pêcher Ombre Etrange
+			//PÃ©cher Ombre Etrange
 			list.add(new JobAction(140,0,1,false,12000-timeWin,50));
-			//Pêcher Pichon
+			//PÃ©cher Pichon
 			list.add(new JobAction(136,1,1,false,12000-timeWin,5));
-			//Pêcher Petits poissons de rivière
+			//PÃ©cher Petits poissons de riviÃ©re
 			list.add(new JobAction(124,0,1,false,12000-timeWin,10));
-			//Pêcher Petits poissons de mer
+			//PÃ©cher Petits poissons de mer
 			list.add(new JobAction(128,0,1,false,12000-timeWin,10));
 			//Vider
 			list.add(new JobAction(133,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			break;
-			
+
 			case JOB_ALCHIMISTE:
 			if(lvl > 49)
 			{
@@ -2208,7 +2208,7 @@ public class Constants
 			}
 			if(lvl > 39)
 			{
-			//Cueillir Orchidée
+			//Cueillir OrchidÃ©e
 			list.add(new JobAction(73,-7 + dropWin,-6 + dropWin,false,12000-timeWin,30));
 			}
 			if(lvl >29)
@@ -2218,7 +2218,7 @@ public class Constants
 			}
 			if(lvl >19)
 			{
-			//Cueillir Trèfle
+			//Cueillir TrÃ©fle
 			list.add(new JobAction(71,-3 + dropWin,-2 + dropWin,false,12000-timeWin,20));
 			}
 			if(lvl >9)
@@ -2231,11 +2231,11 @@ public class Constants
 			//Fabriquer une Potion
 			list.add(new JobAction(23,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			break;
-			
+
 			case JOB_BUCHERON:
 			if(lvl > 99)
 			{
-			//Couper Bambou Sacré
+			//Couper Bambou SacrÃ©
 			list.add(new JobAction(158,-19 + dropWin,-18 + dropWin,false,12000-timeWin,75));
 			}
 			if(lvl > 89)
@@ -2257,7 +2257,7 @@ public class Constants
 			}
 			if(lvl > 69)
 			{
-			//Couper Ebène
+			//Couper EbÃ©ne
 			list.add(new JobAction(34,-13 + dropWin,-12 + dropWin,false,12000-timeWin,50));
 			}
 			if(lvl > 59)
@@ -2286,7 +2286,7 @@ public class Constants
 			}
 			if(lvl >29)
 			{
-			//Couper Chêne
+			//Couper ChÃ©ne
 			list.add(new JobAction(10,-5 + dropWin,-4 + dropWin,false,12000-timeWin,25));
 			}
 			if(lvl >19)
@@ -2296,15 +2296,15 @@ public class Constants
 			}
 			if(lvl >9)
 			{
-			//Couper Châtaignier
+			//Couper ChÃ©taignier
 			list.add(new JobAction(39,-1 + dropWin,0 + dropWin,false,12000-timeWin,15));
 			}
-			//Couper Frêne
+			//Couper FrÃ©ne
 			list.add(new JobAction(6,1 + dropWin,2 + dropWin,false,12000-timeWin,10));
 			//Scie
 			list.add(new JobAction(101,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
 			break;
-			
+
 			case JOB_PAYSAN:
 			if(lvl > 69)
 			{
@@ -2343,7 +2343,7 @@ public class Constants
 			//Faucher Orge
 			list.add(new JobAction(53,-1 + dropWin,0 + dropWin,false,12000-timeWin,15));
 			}
-			//Faucher blé
+			//Faucher blÃ©
 			list.add(new JobAction(45,1 + dropWin,2 + dropWin,false,12000-timeWin,10));
 			//Moudre
 			list.add(new JobAction(47,getTotalCaseByJobLevel(lvl),0,true,getChanceForMaxCase(lvl),-1));
@@ -2380,7 +2380,7 @@ public class Constants
 		if((id>42 && id <51) || (id>61 && id <65))return true;
 		return false;
 	}
-	
+
 	public static Stats getMountStats(int color,int lvl)
 	{
 		Stats stats = new Stats();
@@ -2401,23 +2401,23 @@ public class Constants
 			case 20:
 			stats.addOneStat(STATS_ADD_INIT, lvl*10); // 100*10 = 1000
 			break;
-			//Dorée
+			//DorÃ©e
 			case 18:
-			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2)); 
+			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/2.50)); // 100/2.50 = 40
 			break;
 			//Rousse-Amande
 			case 38:
 			stats.addOneStat(STATS_ADD_INIT, lvl*5); // 100*5 = 500
-			stats.addOneStat(STATS_ADD_VITA, lvl); 
+			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_CREATURE, (int)(lvl/50)); // 100/50 = 2
 			break;
-			//Rousse-Dorée
+			//Rousse-DorÃ©e
 			case 46:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4)); //100/4 = 25
 		    break;
-			//Amande-Dorée
+			//Amande-DorÃ©e
 			case 33:
 			stats.addOneStat(STATS_ADD_INIT, lvl*5);
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
@@ -2434,7 +2434,7 @@ public class Constants
 			stats.addOneStat(STATS_ADD_VITA,(int)(lvl*1.50)); // 100*1.50 = 150
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/1.65));
 			break;
-			//Rousse-Ebène
+			//Rousse-EbÃ©ne
 			case 12:
 			stats.addOneStat(STATS_ADD_VITA,(int)(lvl*1.50));
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/1.65));
@@ -2442,7 +2442,7 @@ public class Constants
 			//Amande-Indigo
 			case 36:
 			stats.addOneStat(STATS_ADD_INIT, lvl*5);
-			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2)); 
+			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/1.65));
 			stats.addOneStat(STATS_CREATURE, (int)(lvl/100));
 			break;
@@ -2451,12 +2451,12 @@ public class Constants
 			stats.addOneStat(STATS_ADD_FORC, (int)(lvl/1.25));
 			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2));
 			break;
-			//Orchidée
+			//OrchidÃ©e
 			case 22:
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/1.25));
 			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2));
 			break;
-			//Dorée-Orchidée |
+			//DorÃ©e-OrchidÃ©e |
 			case 48:
 			stats.addOneStat(STATS_ADD_VITA, (lvl));
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
@@ -2468,25 +2468,25 @@ public class Constants
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_FORC, (int)(lvl/2));
 			break;
-			//Indigo-Orchidée
+			//Indigo-OrchidÃ©e
 			case 67:
 			stats.addOneStat(STATS_ADD_VITA, (lvl));
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/2));
 			break;
-			//Ebène-Pourpre
+			//EbÃ©ne-Pourpre
 			case 54:
 			stats.addOneStat(STATS_ADD_VITA, (lvl));
 			stats.addOneStat(STATS_ADD_FORC, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/2));
 			break;
-			//Ebène-Orchidée
+			//EbÃ©ne-OrchidÃ©e
 			case 53:
 			stats.addOneStat(STATS_ADD_VITA, (lvl));
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/2));
 			break;
-			//Pourpre-Orchidée
+			//Pourpre-OrchidÃ©e
 			case 76:
 			stats.addOneStat(STATS_ADD_VITA, (lvl));
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/2));
@@ -2495,7 +2495,7 @@ public class Constants
 			// Amande-Ebene	| Nami-start
 			case 37:
 			stats.addOneStat(STATS_ADD_INIT, lvl*5);
-			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2)); 
+			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/1.65));
 			stats.addOneStat(STATS_CREATURE, (int)(lvl/100));
 			break;
@@ -2505,13 +2505,13 @@ public class Constants
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/1.65));
 			break;
-			// Dorée-Ebène
+			// DorÃ©e-EbÃ©ne
 			case 42:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/1.65));
 			break;
-			// Indigo-Ebène
+			// Indigo-EbÃ©ne
 			case 51:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/2));
@@ -2522,7 +2522,7 @@ public class Constants
 			stats.addOneStat(STATS_ADD_VITA, (int)(lvl*1.5));
 			stats.addOneStat(STATS_ADD_FORC, (int)(lvl/1.65));
 			break;
-			// Rousse-Orchidée
+			// Rousse-OrchidÃ©e
 			case 70:
 			stats.addOneStat(STATS_ADD_VITA, (int)(lvl*1.5));
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/1.65));
@@ -2530,18 +2530,18 @@ public class Constants
 			// Amande-Pourpre
 			case 41:
 			stats.addOneStat(STATS_ADD_INIT, lvl*5);
-			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2)); 
+			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_FORC, (int)(lvl/1.65));
 			stats.addOneStat(STATS_CREATURE, (int)(lvl/100));
 			break;
-			// Amande-Orchidée
+			// Amande-OrchidÃ©e
 			case 40:
 			stats.addOneStat(STATS_ADD_INIT, lvl*5);
-			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2)); 
+			stats.addOneStat(STATS_ADD_VITA, (int)(lvl/2));
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/1.65));
 			stats.addOneStat(STATS_CREATURE, (int)(lvl/100));
 			break;
-			// Dorée-Pourpre
+			// DorÃ©e-Pourpre
 			case 49:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
@@ -2574,13 +2574,13 @@ public class Constants
 			stats.addOneStat(STATS_ADD_PROS, (int)(lvl/2.50));
 			stats.addOneStat(STATS_CREATURE, (int)(lvl/100));
 			break;
-			//Dorée-Ivoire
+			//DorÃ©e-Ivoire
 			case 45:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_PERDOM, (int)(lvl/2.5));
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
 			break;
-			//Dorée-Turquoise
+			//DorÃ©e-Turquoise
 			case 47:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_PROS, (int)(lvl/2.50));
@@ -2598,13 +2598,13 @@ public class Constants
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/1.65));
 			stats.addOneStat(STATS_ADD_PERDOM, (int)(lvl/2.5));
 			break;
-			//Ebène-Ivoire
+			//EbÃ©ne-Ivoire
 			case 9:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/2.50));
 			stats.addOneStat(STATS_ADD_PERDOM, (int)(lvl/2.5));
 			break;
-			//Ebène-Turquoise
+			//EbÃ©ne-Turquoise
 			case 52:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/1.65));
@@ -2622,7 +2622,7 @@ public class Constants
 			stats.addOneStat(STATS_ADD_FORC, (int)(lvl/1.65));
 			stats.addOneStat(STATS_ADD_PROS, (int)(lvl/2.50));
 			break;
-			//Orchidée-Turquoise
+			//OrchidÃ©e-Turquoise
 			case 72:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/1.65));
@@ -2668,13 +2668,13 @@ public class Constants
 			stats.addOneStat(STATS_ADD_PO, (int)(lvl/100));
 			stats.addOneStat(STATS_CREATURE, (int)(lvl/100));
 			break;
-			//Dorée-Emeraude
+			//DorÃ©e-Emeraude
 			case 43:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
 			stats.addOneStat(STATS_ADD_PM, (int)(lvl/100));
 			break;
-			//Dorée-Prune
+			//DorÃ©e-Prune
 			case 78:
 			stats.addOneStat(STATS_ADD_VITA, lvl*2);
 			stats.addOneStat(STATS_ADD_SAGE, (int)(lvl/4));
@@ -2692,13 +2692,13 @@ public class Constants
 			stats.addOneStat(STATS_ADD_CHAN, (int)(lvl/1.65));
 			stats.addOneStat(STATS_ADD_PO, (int)(lvl/100));
 			break;
-			//Ebène-Emeraude
+			//EbÃ©ne-Emeraude
 			case 50:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/3.33));
 			stats.addOneStat(STATS_ADD_PM, (int)(lvl/100));
 			break;
-			//Ebène-Prune
+			//EbÃ©ne-Prune
 			case 79:
 			stats.addOneStat(STATS_ADD_VITA, lvl*2);
 			stats.addOneStat(STATS_ADD_AGIL, (int)(lvl/1.65));
@@ -2716,13 +2716,13 @@ public class Constants
 			stats.addOneStat(STATS_ADD_FORC, (int)(lvl/1.65));
 			stats.addOneStat(STATS_ADD_PO, (int)(lvl/100));
 			break;
-			//Orchidée-Emeraude
+			//OrchidÃ©e-Emeraude
 			case 59:
 			stats.addOneStat(STATS_ADD_VITA, lvl);
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/3.33));
 			stats.addOneStat(STATS_ADD_PM, (int)(lvl/100));
 			break;
-			//Orchidée-Prune
+			//OrchidÃ©e-Prune
 			case 86:
 			stats.addOneStat(STATS_ADD_VITA, lvl*2);
 			stats.addOneStat(STATS_ADD_INTE, (int)(lvl/1.65));
@@ -2770,7 +2770,7 @@ public class Constants
 		}
 		return stats;
 	}
-	
+
 	public static ObjTemplate getParchoTemplateByMountColor(int color)
 	{
 		switch(color)
@@ -2795,7 +2795,7 @@ public class Constants
 			case 16: return World.getObjTemplate(7815);
 			//Indigo
 			case 17: return World.getObjTemplate(7816);
-			//Dorée
+			//DorÃ©e
 			case 18: return World.getObjTemplate(7817);
 			//Pourpre
 			case 19: return World.getObjTemplate(7818);
@@ -2803,11 +2803,11 @@ public class Constants
 			case 20: return World.getObjTemplate(7819);
 			//Emeraude
 			case 21: return World.getObjTemplate(7820);
-			//Orchidée
+			//OrchidÃ©e
 			case 22: return World.getObjTemplate(7821);
 			//Prune
 			case 23: return World.getObjTemplate(7822);
-			//Amande-Dorée
+			//Amande-DorÃ©e
 			case 33: return World.getObjTemplate(7823);
 			//Amande-Ebene
 			case 34: return World.getObjTemplate(7824);
@@ -2821,35 +2821,35 @@ public class Constants
 			case 38: return World.getObjTemplate(7828);
 			//Amande-Turquoise
 			case 39: return World.getObjTemplate(7829);
-			//Amande-Orchidée
+			//Amande-OrchidÃ©e
 			case 40: return World.getObjTemplate(7830);
 			//Amande-Pourpre
 			case 41: return World.getObjTemplate(7831);
-			//Dorée-Ebène
+			//DorÃ©e-EbÃ©ne
 			case 42: return World.getObjTemplate(7832);
-			//Dorée-Emeraude
+			//DorÃ©e-Emeraude
 			case 43: return World.getObjTemplate(7833);
-			//Dorée-Indigo
+			//DorÃ©e-Indigo
 			case 44: return World.getObjTemplate(7834);
-			//Dorée-Ivoire
+			//DorÃ©e-Ivoire
 			case 45: return World.getObjTemplate(7835);
-			//Dorée-Rousse | Page 2
+			//DorÃ©e-Rousse | Page 2
 			case 46: return World.getObjTemplate(7836);
-			//Dorée-Turquoise
+			//DorÃ©e-Turquoise
 			case 47: return World.getObjTemplate(7837);
-			//Dorée-Orchidée
+			//DorÃ©e-OrchidÃ©e
 			case 48: return World.getObjTemplate(7838);
-			//Dorée-Pourpre
+			//DorÃ©e-Pourpre
 			case 49: return World.getObjTemplate(7839);
-			//Ebène-Emeraude
+			//EbÃ©ne-Emeraude
 			case 50: return World.getObjTemplate(7840);
-			//Ebène-Indigo
+			//EbÃ©ne-Indigo
 			case 51: return World.getObjTemplate(7841);
-			//Ebène-Turquoise
+			//EbÃ©ne-Turquoise
 			case 52: return World.getObjTemplate(7842);
-			//Ebène-Orchidée
+			//EbÃ©ne-OrchidÃ©e
 			case 53: return World.getObjTemplate(7843);
-			//Ebène-Pourpre
+			//EbÃ©ne-Pourpre
 			case 54: return World.getObjTemplate(7844);
 			//Emeraude-Indigo
 			case 55: return World.getObjTemplate(7845);
@@ -2859,7 +2859,7 @@ public class Constants
 			case 57: return World.getObjTemplate(7847);
 			//Emeraude-Turquoise
 			case 58: return World.getObjTemplate(7848);
-			//Emeraude-Orchidée
+			//Emeraude-OrchidÃ©e
 			case 59: return World.getObjTemplate(7849);
 			//Emeraude-Pourpre
 			case 60: return World.getObjTemplate(7850);
@@ -2869,37 +2869,37 @@ public class Constants
 			case 62: return World.getObjTemplate(7852);
 			//Indigo-Turquoise
 			case 63: return World.getObjTemplate(7853);
-			//Indigo-Orchidée
+			//Indigo-OrchidÃ©e
 			case 64: return World.getObjTemplate(7854);
 			//Indigo-Pourpre
 			case 65: return World.getObjTemplate(7855);
 			//Ivoire-Turquoise
 			case 66: return World.getObjTemplate(7856);
-			//Ivoire-Ochidée
+			//Ivoire-OchidÃ©e
 			case 67: return World.getObjTemplate(7857);
 			//Ivoire-Pourpre
 			case 68: return World.getObjTemplate(7858);
 			//Turquoise-Rousse
 			case 69: return World.getObjTemplate(7859);
-			//Ochidée-Rousse
+			//OchidÃ©e-Rousse
 			case 70: return World.getObjTemplate(7860);
 			//Pourpre-Rousse
 			case 71: return World.getObjTemplate(7861);
-			//Turquoise-Orchidée
+			//Turquoise-OrchidÃ©e
 			case 72: return World.getObjTemplate(7862);
 			//Turquoise-Pourpre
 			case 73: return World.getObjTemplate(7863);
-			//Dorée sauvage
+			//DorÃ©e sauvage
 			case 74: return World.getObjTemplate(7864);
 			//Squelette
 			case 75: return World.getObjTemplate(7865);
-			//Orchidée-Pourpre
+			//OrchidÃ©e-Pourpre
 			case 76: return World.getObjTemplate(7866);
 			//Prune-Amande
 			case 77: return World.getObjTemplate(7867);
-			//Prune-Dorée
+			//Prune-DorÃ©e
 			case 78: return World.getObjTemplate(7868);
-			//Prune-Ebène
+			//Prune-EbÃ©ne
 			case 79: return World.getObjTemplate(7869);
 			//Prune-Emeraude
 			case 80: return World.getObjTemplate(7870);
@@ -2911,28 +2911,28 @@ public class Constants
 			case 84: return World.getObjTemplate(7873);
 			//Prune-Turquoise
 			case 85: return World.getObjTemplate(7874);
-			//Prune-Orchidée
+			//Prune-OrchidÃ©e
 			case 86: return World.getObjTemplate(7875);
 			//Prune-Pourpre
 			case 87: return World.getObjTemplate(7876);
 			//Armure
-			case 88: return World.getObjTemplate(9582);		
+			case 88: return World.getObjTemplate(9582);
 		}
 		return null;
 	}
-	
+
 	public static int getMountColorByParchoTemplate(int tID)
 	{
-		for(int a = 1;a<100;a++)if(getParchoTemplateByMountColor(a)!=null)if(getParchoTemplateByMountColor(a).getID() == tID)return a; 
+		for(int a = 1;a<100;a++)if(getParchoTemplateByMountColor(a)!=null)if(getParchoTemplateByMountColor(a).getID() == tID)return a;
 		return -1;
 	}
-	
+
 	public static void applyPlotIOAction(Personnage perso,int mID, int cID)
 	{
-		//Gère les differentes actions des "bornes" (IO des émotes)
+		//GÃ©re les differentes actions des "bornes" (IO des Ã©motes)
 		switch(mID)
 		{
-		case 2196://Création de guilde
+		case 2196://CrÃ©ation de guilde
 			if(perso.is_away())return;
 			if(perso.get_guild() != null || perso.getGuildMember() != null)
 			{
@@ -2949,7 +2949,7 @@ public class Constants
 			GameServer.addToLog("PlotIOAction non gere pour la map "+mID+" cell="+cID);
 		}
 	}
-	
+
 	public static int getNearCellidUnused(Personnage _perso)
 	{
 		int cellFront = 0;
@@ -2993,10 +2993,10 @@ public class Constants
 		{
 			return cellLeft;
 		}
-		
+
 		return -1;
 	}
-	
+
 	public static String isValidPlaceToInviteCraft(Personnage perso, int caseID)
 	{
 		int IOObject = 0;
@@ -3053,7 +3053,7 @@ public class Constants
 		{
 			IOObject = perso.get_curCarte().getCase(caseID-11).getObject().getID();
 		}
-		
+
 		String PossiblejobID = "";
 		switch(IOObject)
 		{
@@ -3138,7 +3138,7 @@ public class Constants
 				PossiblejobID = JOB_BRICOLEUR+"";
 			break;
 		}
-		//On vérifie qu'il possède le boulot
+		//On vÃ©rifie qu'il possÃ©de le boulot
 		boolean HaveJob = false;
 		if(perso.getObjetByPos(Constants.ITEM_POS_ARME) == null) return "";
 		if(PossiblejobID.isEmpty()) return "";
@@ -3153,8 +3153,8 @@ public class Constants
 			if(perso.getMetierByID(Integer.parseInt(PossiblejobID)) != null) HaveJob = true;
 		}
 		if(!HaveJob) return "";
-		
-		//On vérifie qu'il remplis les conditions pour le boulot
+
+		//On vÃ©rifie qu'il remplis les conditions pour le boulot
 		int ID = perso.getObjetByPos(Constants.ITEM_POS_ARME).getTemplate().getID();
 		String PossibleSkillID = "";
 		if(PossiblejobID.contains(","))
@@ -3295,7 +3295,7 @@ public class Constants
 			break;
 		}
 		return PossibleSkillID;
-		
+
 	}
 
 	public static int getJobIDbySkillID(int skID)
@@ -3424,6 +3424,6 @@ public class Constants
 			break;
 		}
 		return JobID;
-		
+
 	}
 }

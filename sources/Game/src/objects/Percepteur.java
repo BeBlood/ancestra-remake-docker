@@ -32,10 +32,10 @@ public class Percepteur
 	//Les logs
 	private Map<Integer,Objet> _LogObjets = new TreeMap<Integer,Objet>();
 	private long _LogXP = 0;
-	//La défense
+	//La dÃ©fense
 	private Map<Integer, Personnage> _DefensepersosID = new TreeMap<Integer, Personnage>();
-	
-	public Percepteur(int guid, short map, int cellID, byte orientation, int GuildID, 
+
+	public Percepteur(int guid, short map, int cellID, byte orientation, int GuildID,
 			short N1, short N2, String items, long kamas, long xp)
 	{
 		_guid = guid;
@@ -58,37 +58,37 @@ public class Percepteur
 		_xp = xp;
 		_kamas = kamas;
 	}
-	
-	public long getKamas() 
+
+	public long getKamas()
 	{
 		return _kamas;
 	}
-	
-	public void setKamas(long kamas) 
+
+	public void setKamas(long kamas)
 	{
 		this._kamas = kamas;
 	}
-	
-	public long getXp() 
+
+	public long getXp()
 	{
 		return _xp;
 	}
-	
-	public void setXp(long xp) 
+
+	public void setXp(long xp)
 	{
 		this._xp = xp;
 	}
-	
-	public Map<Integer, Objet> getObjets() 
+
+	public Map<Integer, Objet> getObjets()
 	{
 		return _objets;
 	}
-	
+
 	public void removeObjet(int guid)
 	{
 		_objets.remove(guid);
 	}
-	
+
 	public boolean HaveObjet(int guid)
 	{
 		if(_objets.get(guid) != null)
@@ -99,22 +99,22 @@ public class Percepteur
 			return false;
 		}
 	}
-	
+
 	public void remove_timeTurn(int time)
 	{
 		_timeTurn -= time;
 	}
-	
+
 	public void set_timeTurn(int time)
 	{
 		_timeTurn = time;
 	}
-	
+
 	public int get_turnTimer()
 	{
 		return _timeTurn;
 	}
-	
+
 	public static String parseGM(Carte map)
 	{
 		StringBuilder sock = new StringBuilder();
@@ -145,11 +145,11 @@ public class Percepteur
 		}
 		return sock.toString();
 	}
-	
+
 	public int get_guildID() {
 		return _GuildID;
 	}
-	
+
 	public void DelPerco(int percoGuid)
 	{
 		for(Objet obj : _objets.values())
@@ -159,57 +159,57 @@ public class Percepteur
 		}
 		World.getPercos().remove(percoGuid);
 	}
-	
+
 	public int get_inFight()
 	{
 		return _inFight;
 	}
-	
+
 	public void set_inFight(byte fight)
 	{
 		_inFight = fight;
 	}
-	
+
 	public int getGuid()
 	{
 		return _guid;
 	}
-	
+
 	public int get_cellID()
 	{
 		return _cellID;
 	}
-	
+
 	public void set_cellID(int id)
 	{
 		_cellID = id;
 	}
-	
+
 	public void set_inFightID(int ID)
 	{
 		_inFightID = ID;
 	}
-	
+
 	public int get_inFightID()
 	{
 		return _inFightID;
 	}
-	
+
 	public short get_mapID()
 	{
 		return _MapID;
 	}
-	
+
 	public int get_N1()
 	{
 		return _N1;
 	}
-	
+
 	public int get_N2()
 	{
 		return _N2;
 	}
-	
+
 	public static String parsetoGuild(int GuildID)
 	{
 		StringBuilder packet = new StringBuilder();
@@ -222,7 +222,7 @@ public class Percepteur
 				 	if(isFirst) packet.append("+");
 	    			if(!isFirst) packet.append("|");
 	    			packet.append(perco.getValue().getGuid()).append(";").append(perco.getValue().get_N1()).append(",").append(perco.getValue().get_N2()).append(";");
-	    			
+
 	    			packet.append(Integer.toString(map.get_id(), 36)).append(",").append(map.getX()).append(",").append(map.getY()).append(";");
 	    			packet.append(perco.getValue().get_inFight()).append(";");
 	    			if(perco.getValue().get_inFight() == 1)
@@ -247,7 +247,7 @@ public class Percepteur
 	    				packet.append("?,?,");
 	    			}
 	    			packet.append("1,2,3,4,5");
-	    			
+
 	    			//	?,?,callername,startdate(Base 10),lastHarvesterName,lastHarvestDate(Base 10),nextHarvestDate(Base 10)
 	    			isFirst = false;
     		 }else
@@ -258,9 +258,9 @@ public class Percepteur
 		if(packet.length() == 0) packet = new StringBuilder("null");
 		return packet.toString();
 	}
-	
+
 	public static int GetPercoGuildID(int _id) {
-		
+
 		for(Entry<Integer, Percepteur> perco :  World.getPercos().entrySet())
 		{
 			if(perco.getValue().get_mapID() == _id)
@@ -270,14 +270,14 @@ public class Percepteur
 		}
 		return 0;
 	}
-	
+
 	public int GetPercoGuildID() {
-		
+
 		return get_guildID();
 	}
-	
+
 	public static Percepteur GetPercoByMapID(short _id) {
-		
+
 		for(Entry<Integer, Percepteur> perco :  World.getPercos().entrySet())
 		{
 			if(perco.getValue().get_mapID() == _id)
@@ -287,7 +287,7 @@ public class Percepteur
 		}
 		return null;
 	}
-	
+
 	public static int CountPercoGuild(int GuildID) {
 		int i = 0;
 		for(Entry<Integer, Percepteur> perco :  World.getPercos().entrySet())
@@ -299,10 +299,10 @@ public class Percepteur
 		}
 		return i;
 	}
-	
+
 	public static void parseAttaque(Personnage perso, int guildID)
 	{
-		for(Entry<Integer, Percepteur> perco :  World.getPercos().entrySet()) 
+		for(Entry<Integer, Percepteur> perco :  World.getPercos().entrySet())
 		{
 			if(perco.getValue().get_inFight() > 0 && perco.getValue().get_guildID() == guildID)
 			{
@@ -310,10 +310,10 @@ public class Percepteur
 			}
 		}
 	}
-	
+
 	public static void parseDefense(Personnage perso, int guildID)
 	{
-		for(Entry<Integer, Percepteur> perco :  World.getPercos().entrySet()) 
+		for(Entry<Integer, Percepteur> perco :  World.getPercos().entrySet())
 		{
 			if(perco.getValue().get_inFight() > 0 && perco.getValue().get_guildID() == guildID)
 			{
@@ -321,12 +321,12 @@ public class Percepteur
 			}
 		}
 	}
-	
+
 	public static String parseAttaqueToGuild(Percepteur perco)
 	{
 		StringBuilder str = new StringBuilder();
 		str.append("+").append(perco.getGuid());
-		
+
 		Fight F = World.getCarte(perco.get_mapID()).getFight(perco.get_inFightID());
 		for(Fighter f : F.getFighters(1))//Attaque
 		{
@@ -338,12 +338,12 @@ public class Percepteur
 		}
 		return str.toString();
 	}
-	
+
 	public static String parseDefenseToGuild(Percepteur perco)
 	{
 		StringBuilder str = new StringBuilder();
 		str.append("+").append(perco.getGuid());
-		
+
 		for(Entry<Integer, Personnage> P : perco.getDefenseFight().entrySet())//Defense
 		{
 			Personnage p = P.getValue();
@@ -360,7 +360,7 @@ public class Percepteur
 		}
 		return str.toString();
 	}
-	
+
 	public String getItemPercepteurList()
 	{
 		StringBuilder items = new StringBuilder();
@@ -374,7 +374,7 @@ public class Percepteur
 		if(_kamas != 0) items.append("G").append(_kamas);
 		return items.toString();
 	}
-	
+
 	public String parseItemPercepteur()
 	{
 		String items = "";
@@ -384,15 +384,15 @@ public class Percepteur
 		}
 		return items;
 	}
-	
-	
+
+
 	public void removeFromPercepteur(Personnage P, int guid, int qua)
 	{
 		Objet PercoObj = World.getObjet(guid);
 		Objet PersoObj = P.getSimilarItem(PercoObj);
-		
+
 		int newQua = PercoObj.getQuantity() - qua;
-		
+
 		if(PersoObj == null)//Si le joueur n'avait aucun item similaire
 		{
 			//S'il ne reste rien
@@ -402,15 +402,15 @@ public class Percepteur
 				removeObjet(guid);
 				//On l'ajoute au joueur
 				P.addObjet(PercoObj);
-				
+
 				//On envoie les packets
 				SocketManager.GAME_SEND_OAKO_PACKET(P,PercoObj);
 				String str = "O-"+guid;
 				SocketManager.GAME_SEND_EsK_PACKET(P, str);
-				
+
 			}else //S'il reste des objets
 			{
-				//On crée une copy de l'item
+				//On crÃ©e une copy de l'item
 				PersoObj = Objet.getCloneObjet(PercoObj, qua);
 				//On l'ajoute au monde
 				World.addObjet(PersoObj, true);
@@ -418,12 +418,12 @@ public class Percepteur
 				PercoObj.setQuantity(newQua);
 				//On l'ajoute au joueur
 				P.addObjet(PersoObj);
-				
+
 				//On envoie les packets
 				SocketManager.GAME_SEND_OAKO_PACKET(P,PersoObj);
 				String str = "O+"+PercoObj.getGuid()+"|"+PercoObj.getQuantity()+"|"+PercoObj.getTemplate().getID()+"|"+PercoObj.parseStatsString();
 				SocketManager.GAME_SEND_EsK_PACKET(P, str);
-				
+
 			}
 		}
 		else
@@ -434,14 +434,14 @@ public class Percepteur
 				//On retire l'item
 				this.removeObjet(guid);
 				World.removeItem(PercoObj.getGuid());
-				//On Modifie la quantité de l'item du sac du joueur
+				//On Modifie la quantitÃ© de l'item du sac du joueur
 				PersoObj.setQuantity(PersoObj.getQuantity() + PercoObj.getQuantity());
-				
+
 				//On envoie les packets
 				SocketManager.GAME_SEND_OBJECT_QUANTITY_PACKET(P, PersoObj);
 				String str = "O-"+guid;
 				SocketManager.GAME_SEND_EsK_PACKET(P, str);
-				
+
 			}
 			else//S'il reste des objets
 			{
@@ -449,33 +449,33 @@ public class Percepteur
 				PercoObj.setQuantity(newQua);
 				//On ajoute X objets
 				PersoObj.setQuantity(PersoObj.getQuantity() + qua);
-				
+
 				//On envoie les packets
 				SocketManager.GAME_SEND_OBJECT_QUANTITY_PACKET(P,PersoObj);
 				String str = "O+"+PercoObj.getGuid()+"|"+PercoObj.getQuantity()+"|"+PercoObj.getTemplate().getID()+"|"+PercoObj.parseStatsString();
 				SocketManager.GAME_SEND_EsK_PACKET(P, str);
-				
+
 			}
 		}
 		SocketManager.GAME_SEND_Ow_PACKET(P);
 		SQLManager.SAVE_PERSONNAGE(P, true);
 	}
-	
+
 	public void LogXpDrop(long Xp)
 	{
 		_LogXP += Xp;
 	}
-	
+
 	public void LogObjetDrop(int guid, Objet obj)
 	{
 		_LogObjets.put(guid, obj);
 	}
-	
+
 	public long get_LogXp()
 	{
 		return _LogXP;
 	}
-	
+
 	public String get_LogItems()
 	{
 		StringBuilder str = new StringBuilder();
@@ -489,22 +489,22 @@ public class Percepteur
 		}
 		return str.toString();
 	}
-	
+
 	public void addObjet(Objet newObj)
 	{
 		_objets.put(newObj.getGuid(), newObj);
 	}
-	
+
 	public void set_Exchange(boolean Exchange)
 	{
 		_inExchange = Exchange;
 	}
-	
+
 	public boolean get_Exchange()
 	{
 		return _inExchange;
 	}
-	
+
 	public static void removePercepteur(int GuildID)
 	{
 		for(Entry<Integer, Percepteur> perco : World.getPercos().entrySet())
@@ -523,7 +523,7 @@ public class Percepteur
 			}
 		}
 	}
-	
+
 	public boolean addDefenseFight(Personnage P)
 	{
 		if(_DefensepersosID.size() >= World.getCarte(this.get_mapID()).get_maxTeam1())
@@ -535,27 +535,27 @@ public class Percepteur
 			return true;
 		}
 	}
-	
+
 	public void delDefenseFight(Personnage P)
 	{
 		if(_DefensepersosID.containsKey(P.get_GUID()))
 			_DefensepersosID.remove(P.get_GUID());
 	}
-	
+
 	public void clearDefenseFight()
 	{
 		_DefensepersosID.clear();
 	}
-	
+
 	public Map<Integer, Personnage> getDefenseFight()
 	{
 		return _DefensepersosID;
 	}
-	
+
 	public ArrayList<Drop> getDrops()
 	{
 		ArrayList<Drop> toReturn = new ArrayList<World.Drop>();
-		for(Objet obj : _objets.values()) 
+		for(Objet obj : _objets.values())
 		{
 			toReturn.add(new Drop(obj.getTemplate().getID(),0, 100, obj.getQuantity()));
 		}

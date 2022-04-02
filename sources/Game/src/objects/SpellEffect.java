@@ -34,7 +34,7 @@ public class SpellEffect
 		private boolean debuffable = true;
 		private int duration = 0;
 		private Case cell = null;
-		
+
 		public SpellEffect(int aID,String aArgs,int aSpell,int aSpellLevel)
 		{
 			effectID = aID;
@@ -44,14 +44,14 @@ public class SpellEffect
 			try
 			{
 				value = Integer.parseInt(args.split(";")[0]);
-				
+
 				turns = Integer.parseInt(args.split(";")[3]);
 				chance= Integer.parseInt(args.split(";")[4]);
 				jet = args.split(";")[5];
-				
+
 			}catch(Exception e){};
 		}
-				
+
 		public SpellEffect(int id, int value2, int aduration, int turns2, boolean debuff,Fighter aCaster, String args2, int aspell)
 		{
 			effectID = id;
@@ -79,22 +79,22 @@ public class SpellEffect
 			return false;
 			}
 		}
-		
+
 		public int getDuration()
 		{
 			return duration;
 		}
-		
+
 		public int getTurn()
 		{
 			return turns;
 		}
-		
+
 		public boolean isDebuffabe()
 		{
 			return debuffable;
 		}
-		
+
 		public void setTurn(int turn)
 		{
 			this.turns = turn;
@@ -114,8 +114,8 @@ public class SpellEffect
 		{
 			return value;
 		}
-		
-		
+
+
 		public int getChance()
 		{
 			return chance;
@@ -128,7 +128,7 @@ public class SpellEffect
 
 		public static ArrayList<Fighter> getTargets(SpellEffect SE,Fight fight, ArrayList<Case> cells)
 		{
-			ArrayList<Fighter> cibles = new ArrayList<Fighter>(); 
+			ArrayList<Fighter> cibles = new ArrayList<Fighter>();
 			for(Case aCell : cells)
 			{
 				if(aCell == null)continue;
@@ -138,7 +138,7 @@ public class SpellEffect
 			}
 			return cibles;
 		}
-		
+
 		public void setValue(int i)
 		{
 			value = i;
@@ -157,7 +157,7 @@ public class SpellEffect
 			turns = -1;
 			applyToFight(_fight,caster,cible,false);
 		}
-		
+
 		public void applyToFight(Fight fight, Fighter perso,Case Cell,ArrayList<Fighter> cibles)
 		{
 			cell = Cell;
@@ -182,12 +182,12 @@ public class SpellEffect
 							int nbrCase = 0;
 							try
 							{
-								nbrCase = Integer.parseInt(buff.getArgs().split(";")[1]);	
+								nbrCase = Integer.parseInt(buff.getArgs().split(";")[1]);
 							}catch(Exception e){};
 							if(nbrCase == 0)continue;
 							int exCase = target.get_fightCell().getID();
 							int newCellID = Pathfinding.newCaseAfterPush(fight.get_map(), caster.get_fightCell(), target.get_fightCell(), nbrCase);
-							if(newCellID <0)//S'il a ÈtÈ bloquÈ
+							if(newCellID <0)//S'il a √©t√© bloqu√©
 							{
 								int a = -newCellID;
 								a = nbrCase-a;
@@ -201,7 +201,7 @@ public class SpellEffect
 							target.set_fightCell(fight.get_map().getCase(newCellID));
 							target.get_fightCell().addFighter(target);
 							SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 5, target.getGUID()+"", target.getGUID()+","+newCellID);
-							
+
 							ArrayList<Piege> P = (new ArrayList<Piege>());
 							P.addAll(fight.get_traps());
 							for(Piege p : P)
@@ -214,8 +214,8 @@ public class SpellEffect
 							if(exCase != newCellID)
 								finalDommage = 0;
 						break;
-							
-						case 79://chance Èca
+
+						case 79://chance √©ca
 							try
 							{
 								String[] infos = buff.getArgs().split(";");
@@ -223,7 +223,7 @@ public class SpellEffect
 								int coefHeal = Integer.parseInt(infos[1]);
 								int chance = Integer.parseInt(infos[2]);
 								int jet = Formulas.getRandomValue(0, 99);
-								
+
 								if(jet < chance)//Soin
 								{
 									finalDommage = -(finalDommage*coefHeal);
@@ -232,7 +232,7 @@ public class SpellEffect
 									finalDommage = finalDommage*coefDom;
 							}catch(Exception e){};
 						break;
-						
+
 						case 107://renvoie Dom
 							String[] args = buff.getArgs().split(";");
 							float coef = 1+(target.getTotalStats().getEffect(Constants.STATS_ADD_SAGE)/100);
@@ -255,7 +255,7 @@ public class SpellEffect
 							caster.removePDV(renvoie);
 							SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, caster.getGUID()+"", caster.getGUID()+",-"+renvoie);
 						break;
-						
+
 						case 788://Chatiments
 							int taux = (caster.getPersonnage() == null?1:2);
 							int gain = finalDommage / taux;
@@ -274,12 +274,12 @@ public class SpellEffect
 								target.get_chatiValue().put(stat, max);
 								break;
 							}
-							//on retire au max possible la valeur dÈj‡ gagnÈ sur le chati
+							//on retire au max possible la valeur d√©j√© gagn√© sur le chati
 							int a = (target.get_chatiValue().get(stat)==null?0:target.get_chatiValue().get(stat));
 							max -= a;
 							//Si gain trop grand, on le reduit au max
 							if(gain > max)gain = max;
-							
+
 							//on ajoute le buff
 							target.addBuff(stat, gain, 5, 1, false, buff.getSpell(), buff.getArgs(), caster);
 							SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, stat, caster.getGUID()+"", target.getGUID()+","+gain+","+5);
@@ -287,17 +287,17 @@ public class SpellEffect
 							int value = a + gain;
 							target.get_chatiValue().put(stat, value);
 						break;
-						
+
 						default:
 							GameServer.addToLog("Effect id "+id+" definie comme ON_HIT_BUFF mais n'a pas d'effet definie dans ce gestionnaire.");
 						break;
 					}
 				}
 			}
-			
+
 			return finalDommage;
 		}
-		
+
 		public Fighter getCaster()
 		{
 			return caster;
@@ -307,17 +307,17 @@ public class SpellEffect
 		{
 			return spell;
 		}
-		
+
 		public void applyToFight(Fight fight,Fighter acaster, ArrayList<Fighter> cibles, boolean isCaC)
 		{
 			GameServer.addToLog("Effet id: "+effectID+" Args: "+args+" turns: "+turns+" cibles: "+cibles.size()+" chance: "+chance);
 			try
 			{
-				if(turns != -1)//Si ce n'est pas un buff qu'on applique en dÈbut de tour
+				if(turns != -1)//Si ce n'est pas un buff qu'on applique en d√©but de tour
 					turns = Integer.parseInt(args.split(";")[3]);
 			}catch(NumberFormatException e){}
 			caster = acaster;
-			
+
 			if((fight.get_type() == Constants.FIGHT_TYPE_CHALLENGE) && (fight.get_challenges().size() > 0))
 			{
 				for (Entry<Integer, Challenge> c : fight.get_challenges().entrySet())
@@ -326,10 +326,10 @@ public class SpellEffect
 					c.getValue().onFighters_attacked(cibles, caster, effectID);
 				}
 			}
-			
+
 			switch(effectID)
 			{
-				case 4://Fuite/Bond du fÈlin/ Bond du iop / tÈlÈport
+				case 4://Fuite/Bond du f√©lin/ Bond du iop / t√©l√©port
 					applyEffect_4(fight,cibles);
 				break;
 				case 5://Repousse de X case
@@ -338,35 +338,35 @@ public class SpellEffect
 				case 6://Attire de X case
 					applyEffect_6(cibles,fight);
 				break;
-				
+
 				case 8://Echange les place de 2 joueur
 					applyEffect_8(cibles,fight);
 				break;
 				case 9://Esquive une attaque en reculant de 1 case
 					applyEffect_9(cibles,fight);
 				break;
-				
+
 				case 50://Porter
 					applyEffect_50(fight);
 				break;
 				case 51://jeter
 					applyEffect_51(fight);
 				break;
-				
+
 				case 77://Vol de PM
 					applyEffect_77(cibles,fight);
 				break;
 				case 78://Bonus PM
 					applyEffect_78(cibles,fight);
 				break;
-				case 79:// + X chance(%) dommage subis * Y sinon soignÈ de dommage *Z
+				case 79:// + X chance(%) dommage subis * Y sinon soign√© de dommage *Z
 					applyEffect_79(cibles,fight);
 				break;
-				
+
 				case 82://Vol de Vie fixe
 					applyEffect_82(cibles,fight);
 				break;
-				
+
 				case 84://Vol de PA
 					applyEffect_84(cibles,fight);
 				break;
@@ -406,13 +406,13 @@ public class SpellEffect
 				case 96://Dommage Eau
 					applyEffect_96(cibles,fight,isCaC);
 				break;
-				case 97://Dommage Terre 
+				case 97://Dommage Terre
 					applyEffect_97(cibles,fight,isCaC);
-				break; 
-				case 98://Dommage Air 
+				break;
+				case 98://Dommage Air
 					applyEffect_98(cibles,fight,isCaC);
 				break;
-				case 99://Dommage feu 
+				case 99://Dommage feu
 					applyEffect_99(cibles,fight,isCaC);
 				break;
 				case 100://Dommage neutre
@@ -421,8 +421,8 @@ public class SpellEffect
 				case 101://Retrait PA
 					applyEffect_101(cibles,fight);
 				break;
-				
-				case 105://Dommages rÈduits de X
+
+				case 105://Dommages r√©duits de X
 					applyEffect_105(cibles,fight);
 				break;
 				case 106://Renvoie de sort
@@ -446,7 +446,7 @@ public class SpellEffect
 				case 112://+Dom
 					applyEffect_112(cibles,fight);
 				break;
-				
+
 				case 114://Multiplie les dommages par X
 					applyEffect_114(cibles,fight);
 				break;
@@ -462,7 +462,7 @@ public class SpellEffect
 				case 118://Bonus force
 					applyEffect_118(cibles,fight);
 				break;
-				case 119://Bonus AgilitÈ
+				case 119://Bonus Agilit√©
 					applyEffect_119(cibles,fight);
 				break;
 				case 120://Bonus PA
@@ -480,7 +480,7 @@ public class SpellEffect
 				case 124://+Sagesse
 					applyEffect_124(cibles,fight);
 				break;
-				case 125://+VitalitÈ
+				case 125://+Vitalit√©
 					applyEffect_125(cibles,fight);
 				break;
 				case 126://+Intelligence
@@ -492,18 +492,18 @@ public class SpellEffect
 				case 128://+PM
 					applyEffect_128(cibles,fight);
 				break;
-				
+
 				case 131://Poison : X Pdv  par PA
 					applyEffect_131(cibles,fight);
 				break;
 				case 132://Enleve les envoutements
 					applyEffect_132(cibles,fight);
 				break;
-				
+
 				case 138://%dom
 					applyEffect_138(cibles,fight);
 				break;
-				
+
 				case 140://Passer le tour
 					applyEffect_140(cibles,fight);
 				break;
@@ -513,22 +513,22 @@ public class SpellEffect
 				case 142://Dommages physique
 					applyEffect_142(fight,cibles);
 				break;
-				
+
 				case 145://Malus Dommage
 					applyEffect_145(fight,cibles);
 				break;
-				
+
 				case 149://Change l'apparence
 					applyEffect_149(fight,cibles);
 				break;
-				case 150://InvisibilitÈ
+				case 150://Invisibilit√©
 					applyEffect_150(fight,cibles);
 				break;
-				
+
 				case 155:// - Intell
 					applyEffect_155(fight,cibles);
 				break;
-				
+
 				case 160:// + Esquive PA
 					applyEffect_160(fight,cibles);
 				break;
@@ -541,17 +541,17 @@ public class SpellEffect
 				case 163:// - Esquive PM
 					applyEffect_163(fight,cibles);
 				break;
-				case 165:// MaÓtrises
+				case 165:// Ma√©trises
 					applyEffect_165(fight,cibles);
 				break;
-				
+
 				case 168://Perte PA non esquivable
 					applyEffect_168(fight,cibles);
 				break;
 				case 169://Perte PM non esquivable
 					applyEffect_169(fight,cibles);
 				break;
-				
+
 				case 171://Malus CC
 					applyEffect_171(fight,cibles);
 				break;
@@ -559,7 +559,7 @@ public class SpellEffect
 				case 180://Double du sram
 					applyEffect_180(fight);
 				break;
-				case 181://Invoque une crÈature
+				case 181://Invoque une cr√©ature
 					applyEffect_181(fight);
 				break;
 				case 182://+ Crea Invoc
@@ -574,11 +574,11 @@ public class SpellEffect
 				case 185://Invoque une creature statique
 					applyEffect_185(fight);
 				break;
-				
+
 				case 202://Perception
 					applyEffect_202(fight, cibles);
 				break;
-				
+
 				case 210://Resist % terre
 					applyEffect_210(fight,cibles);
 				break;
@@ -609,17 +609,17 @@ public class SpellEffect
 				case 219://Faiblesse % neutre
 					applyEffect_219(fight,cibles);
 				break;
-				
+
 				case 265://Reduit les Dom de X
 					applyEffect_265(fight,cibles);
 				break;
 				case 266://Vol Chance
 					applyEffect_266(fight,cibles);
 				break;
-				case 267://Vol vitalitÈ
+				case 267://Vol vitalit√©
 					applyEffect_267(fight,cibles);
 				break;
-				case 268://Vol agitlitÈ
+				case 268://Vol agitlit√©
 					applyEffect_268(fight,cibles);
 				break;
 				case 269://Vol intell
@@ -631,67 +631,67 @@ public class SpellEffect
 				case 271://Vol force
 					applyEffect_271(fight,cibles);
 				break;
-				
-				case 293://Augmente les dÈg‚ts de base du sort X de Y
+
+				case 293://Augmente les d√©g√©ts de base du sort X de Y
 					applyEffect_293(fight);
 				break;
-				
+
 				case 320://Vol de PO
 					applyEffect_320(fight,cibles);
 				break;
-				
-				case 400://CrÈer un  piËge
+
+				case 400://Cr√©er un  pi√©ge
 					applyEffect_400(fight);
 				break;
-				case 401://CrÈer un glyphe
+				case 401://Cr√©er un glyphe
 					applyEffect_401(fight);
 				break;
-				
+
 				case 402://Glyphe des Blop
 					applyEffect_402(fight);
 				break;
-				
-				case 666://Pas d'effet complÈmentaire
+
+				case 666://Pas d'effet compl√©mentaire
 				break;
-				
+
 				case 672://Dommages : X% de la vie de l'attaquant (neutre)
 					applyEffect_672(cibles,fight);
 				break;
-				
+
 				case 765://sacrifice
 					applyEffect_765(cibles,fight);
 				break;
-				
+
 				case 780://laisse spirituelle
 					applyEffect_780(fight);
 				break;
-				
-				case 782://Maximise les effets alÈatoires
+
+				case 782://Maximise les effets al√©atoires
 					applyEffect_782(cibles,fight);
 				break;
-				
-				case 783://Pousse jusqu'a la case visÈ
+
+				case 783://Pousse jusqu'a la case vis√©
 					applyEffect_783(cibles,fight);
 				break;
 
 				case 788://Chatiment de X sur Y tours
 					applyEffect_788(cibles,fight);
 				break;
-				
+
 				case 950://Etat X
 					applyEffect_950(fight,cibles);
 				break;
 				case 951://Enleve l'Etat X
 					applyEffect_951(fight,cibles);
 				break;
-				
+
 				default:
 					GameServer.addToLog("effet non implante : "+effectID+" args: "+args);
 				break;
 			}
 		}
 
-		private void applyEffect_202(Fight fight, ArrayList<Fighter> cibles) 
+		private void applyEffect_202(Fight fight, ArrayList<Fighter> cibles)
 		{
 			// TODO A tester !
 			if(spell == 113)
@@ -701,7 +701,7 @@ public class SpellEffect
 				{
 					if(target.isHide()) target.unHide(spell);
 				}
-				//unhide des piËges
+				//unhide des pi√©ges
 				for(Piege p : fight.get_traps())
 				{
 					p.set_isunHide(caster);
@@ -710,14 +710,14 @@ public class SpellEffect
 			}
 		}
 
-		private void applyEffect_782(ArrayList<Fighter> cibles, Fight fight) 
+		private void applyEffect_782(ArrayList<Fighter> cibles, Fight fight)
 		{
 			// TODO : Brokle ?
 			caster.addBuff(effectID, value, turns, 1, debuffable, spell, args, caster);
-			
+
 		}
 
-		private void applyEffect_165(Fight fight, ArrayList<Fighter> cibles) 
+		private void applyEffect_165(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int value = -1;
 			try
@@ -735,17 +735,17 @@ public class SpellEffect
 			Fighter target = caster.get_isHolding();
 			if(target == null)return;
 			//if(target.isState(6))return;//Stabilisation
-			
-			//on ajoute le portÈ a sa case
+
+			//on ajoute le port√© a sa case
 			target.set_fightCell(cell);
 			target.get_fightCell().addFighter(target);
-			//on enleve les Ètats
+			//on enleve les √©tats
 			target.setState(Constants.ETAT_PORTE, 0);
 			caster.setState(Constants.ETAT_PORTEUR, 0);
-			//on dÈ-lie les 2 Fighter
+			//on d√©-lie les 2 Fighter
 			target.set_holdedBy(null);
 			caster.set_isHolding(null);
-			
+
 			//on envoie les packets
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 51, caster.getGUID()+"", cell.getID()+"");
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 950, target.getGUID()+"", target.getGUID()+","+Constants.ETAT_PORTE+",0");
@@ -779,7 +779,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_951(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int id = -1;
@@ -788,37 +788,37 @@ public class SpellEffect
 				id = Integer.parseInt(args.split(";")[2]);
 			}catch(Exception e){}
 			if(id == -1)return;
-			
+
 			for(Fighter target : cibles)
 			{
-				//Si la cible n'a pas l'Ètat
+				//Si la cible n'a pas l'√©tat
 				if(!target.isState(id))continue;
-				//on enleve l'Ètat
+				//on enleve l'√©tat
 				target.setState(id, 0);
 				//on envoie le packet
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 950, caster.getGUID()+"", target.getGUID()+","+id+",0");
 			}
 		}
-		
+
 		private void applyEffect_50(Fight fight)
 		{
 			//Porter
 			Fighter target = cell.getFirstFighter();
 			if(target == null)return;
 			if(target.isState(6))return;//Stabilisation
-			
-			//on enleve le portÈ de sa case
+
+			//on enleve le port√© de sa case
 			target.get_fightCell().getFighters().clear();
-			//on lui dÈfinie sa nouvelle case
+			//on lui d√©finie sa nouvelle case
 			target.set_fightCell(caster.get_fightCell());
-			
-			//on applique les Ètats
+
+			//on applique les √©tats
 			target.setState(Constants.ETAT_PORTE, -1);
 			caster.setState(Constants.ETAT_PORTEUR, -1);
 			//on lie les 2 Fighter
 			target.set_holdedBy(caster);
 			caster.set_isHolding(target);
-			
+
 			//on envoie les packets
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 950, target.getGUID()+"", target.getGUID()+","+Constants.ETAT_PORTE+",1");
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 950, caster.getGUID()+"", caster.getGUID()+","+Constants.ETAT_PORTEUR+",1");
@@ -828,9 +828,9 @@ public class SpellEffect
 		private void applyEffect_788(ArrayList<Fighter> cibles, Fight fight)
 		{
 			//caster.addBuff(effectID, value, turns, 1, false, spell, args, caster);
-			for(Fighter target : cibles) 
-			{ 
-				target.addBuff(effectID, value, turns, 1, false, spell, args, target); 
+			for(Fighter target : cibles)
+			{
+				target.addBuff(effectID, value, turns, 1, false, spell, args, target);
 			}
 		}
 
@@ -854,7 +854,7 @@ public class SpellEffect
 			}catch(Exception e){}
 			MobGrade MG = null;
 			try{
-				
+
 				MG = World.getMonstre(mobID).getGradeByLevel(level).getCopy();
 			}catch(Exception e1){
 				GameServer.addToLog("Erreur sur le monstre id:"+mobID);
@@ -871,7 +871,7 @@ public class SpellEffect
 			fight.addFighterInTeam(F,caster.getTeam());
 			String gm = F.getGmPacket('+').substring(3);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 181, caster.getGUID() + "", gm);
-			
+
 		}
 
 		private void applyEffect_293(Fight fight)
@@ -891,7 +891,7 @@ public class SpellEffect
 			double taux = (Math.pow((cos+1),2))/(double)4;
 			double dgtMax = val * pdvMax;
 			int dgt = (int) (taux * dgtMax);
-			
+
 			for(Fighter target : cibles)
 			{
 				//si la cible a le buff renvoie de sort
@@ -909,9 +909,9 @@ public class SpellEffect
 						target = target.getBuff(765).getCaster();
 					}
 				}
-				
-				int finalDommage = applyOnHitBuffs(dgt,target,caster,fight);//S'il y a des buffs spÈciaux
-				
+
+				int finalDommage = applyOnHitBuffs(dgt,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 				if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 				target.removePDV(finalDommage);
 				finalDommage = -(finalDommage);
@@ -927,20 +927,20 @@ public class SpellEffect
 
 		private void applyEffect_783(ArrayList<Fighter> cibles, Fight fight)
 		{
-			//Pousse jusqu'a la case visÈe
+			//Pousse jusqu'a la case vis√©e
 			Case ccase = caster.get_fightCell();
 			//On calcule l'orientation entre les 2 cases
 			char d = Pathfinding.getDirBetweenTwoCase(ccase.getID(),cell.getID(), fight.get_map(), true);
-			//On calcule l'id de la case a cotÈ du lanceur dans la direction obtenue
+			//On calcule l'id de la case a cot√© du lanceur dans la direction obtenue
 			int tcellID = Pathfinding.GetCaseIDFromDirrection(ccase.getID(), d, fight.get_map(), true);
 			//on prend la case corespondante
 			Case tcase = fight.get_map().getCase(tcellID);
 			if(tcase == null)return;
 			//S'il n'y a personne sur la case, on arrete
 			if(tcase.getFighters().isEmpty())return;
-			//On prend le Fighter ciblÈ
+			//On prend le Fighter cibl√©
 			Fighter target = tcase.getFirstFighter();
-			//On verifie qu'il peut aller sur la case ciblÈ en ligne droite
+			//On verifie qu'il peut aller sur la case cibl√© en ligne droite
 			int c1 = tcellID;
 			int limite = 0;
 			while(true)
@@ -953,11 +953,11 @@ public class SpellEffect
 				limite++;
 				if(limite > 50)return;
 			}
-			
+
 			target.get_fightCell().getFighters().clear();
 			target.set_fightCell(cell);
 			target.get_fightCell().addFighter(target);
-			
+
 			ArrayList<Piege> P = (new ArrayList<Piege>());
 			P.addAll(fight.get_traps());
 			for(Piege p : P)
@@ -989,13 +989,13 @@ public class SpellEffect
 					//si les 2 joueurs ne sont pas dans la meme team, on ignore
 					if(target.getTeam() != caster.getTeam())return;
 				break;
-				
+
 				case 445://Coop
 					//si les 2 joueurs sont dans la meme team, on ignore
 					if(target.getTeam() == caster.getTeam())return;
 				break;
-				
-				case 449://DÈtour
+
+				case 449://D√©tour
 				default:
 				break;
 			}
@@ -1005,7 +1005,7 @@ public class SpellEffect
 			//on retient les cases
 			Case exTarget = target.get_fightCell();
 			Case exCaster = caster.get_fightCell();
-			//on Èchange les cases
+			//on √©change les cases
 			target.set_fightCell(exCaster);
 			caster.set_fightCell(exTarget);
 			//on ajoute les fighters aux cases
@@ -1023,7 +1023,7 @@ public class SpellEffect
 			}
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 4, caster.getGUID()+"", target.getGUID()+","+exCaster.getID());
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 4, caster.getGUID()+"", caster.getGUID()+","+exTarget.getID());
-			
+
 		}
 
 		private void applyEffect_266(Fight fight, ArrayList<Fighter> cibles)
@@ -1057,7 +1057,7 @@ public class SpellEffect
 			caster.addBuff(Constants.STATS_ADD_VITA, vol, turns, 1, false, spell, args, caster);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, Constants.STATS_ADD_VITA, caster.getGUID()+"", caster.getGUID()+","+vol+","+turns);
 		}
-		
+
 		private void applyEffect_268(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1073,7 +1073,7 @@ public class SpellEffect
 			caster.addBuff(Constants.STATS_ADD_AGIL, vol, turns, 1, false, spell, args, caster);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, Constants.STATS_ADD_AGIL, caster.getGUID()+"", caster.getGUID()+","+vol+","+turns);
 		}
-		
+
 		private void applyEffect_269(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1089,7 +1089,7 @@ public class SpellEffect
 			caster.addBuff(Constants.STATS_ADD_INTE, vol, turns, 1, false, spell, args, caster);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, Constants.STATS_ADD_INTE, caster.getGUID()+"", caster.getGUID()+","+vol+","+turns);
 		}
-		
+
 		private void applyEffect_270(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1105,7 +1105,7 @@ public class SpellEffect
 			caster.addBuff(Constants.STATS_ADD_SAGE, vol, turns, 1, false, spell, args, caster);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, Constants.STATS_ADD_SAGE, caster.getGUID()+"", caster.getGUID()+","+vol+","+turns);
 		}
-		
+
 		private void applyEffect_271(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1121,7 +1121,7 @@ public class SpellEffect
 			caster.addBuff(Constants.STATS_ADD_FORC, vol, turns, 1, false, spell, args, caster);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, Constants.STATS_ADD_FORC, caster.getGUID()+"", caster.getGUID()+","+vol+","+turns);
 		}
-		
+
 		private void applyEffect_210(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1365,7 +1365,7 @@ public class SpellEffect
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
 			}
 		}
-		
+
 		private void applyEffect_149(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int id = -1;
@@ -1386,7 +1386,7 @@ public class SpellEffect
 				target.addBuff(effectID, id, turns, 1, true, spell, args, caster);
 				int defaut = target.getDefaultGfx();
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+defaut+","+id+","+turns);
-			}	
+			}
 		}
 
 		private void applyEffect_182(Fight fight, ArrayList<Fighter> cibles)
@@ -1418,7 +1418,7 @@ public class SpellEffect
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
 			}
 		}
-		
+
 		private void applyEffect_183(Fight fight, ArrayList<Fighter> cibles)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1488,11 +1488,11 @@ public class SpellEffect
 				target.addBuff(effectID, 0, turns, 0, true,spell, args, caster);
 			}
 		}
-		
+
 		private void applyEffect_402(Fight fight)
 		{
 			if(!cell.isWalkable(true))return;//Si case pas marchable
-			
+
 			String[] infos = args.split(";");
 			int spellID = Short.parseShort(infos[0]);
 			int level = Byte.parseByte(infos[1]);
@@ -1513,7 +1513,7 @@ public class SpellEffect
 		{
 			if(!cell.isWalkable(true))return;//Si case pas marchable
 			if(cell.getFirstFighter() != null)return;//Si la case est prise par un joueur
-			
+
 			String[] infos = args.split(";");
 			int spellID = Short.parseShort(infos[0]);
 			int level = Byte.parseByte(infos[1]);
@@ -1534,7 +1534,7 @@ public class SpellEffect
 		{
 			if(!cell.isWalkable(true))return;//Si case pas marchable
 			if(cell.getFirstFighter() != null)return;//Si la case est prise par un joueur
-			
+
 			//Si la case est prise par le centre d'un piege
 			for(Piege p :fight.get_traps())if(p.get_cell().getID() == cell.getID())return;
 
@@ -1551,9 +1551,9 @@ public class SpellEffect
 			String str = "GDZ+"+cell.getID()+";"+size+";"+unk;
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, team, 999, caster.getGUID()+"", str);
 			str = "GDC"+cell.getID()+";Haaaaaaaaz3005;";
-			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, team, 999, caster.getGUID()+"", str);	
+			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, team, 999, caster.getGUID()+"", str);
 		}
-		
+
 		private void applyEffect_116(ArrayList<Fighter> cibles, Fight fight)//Malus PO
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1566,9 +1566,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}		
+			}
 		}
-		
+
 		private void applyEffect_117(ArrayList<Fighter> cibles, Fight fight)//Bonus PO
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1583,9 +1583,9 @@ public class SpellEffect
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
 				//Gain de PO pendant le tour de jeu
 				if(target.canPlay() && target == caster) target.getTotalStats().addOneStat(Constants.STATS_ADD_PO, val);
-			}		
+			}
 		}
-		
+
 		private void applyEffect_118(ArrayList<Fighter> cibles, Fight fight)//Bonus Force
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1598,10 +1598,10 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}		
+			}
 		}
 
-		private void applyEffect_119(ArrayList<Fighter> cibles, Fight fight)//Bonus AgilitÈ
+		private void applyEffect_119(ArrayList<Fighter> cibles, Fight fight)//Bonus Agilit√©
 		{
 			int val = Formulas.getRandomJet(jet);
 			if(val == -1)
@@ -1613,9 +1613,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}		
+			}
 		}
-		
+
 		private void applyEffect_120(ArrayList<Fighter> cibles, Fight fight)//Bonus PA
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1625,9 +1625,9 @@ public class SpellEffect
 				return;
 			}
 				caster.addBuff(effectID, val, turns, 1, false, spell, args, caster);
-				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", caster.getGUID()+","+val+","+turns);	
+				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", caster.getGUID()+","+val+","+turns);
 		}
-		
+
 		private void applyEffect_78(ArrayList<Fighter> cibles, Fight fight)//Bonus PA
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1640,9 +1640,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}		
+			}
 		}
-		
+
 		private void applyEffect_180(Fight fight)//invocation
 		{
 			int cell = this.cell.getID();
@@ -1668,7 +1668,7 @@ public class SpellEffect
 				if(dist <= p.get_size())p.onTraped(F);
 			}
 		}
-		
+
 		private void applyEffect_181(Fight fight)//invocation
 		{
 			int cell = this.cell.getID();
@@ -1679,16 +1679,16 @@ public class SpellEffect
 				mobID = Integer.parseInt(args.split(";")[0]);
 				level = Integer.parseInt(args.split(";")[1]);
 			}catch(Exception e){}
-			
+
 			MobGrade MG = null;
 			try{
-				
+
 				MG = World.getMonstre(mobID).getGradeByLevel(level).getCopy();
 			}catch(Exception e1){
 				GameServer.addToLog("Erreur sur le monstre id:"+mobID);
 				return;
 			};
-			
+
 			if(mobID == -1 || level == -1 || MG == null)return;
             int id = fight.getNextLowerFighterGuid()-caster._nbInvoc;
 			MG.setInFightID(id);
@@ -1727,9 +1727,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_111(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1748,7 +1748,7 @@ public class SpellEffect
 				//Gain de PA pendant le tour de jeu
 				if(target.canPlay() && target == caster) target.setCurPA(fight, target.getPA()+val);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
 
 		private void applyEffect_112(ArrayList<Fighter> cibles, Fight fight)
@@ -1763,7 +1763,7 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
 
 		private void applyEffect_121(ArrayList<Fighter> cibles, Fight fight)
@@ -1778,9 +1778,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_122(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1793,9 +1793,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_123(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1808,9 +1808,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_124(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1823,9 +1823,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_125(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1838,9 +1838,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_126(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1853,9 +1853,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_128(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1870,9 +1870,9 @@ public class SpellEffect
 				//Gain de PM pendant le tour de jeu
 				if(target.canPlay() && target == caster) target.setCurPM(fight, target.getPM()+val);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_138(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1885,9 +1885,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_114(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1900,9 +1900,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}			
+			}
 		}
-		
+
 		private void applyEffect_115(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int val = Formulas.getRandomJet(jet);
@@ -1915,9 +1915,9 @@ public class SpellEffect
 			{
 				target.addBuff(effectID, val, turns, 1, false, spell, args, caster);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, effectID, caster.getGUID()+"", target.getGUID()+","+val+","+turns);
-			}		
+			}
 		}
-		
+
 		private void applyEffect_77(ArrayList<Fighter> cibles, Fight fight)
 		{
 			int value = 1;
@@ -1964,7 +1964,7 @@ public class SpellEffect
 				if(val < 1)continue;
 				if(spell == 95)
 				{
-					target.addBuff(Constants.STATS_REM_PA, val, 1,1, true, spell,args,caster);	
+					target.addBuff(Constants.STATS_REM_PA, val, 1,1, true, spell,args,caster);
 				}else
 				{
 					target.addBuff(Constants.STATS_REM_PA, val, turns,0, true, spell,args,caster);
@@ -1980,7 +1980,7 @@ public class SpellEffect
 				if(caster.canPlay()) caster.setCurPA(fight, caster.getPA()+num);
 			}
 		}
-		
+
 		private void applyEffect_168(Fight fight, ArrayList<Fighter> cibles)
 		{
 			if(turns <= 0)
@@ -2004,7 +2004,7 @@ public class SpellEffect
                         int lostPa = Formulas.getRandomJet(jet);
                         if(lostPa == -1)
                                 continue;
-                       
+
                         target.addBuff(effectID, lostPa, turns, turns, false, spell, args, caster);
                         if(turns <= 1 || duration <= 1)
                                 SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 168,target.getGUID()+"",target.getGUID()+",-"+lostPa);
@@ -2051,7 +2051,7 @@ public class SpellEffect
                         int lostPm = Formulas.getRandomJet(jet);
                         if(lostPm == -1)
                                continue;
-                       
+
                         target.addBuff(effectID, lostPm, turns, turns, false, spell, args, caster);
                         if(turns <= 1 || duration <= 1)
                                 SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 169,target.getGUID()+"",target.getGUID()+",-"+lostPm);
@@ -2144,7 +2144,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_107(ArrayList<Fighter> cibles, Fight fight)
 		{
 			if(turns<1)return;//Je vois pas comment, vraiment ...
@@ -2157,7 +2157,7 @@ public class SpellEffect
 			}
 		}
 
-		
+
 		private void applyEffect_79(ArrayList<Fighter> cibles, Fight fight)
 		{
 			if(turns<1)return;//Je vois pas comment, vraiment ...
@@ -2174,13 +2174,13 @@ public class SpellEffect
 		private void applyEffect_4(Fight fight,ArrayList<Fighter> cibles)
 		{
 			if(turns >1)return;//Olol bondir 3 tours apres ?
-			
-			if(cell.isWalkable(true) && !fight.isOccuped(cell.getID()))//Si la case est prise, on va Èviter que les joueurs se montent dessus *-*
+
+			if(cell.isWalkable(true) && !fight.isOccuped(cell.getID()))//Si la case est prise, on va √©viter que les joueurs se montent dessus *-*
 			{
 				caster.get_fightCell().getFighters().clear();
 				caster.set_fightCell(cell);
 				caster.get_fightCell().addFighter(caster);
-				
+
 				ArrayList<Piege> P = (new ArrayList<Piege>());
 				P.addAll(fight.get_traps());
 				for(Piege p : P)
@@ -2197,13 +2197,13 @@ public class SpellEffect
 				GameServer.addToLog("Walkable: "+cell.isWalkable(true));
 			}
 		}
-		
+
 		private void applyEffect_765B(Fight fight,Fighter target)
 		{
 			Fighter sacrified = target.getBuff(765).getCaster();
 			Case cell1 = sacrified.get_fightCell();
 			Case cell2 = target.get_fightCell();
-			
+
 			sacrified.get_fightCell().getFighters().clear();
 			target.get_fightCell().getFighters().clear();
 			sacrified.set_fightCell(cell2);
@@ -2212,22 +2212,22 @@ public class SpellEffect
 			target.get_fightCell().addFighter(target);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 4, target.getGUID()+"", target.getGUID()+","+cell1.getID());
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 4, sacrified.getGUID()+"", sacrified.getGUID()+","+cell2.getID());
-			
+
 		}
-		
+
 		private void applyEffect_109(Fight fight)//Dommage pour le lanceur (fixes)
 		{
 			if(turns <= 0)
 			{
 				int dmg = Formulas.getRandomJet(args.split(";")[5]);
 				int finalDommage = Formulas.calculFinalDommage(fight,caster, caster,Constants.ELEMENT_NULL, dmg, false, false, spell);
-				
-				finalDommage = applyOnHitBuffs(finalDommage,caster,caster,fight);//S'il y a des buffs spÈciaux
+
+				finalDommage = applyOnHitBuffs(finalDommage,caster,caster,fight);//S'il y a des buffs sp√©ciaux
 				if(finalDommage>caster.getPDV())finalDommage = caster.getPDV();//Caster va mourrir
 				caster.removePDV(finalDommage);
 				finalDommage = -(finalDommage);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, caster.getGUID()+"", caster.getGUID()+","+finalDommage);
-				
+
 				if(caster.getPDV() <=0)
 					fight.onFighterDie(caster, caster);
 			}else
@@ -2235,7 +2235,7 @@ public class SpellEffect
 				caster.addBuff(effectID, 0, turns, 0, true, spell, args, caster);//on applique un buff
 			}
 		}
-		
+
 		private void applyEffect_82(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(turns <= 0)
@@ -2250,7 +2250,7 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					//si la cible a le buff renvoie de sort et que le sort peut etre renvoyer
 					if(target.hasBuff(106) && target.getBuffValue(106) >= spellLvl && spell != 0)
@@ -2260,8 +2260,8 @@ public class SpellEffect
 						target = caster;
 					}
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_NULL, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2272,7 +2272,7 @@ public class SpellEffect
 						heal = caster.getPDVMAX()-caster.getPDV();
 					caster.removePDV(-heal);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, target.getGUID()+"", caster.getGUID()+","+heal);
-					
+
 					if(target.getPDV() <= 0)
 					{
 						fight.onFighterDie(target, target);
@@ -2288,7 +2288,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_6(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(turns <= 0)
@@ -2306,8 +2306,8 @@ public class SpellEffect
 					int newCellID =	Pathfinding.newCaseAfterPush(fight.get_map(),eCell,target.get_fightCell(),-value);
 					if(newCellID == 0)
 						return;
-					
-					if(newCellID <0)//S'il a ÈtÈ bloquÈ
+
+					if(newCellID <0)//S'il a √©t√© bloqu√©
 					{
 						int a = -(value + newCellID);
 						newCellID =	Pathfinding.newCaseAfterPush(fight.get_map(),caster.get_fightCell(),target.get_fightCell(),a);
@@ -2316,12 +2316,12 @@ public class SpellEffect
 						if(fight.get_map().getCase(newCellID) == null)
 							return;
 					}
-					
+
 					target.get_fightCell().getFighters().clear();
 					target.set_fightCell(fight.get_map().getCase(newCellID));
 					target.get_fightCell().addFighter(target);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 5, caster.getGUID()+"", target.getGUID()+","+newCellID);
-					
+
 					ArrayList<Piege> P = (new ArrayList<Piege>());
 					P.addAll(fight.get_traps());
 					for(Piege p : P)
@@ -2333,7 +2333,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_5(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(cibles.size() == 1 && spell == 120)
@@ -2358,20 +2358,20 @@ public class SpellEffect
 					int newCellID =	Pathfinding.newCaseAfterPush(fight.get_map(),eCell,target.get_fightCell(),value);
 					if(newCellID == 0)
 						return;
-					if(newCellID <0)//S'il a ÈtÈ bloquÈ
+					if(newCellID <0)//S'il a √©t√© bloqu√©
 					{
 						int a = -newCellID;
 						int coef = Formulas.getRandomJet("1d8+8");
 						double b = (caster.get_lvl()/(double)(50.00));
 						if(b<0.1)b= 0.1;
-						double c = b*a;//Calcule des dÈgats de poussÈ
+						double c = b*a;//Calcule des d√©gats de pouss√©
 						int finalDommage = (int)(coef * c);
 						if(finalDommage < 1)finalDommage = 1;
 						if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
-						
-						if(target.hasBuff(184)) 
+
+						if(target.hasBuff(184))
 						{
-							finalDommage = finalDommage-target.getBuff(184).getValue();//RÈduction physique
+							finalDommage = finalDommage-target.getBuff(184).getValue();//R√©duction physique
 							SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 105, caster.getGUID()+"", target.getGUID()+","+target.getBuff(184).getValue());
 						}
 						if(target.hasBuff(105))
@@ -2385,7 +2385,7 @@ public class SpellEffect
 							SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, caster.getGUID()+"", target.getGUID()+",-"+finalDommage);
 							if(target.getPDV() <= 0)
 							{
-								
+
 								fight.onFighterDie(target, target);
 								if(target.canPlay() && target.getPersonnage() != null) fight.endTurn();
 								else if(target.canPlay()) target.setCanPlay(false);
@@ -2403,7 +2403,7 @@ public class SpellEffect
 					target.set_fightCell(fight.get_map().getCase(newCellID));
 					target.get_fightCell().addFighter(target);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 5, caster.getGUID()+"", target.getGUID()+","+newCellID);
-					
+
 					ArrayList<Piege> P = (new ArrayList<Piege>());
 					P.addAll(fight.get_traps());
 					for(Piege p : P)
@@ -2415,7 +2415,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_91(ArrayList<Fighter> cibles,Fight fight, boolean isCaC)
 		{
 			if(isCaC)
@@ -2430,12 +2430,12 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_EAU, dmg,false,true,spell);
-				
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2472,11 +2472,11 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_EAU, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2486,7 +2486,7 @@ public class SpellEffect
 						heal = caster.getPDVMAX()-caster.getPDV();
 					caster.removePDV(-heal);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, target.getGUID()+"", caster.getGUID()+","+heal);
-					
+
 					if(target.getPDV() <= 0)
 					{
 						fight.onFighterDie(target, target);
@@ -2518,12 +2518,12 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_TERRE, dmg,false,true,spell);
-				
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2559,22 +2559,22 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_TERRE, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, caster.getGUID()+"", target.getGUID()+","+finalDommage);
-					
+
 					int heal = (int)(-finalDommage)/2;
 					if((caster.getPDV()+heal) > caster.getPDVMAX())
 						heal = caster.getPDVMAX()-caster.getPDV();
 					caster.removePDV(-heal);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, target.getGUID()+"", caster.getGUID()+","+heal);
-					
+
 					if(target.getPDV() <= 0)
 					{
 						fight.onFighterDie(target, target);
@@ -2590,7 +2590,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_93(ArrayList<Fighter> cibles,Fight fight, boolean isCaC)
 		{
 			if(caster.isHide())caster.unHide(spell);
@@ -2606,12 +2606,12 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_AIR, dmg,false,true,spell);
-				
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2647,22 +2647,22 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_AIR, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, caster.getGUID()+"", target.getGUID()+","+finalDommage);
-					
+
 					int heal = (int)(-finalDommage)/2;
 					if((caster.getPDV()+heal) > caster.getPDVMAX())
 						heal = caster.getPDVMAX()-caster.getPDV();
 					caster.removePDV(-heal);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, target.getGUID()+"", caster.getGUID()+","+heal);
-					
+
 					if(target.getPDV() <= 0)
 					{
 						fight.onFighterDie(target, target);
@@ -2678,7 +2678,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_94(ArrayList<Fighter> cibles,Fight fight, boolean isCaC)
 		{
 			if(caster.isHide())caster.unHide(spell);
@@ -2694,12 +2694,12 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_FEU, dmg,false,true,spell);
-				
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2735,11 +2735,11 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_FEU, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2749,7 +2749,7 @@ public class SpellEffect
 						heal = caster.getPDVMAX()-caster.getPDV();
 					caster.removePDV(-heal);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, target.getGUID()+"", caster.getGUID()+","+heal);
-					
+
 					if(target.getPDV() <= 0)
 					{
 						fight.onFighterDie(target, target);
@@ -2781,12 +2781,12 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_NEUTRE, dmg,false,true,spell);
-				
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2822,11 +2822,11 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_NEUTRE, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -2837,7 +2837,7 @@ public class SpellEffect
 						heal = caster.getPDVMAX()-caster.getPDV();
 					caster.removePDV(-heal);
 					SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, target.getGUID()+"", caster.getGUID()+","+heal);
-					
+
 					if(target.getPDV() <= 0)
 					{
 						fight.onFighterDie(target, target);
@@ -2853,7 +2853,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_85(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(turns <= 0)
@@ -2875,7 +2875,7 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int resP = target.getTotalStats().getEffect(Constants.STATS_ADD_RP_EAU);
 					int resF = target.getTotalStats().getEffect(Constants.STATS_ADD_R_EAU);
 					if(target.getPersonnage() != null)//Si c'est un joueur, on ajoute les resists bouclier
@@ -2883,16 +2883,16 @@ public class SpellEffect
 						resP += target.getTotalStats().getEffect(Constants.STATS_ADD_RP_PVP_EAU);
 						resF += target.getTotalStats().getEffect(Constants.STATS_ADD_R_PVP_EAU);
 					}
-					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv infligÈ
-					int val = caster.getPDV()/100*dmg;//Valeur des dÈgats
-					//retrait de la rÈsist fixe
+					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv inflig√©
+					int val = caster.getPDV()/100*dmg;//Valeur des d√©gats
+					//retrait de la r√©sist fixe
 					val -= resF;
 					int reduc =	(int)(((float)val)/(float)100)*resP;//Reduc %resis
 					val -= reduc;
 					if(val <0)val = 0;
-					
-					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(val>target.getPDV())val = target.getPDV();//Target va mourrir
 					target.removePDV(val);
 					val = -(val);
@@ -2912,7 +2912,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_86(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(turns <= 0)
@@ -2934,7 +2934,7 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int resP = target.getTotalStats().getEffect(Constants.STATS_ADD_RP_TER);
 					int resF = target.getTotalStats().getEffect(Constants.STATS_ADD_R_TER);
 					if(target.getPersonnage() != null)//Si c'est un joueur, on ajoute les resists bouclier
@@ -2942,16 +2942,16 @@ public class SpellEffect
 						resP += target.getTotalStats().getEffect(Constants.STATS_ADD_RP_PVP_TER);
 						resF += target.getTotalStats().getEffect(Constants.STATS_ADD_R_PVP_TER);
 					}
-					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv infligÈ
-					int val = caster.getPDV()/100*dmg;//Valeur des dÈgats
-					//retrait de la rÈsist fixe
+					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv inflig√©
+					int val = caster.getPDV()/100*dmg;//Valeur des d√©gats
+					//retrait de la r√©sist fixe
 					val -= resF;
 					int reduc =	(int)(((float)val)/(float)100)*resP;//Reduc %resis
 					val -= reduc;
 					if(val <0)val = 0;
-					
-					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(val>target.getPDV())val = target.getPDV();//Target va mourrir
 					target.removePDV(val);
 					val = -(val);
@@ -2971,7 +2971,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_87(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(turns <= 0)
@@ -2993,7 +2993,7 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int resP = target.getTotalStats().getEffect(Constants.STATS_ADD_RP_AIR);
 					int resF = target.getTotalStats().getEffect(Constants.STATS_ADD_R_AIR);
 					if(target.getPersonnage() != null)//Si c'est un joueur, on ajoute les resists bouclier
@@ -3001,16 +3001,16 @@ public class SpellEffect
 						resP += target.getTotalStats().getEffect(Constants.STATS_ADD_RP_PVP_AIR);
 						resF += target.getTotalStats().getEffect(Constants.STATS_ADD_R_PVP_AIR);
 					}
-					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv infligÈ
-					int val = caster.getPDV()/100*dmg;//Valeur des dÈgats
-					//retrait de la rÈsist fixe
+					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv inflig√©
+					int val = caster.getPDV()/100*dmg;//Valeur des d√©gats
+					//retrait de la r√©sist fixe
 					val -= resF;
 					int reduc =	(int)(((float)val)/(float)100)*resP;//Reduc %resis
 					val -= reduc;
 					if(val <0)val = 0;
-					
-					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(val>target.getPDV())val = target.getPDV();//Target va mourrir
 					target.removePDV(val);
 					val = -(val);
@@ -3030,7 +3030,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_88(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(turns <= 0)
@@ -3052,7 +3052,7 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int resP = target.getTotalStats().getEffect(Constants.STATS_ADD_RP_FEU);
 					int resF = target.getTotalStats().getEffect(Constants.STATS_ADD_R_FEU);
 					if(target.getPersonnage() != null)//Si c'est un joueur, on ajoute les resists bouclier
@@ -3060,16 +3060,16 @@ public class SpellEffect
 						resP += target.getTotalStats().getEffect(Constants.STATS_ADD_RP_PVP_FEU);
 						resF += target.getTotalStats().getEffect(Constants.STATS_ADD_R_PVP_FEU);
 					}
-					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv infligÈ
-					int val = caster.getPDV()/100*dmg;//Valeur des dÈgats
-					//retrait de la rÈsist fixe
+					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv inflig√©
+					int val = caster.getPDV()/100*dmg;//Valeur des d√©gats
+					//retrait de la r√©sist fixe
 					val -= resF;
 					int reduc =	(int)(((float)val)/(float)100)*resP;//Reduc %resis
 					val -= reduc;
 					if(val <0)val = 0;
-					
-					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(val>target.getPDV())val = target.getPDV();//Target va mourrir
 					target.removePDV(val);
 					val = -(val);
@@ -3089,7 +3089,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_89(ArrayList<Fighter> cibles,Fight fight)
 		{
 			if(turns <= 0)
@@ -3111,7 +3111,7 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int resP = target.getTotalStats().getEffect(Constants.STATS_ADD_RP_NEU);
 					int resF = target.getTotalStats().getEffect(Constants.STATS_ADD_R_NEU);
 					if(target.getPersonnage() != null)//Si c'est un joueur, on ajoute les resists bouclier
@@ -3119,16 +3119,16 @@ public class SpellEffect
 						resP += target.getTotalStats().getEffect(Constants.STATS_ADD_RP_PVP_NEU);
 						resF += target.getTotalStats().getEffect(Constants.STATS_ADD_R_PVP_NEU);
 					}
-					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv infligÈ
-					int val = caster.getPDV()/100*dmg;//Valeur des dÈgats
-					//retrait de la rÈsist fixe
+					int dmg = Formulas.getRandomJet(args.split(";")[5]);//%age de pdv inflig√©
+					int val = caster.getPDV()/100*dmg;//Valeur des d√©gats
+					//retrait de la r√©sist fixe
 					val -= resF;
 					int reduc =	(int)(((float)val)/(float)100)*resP;//Reduc %resis
 					val -= reduc;
 					if(val <0)val = 0;
-					
-					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					val = applyOnHitBuffs(val,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(val>target.getPDV())val = target.getPDV();//Target va mourrir
 					target.removePDV(val);
 					val = -(val);
@@ -3148,7 +3148,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_96(ArrayList<Fighter> cibles,Fight fight, boolean isCaC)
 		{
 			if(isCaC)//CaC Eau
@@ -3164,10 +3164,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3182,9 +3182,9 @@ public class SpellEffect
 						}
 					}
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_EAU, dmg,false,true,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3216,10 +3216,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3233,11 +3233,11 @@ public class SpellEffect
 							dmg += add;
 						}
 					}
-					
+
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_EAU, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3273,10 +3273,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3291,9 +3291,9 @@ public class SpellEffect
 						}
 					}
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_TERRE, dmg,false,true,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3325,10 +3325,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3344,11 +3344,11 @@ public class SpellEffect
 					}
 					if(spell==160 && target==caster)
 					{
-						continue;//EpÈe de Iop ne tape pas le lanceur.
-					}else if(chance > 0 && spell==108)//Esprit fÈlin ?
+						continue;//Ep√©e de Iop ne tape pas le lanceur.
+					}else if(chance > 0 && spell==108)//Esprit f√©lin ?
 					{
 						int fDommage = Formulas.calculFinalDommage(fight,caster, caster,Constants.ELEMENT_TERRE, dmg,false,false,spell);
-						fDommage = applyOnHitBuffs(fDommage,caster,caster,fight);//S'il y a des buffs spÈciaux
+						fDommage = applyOnHitBuffs(fDommage,caster,caster,fight);//S'il y a des buffs sp√©ciaux
 						if(fDommage>caster.getPDV())fDommage = caster.getPDV();//Target va mourrir
 						caster.removePDV(fDommage);
 						fDommage = -(fDommage);
@@ -3358,7 +3358,7 @@ public class SpellEffect
 					}else
 					{
 						int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_TERRE, dmg,false,false,spell);
-						finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
+						finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
 						if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 						target.removePDV(finalDommage);
 						finalDommage = -(finalDommage);
@@ -3369,9 +3369,9 @@ public class SpellEffect
 							if(target.canPlay() && target.getPersonnage() != null) fight.endTurn();
 							else if(target.canPlay()) target.setCanPlay(false);
 						}
-						
+
 					}
-					
+
 				}
 			}else
 			{
@@ -3381,7 +3381,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_98(ArrayList<Fighter> cibles,Fight fight, boolean isCaC)
 		{
 			if(isCaC)//CaC Air
@@ -3397,10 +3397,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3415,9 +3415,9 @@ public class SpellEffect
 						}
 					}
 				int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_AIR, dmg,false,true,spell);
-				
-				finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-				
+
+				finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 				if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 				target.removePDV(finalDommage);
 				finalDommage = -(finalDommage);
@@ -3449,10 +3449,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3466,11 +3466,11 @@ public class SpellEffect
 							dmg += add;
 						}
 					}
-					
+
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_AIR, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3490,11 +3490,11 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_99(ArrayList<Fighter> cibles,Fight fight, boolean isCaC)
 		{
 			if(caster.isHide())caster.unHide(spell);
-			
+
 			if(isCaC)//CaC Feu
 			{
 				for(Fighter target : cibles)
@@ -3507,10 +3507,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3525,9 +3525,9 @@ public class SpellEffect
 						}
 					}
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_FEU, dmg,false,true,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3562,10 +3562,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
-					
-					//Si le sort est boostÈ par un buff spÈcifique
+
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3579,11 +3579,11 @@ public class SpellEffect
 							dmg += add;
 						}
 					}
-					
+
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_FEU, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3619,10 +3619,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
 
-					//Si le sort est boostÈ par un buff spÈcifique
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3637,9 +3637,9 @@ public class SpellEffect
 						}
 					}
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_NEUTRE, dmg,false,true,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3670,10 +3670,10 @@ public class SpellEffect
 							target = target.getBuff(765).getCaster();
 						}
 					}
-					
+
 					int dmg = Formulas.getRandomJet(args.split(";")[5]);
-					
-					//Si le sort est boostÈ par un buff spÈcifique
+
+					//Si le sort est boost√© par un buff sp√©cifique
 					for(SpellEffect SE : caster.getBuffsByEffectID(293))
 					{
 						if(SE.getValue() == spell)
@@ -3687,12 +3687,12 @@ public class SpellEffect
 							dmg += add;
 						}
 					}
-				
-					
+
+
 					int finalDommage = Formulas.calculFinalDommage(fight,caster, target,Constants.ELEMENT_NEUTRE, dmg,false,false,spell);
-					
-					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs spÈciaux
-					
+
+					finalDommage = applyOnHitBuffs(finalDommage,target,caster,fight);//S'il y a des buffs sp√©ciaux
+
 					if(finalDommage>target.getPDV())finalDommage = target.getPDV();//Target va mourrir
 					target.removePDV(finalDommage);
 					finalDommage = -(finalDommage);
@@ -3721,7 +3721,7 @@ public class SpellEffect
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 132, caster.getGUID()+"", target.getGUID()+"");
 			}
 		}
-		
+
 		private void applyEffect_140(ArrayList<Fighter> cibles,Fight fight)
 		{
 			for(Fighter target : cibles)
@@ -3737,7 +3737,7 @@ public class SpellEffect
 				target.addBuff(effectID, 0, turns, 1, true, spell, args, caster);
 			}
 		}
-		
+
 		private void applyEffect_90(ArrayList<Fighter> cibles, Fight fight)
 		{
 			if(turns <= 0)//Si Direct
@@ -3745,13 +3745,13 @@ public class SpellEffect
 				int pAge = Formulas.getRandomJet(args.split(";")[5]);
 				int val = pAge * (caster.getPDV()/100);
 				//Calcul des Doms recus par le lanceur
-				int finalDommage = applyOnHitBuffs(val,caster,caster,fight);//S'il y a des buffs spÈciaux
-				
+				int finalDommage = applyOnHitBuffs(val,caster,caster,fight);//S'il y a des buffs sp√©ciaux
+
 				if(finalDommage>caster.getPDV())finalDommage = caster.getPDV();//Caster va mourrir
 				caster.removePDV(finalDommage);
 				finalDommage = -(finalDommage);
 				SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, caster.getGUID()+"", caster.getGUID()+","+finalDommage);
-				
+
 				//Application du soin
 				for(Fighter target : cibles)
 				{
@@ -3769,10 +3769,10 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_108(ArrayList<Fighter> cibles, Fight fight)
 		{
-			if(spell == 441) 
+			if(spell == 441)
 			{
 				return;
 			}
@@ -3814,7 +3814,7 @@ public class SpellEffect
 				}
 			}
 		}
-		
+
 		private void applyEffect_141(Fight fight,ArrayList<Fighter> cibles)
 		{
 			for(Fighter target : cibles)
@@ -3858,7 +3858,7 @@ public class SpellEffect
 				if(caster.canPlay()) caster.getTotalStats().addOneStat(Constants.STATS_ADD_PO, num);
 			}
 		}
-		
+
 
 		private void applyEffect_780(Fight fight)
 		{
@@ -3869,35 +3869,35 @@ public class SpellEffect
 				if(entry.getValue().hasLeft()) continue;
 				if(entry.getValue().getTeam() == caster.getTeam())
 					target = entry.getValue();
-					 if(entry.getValue().isInvocation()) 
-						if(entry.getValue().getInvocator().isDead()) 
-							continue; 
+					 if(entry.getValue().isInvocation())
+						if(entry.getValue().getInvocator().isDead())
+							continue;
 			}
 			if(target == null)
 				return;
-					
+
 			fight.addFighterInTeam(target, target.getTeam());
 			target.setIsDead(false);
 			target.get_fightBuff().clear();
-			if(!target.isInvocation()) 
-				SocketManager.GAME_SEND_ILF_PACKET(target.getPersonnage(), 0); 
-			else 
-				fight.get_ordreJeu().add((fight.get_ordreJeu().indexOf(target.getInvocator())+1),target); 
-				
+			if(!target.isInvocation())
+				SocketManager.GAME_SEND_ILF_PACKET(target.getPersonnage(), 0);
+			else
+				fight.get_ordreJeu().add((fight.get_ordreJeu().indexOf(target.getInvocator())+1),target);
+
 			target.set_fightCell(cell);
 			target.get_fightCell().addFighter(target);
-					
+
 			target.fullPDV();
 			int percent = (100-value)*target.getPDVMAX()/100;
 			target.removePDV(percent);
-					
+
 			String gm = target.getGmPacket('+').substring(3);
 			String gtl = fight.getGTL();
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 181, target.getGUID() + "", gm);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 999, target.getGUID()+"", gtl);
-			if(!target.isInvocation()) 
-				SocketManager.GAME_SEND_STATS_PACKET(target.getPersonnage()); 
-					
+			if(!target.isInvocation())
+				SocketManager.GAME_SEND_STATS_PACKET(target.getPersonnage());
+
 			fight.delOneDead(target);
 		}
 

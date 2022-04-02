@@ -9,33 +9,32 @@ import java.util.Map.Entry;
 
 import javax.swing.Timer;
 
-
 public class SendManager {
 
 	private static Map<Integer, Map<Long, Map<PrintWriter, String>>> PacketBuffer	= new TreeMap<Integer, Map<Long, Map<PrintWriter, String>>>();//<hachID, <PacketID, <PrintWriter,String>>>
 	static long packetid = 1;
 	private static String BufferRemove = "";
-	
+
 	public static String get_BufferRemove()
 	{
 		return BufferRemove;
 	}
-	
+
 	public static void set_BufferRemove(String str)
 	{
 		BufferRemove += str;
 	}
-	
+
 	public static void del_BufferRemove()
 	{
 		BufferRemove = "";
 	}
-	
+
 	public static Map<Integer, Map<Long, Map<PrintWriter, String>>> getPacketBuffer()
 	{
 		return PacketBuffer;
 	}
-	
+
 	public static Timer FlushTimer()
 	{
 	    ActionListener action = new ActionListener ()
@@ -62,14 +61,14 @@ public class SendManager {
 	        		{
 	        			data.getValue().remove(Long.parseLong(id));
 	        		}
-	        		
+
 	        		SendManager.del_BufferRemove();
 	        		if(pw != null)
 	        		{
 	        			pw.print(Totaldata.toString());
 	        			pw.flush();
 	        		}
-	        		
+
 	    			Ancestra.addToRealmSockLog("Realm: Send>>"+Totaldata.toString());
 	    			if(Ancestra.REALM_DEBUG) System.out.println("Realm: Send>>"+Totaldata.toString());
 	        	}
@@ -77,7 +76,7 @@ public class SendManager {
 	      };
 	    return new Timer (Ancestra.REALM_TIME_DATA, action);
 	}
-	
+
 	public static void send(PrintWriter out, String packet)
 	{
 		if(!getPacketBuffer().containsKey(out.hashCode()))

@@ -24,7 +24,7 @@ public class Action {
 	private int ID;
 	private String args;
 	private String cond;
-	
+
 	public Action(int id, String args, String cond)
 	{
 		this.ID = id;
@@ -42,10 +42,10 @@ public class Action {
 			return;
 		}
 		if(perso.get_compte().getGameThread() == null) return;
-		PrintWriter out = perso.get_compte().getGameThread().get_out();	
+		PrintWriter out = perso.get_compte().getGameThread().get_out();
 		switch(ID)
 		{
-			case -2://crÈer guilde
+			case -2://cr√©er guilde
 				if(perso.is_away())return;
 				if(perso.get_guild() != null || perso.getGuildMember() != null)
 				{
@@ -57,7 +57,7 @@ public class Action {
 			case -1://Ouvrir banque
 				//Sauvagarde du perso et des item avant.
 				SQLManager.SAVE_PERSONNAGE(perso,true);
-				if(perso.getDeshonor() >= 1) 
+				if(perso.getDeshonor() >= 1)
 				{
 					SocketManager.GAME_SEND_Im_PACKET(perso, "183");
 					return;
@@ -77,7 +77,7 @@ public class Action {
                         }
                         else if(totalKamas >= cost)
                         {
-                        	perso.set_kamas(0);//On puise l'entiËreter des kamas du joueurs. Ankalike ?
+                        	perso.set_kamas(0);//On puise l'enti√©reter des kamas du joueurs. Ankalike ?
                         	perso.get_compte().setBankKamas(totalKamas-cost);//On modifie les kamas de la banque
                         	SocketManager.GAME_SEND_STATS_PACKET(perso);
                         	SocketManager.GAME_SEND_Im_PACKET(perso, "020;"+playerKamas);
@@ -98,13 +98,13 @@ public class Action {
 				perso.set_away(true);
 				perso.setInBank(true);
 			break;
-			case 0://TÈlÈportation
+			case 0://T√©l√©portation
 				try
 				{
 					short newMapID = Short.parseShort(args.split(",",2)[0]);
 					int newCellID = Integer.parseInt(args.split(",",2)[1]);
-					
-					perso.teleport(newMapID,newCellID);	
+
+					perso.teleport(newMapID,newCellID);
 				}catch(Exception e ){return;};
 			break;
 			case 1://Discours NPC
@@ -120,7 +120,7 @@ public class Action {
 					{
 						qID = Integer.parseInt(args);
 					}catch(NumberFormatException e){};
-					
+
 					NPC_question  quest = World.getNPCQuestion(qID);
 					if(quest == null)
 					{
@@ -131,7 +131,7 @@ public class Action {
 					SocketManager.GAME_SEND_QUESTION_PACKET(out, quest.parseToDQPacket(perso));
 				}
 			break;
-			
+
 			case 4://Kamas
 				try
 				{
@@ -140,7 +140,7 @@ public class Action {
 					long newKamas = curKamas + count;
 					if(newKamas <0) newKamas = 0;
 					perso.set_kamas(newKamas);
-					
+
 					//Si en ligne (normalement oui)
 					if(perso.isOnline())
 						SocketManager.GAME_SEND_STATS_PACKET(perso);
@@ -153,7 +153,7 @@ public class Action {
 					int count = Integer.parseInt(args.split(",")[1]);
 					boolean send = true;
 					if(args.split(",").length >2)send = args.split(",")[2].equals("1");
-					
+
 					//Si on ajoute
 					if(count > 0)
 					{
@@ -183,12 +183,12 @@ public class Action {
 					}
 				}catch(Exception e){GameServer.addToLog(e.getMessage());};
 			break;
-			case 6://Apprendre un mÈtier
+			case 6://Apprendre un m√©tier
 				try
 				{
 					int mID = Integer.parseInt(args);
 					if(World.getMetier(mID) == null)return;
-					// Si c'est un mÈtier 'basic' :
+					// Si c'est un m√©tier 'basic' :
 					if(mID == 	2 || mID == 11 ||
 					   mID == 13 || mID == 14 ||
 					   mID == 15 || mID == 16 ||
@@ -201,15 +201,15 @@ public class Action {
 					   mID == 56 || mID == 58 ||
 					   mID == 60 || mID == 65)
 					{
-						if(perso.getMetierByID(mID) != null)//MÈtier dÈj‡ appris
+						if(perso.getMetierByID(mID) != null)//M√©tier d√©j√© appris
 						{
 							SocketManager.GAME_SEND_Im_PACKET(perso, "111");
 						}
-						
-						if(perso.totalJobBasic() > 2)//On compte les mÈtiers dÈja acquis si c'est supÈrieur a 2 on ignore
+
+						if(perso.totalJobBasic() > 2)//On compte les m√©tiers d√©ja acquis si c'est sup√©rieur a 2 on ignore
 						{
 							SocketManager.GAME_SEND_Im_PACKET(perso, "19");
-						}else//Si c'est < ou = ‡ 2 on apprend
+						}else//Si c'est < ou = √© 2 on apprend
 						{
 							perso.learnJob(World.getMetier(mID));
 						}
@@ -222,7 +222,7 @@ public class Action {
 					   mID == 62 || mID == 63 ||
 					   mID == 64)
 					{
-						//MÈtier simple level 65 nÈcessaire
+						//M√©tier simple level 65 n√©cessaire
 						if(perso.getMetierByID(17) != null && perso.getMetierByID(17).get_lvl() >= 65 && mID == 43
 						|| perso.getMetierByID(11) != null && perso.getMetierByID(11).get_lvl() >= 65 && mID == 44
 						|| perso.getMetierByID(14) != null && perso.getMetierByID(14).get_lvl() >= 65 && mID == 45
@@ -235,21 +235,21 @@ public class Action {
 						|| perso.getMetierByID(16) != null && perso.getMetierByID(16).get_lvl() >= 65 && mID == 63
 						|| perso.getMetierByID(27) != null && perso.getMetierByID(27).get_lvl() >= 65 && mID == 64)
 						{
-							//On compte les specialisations dÈja acquis si c'est supÈrieur a 2 on ignore
-							if(perso.getMetierByID(mID) != null)//MÈtier dÈj‡ appris
+							//On compte les specialisations d√©ja acquis si c'est sup√©rieur a 2 on ignore
+							if(perso.getMetierByID(mID) != null)//M√©tier d√©j√© appris
 							{
 								SocketManager.GAME_SEND_Im_PACKET(perso, "111");
 							}
-							
-							if(perso.totalJobFM() > 2)//On compte les mÈtiers dÈja acquis si c'est supÈrieur a 2 on ignore
+
+							if(perso.totalJobFM() > 2)//On compte les m√©tiers d√©ja acquis si c'est sup√©rieur a 2 on ignore
 							{
 								SocketManager.GAME_SEND_Im_PACKET(perso, "19");
 							}
-							else//Si c'est < ou = ‡ 2 on apprend
+							else//Si c'est < ou = √© 2 on apprend
 							{
 								perso.learnJob(World.getMetier(mID));
 								perso.getMetierByID(mID).addXp(perso, 582000);//Level 100 direct
-							}	
+							}
 						}else
 						{
 							SocketManager.GAME_SEND_Im_PACKET(perso, "12");
@@ -322,12 +322,12 @@ public class Action {
 					boolean delObj = args.split(",")[0].equals("true");
 					boolean inArena = args.split(",")[1].equals("true");
 
-					if(inArena && !World.isArenaMap(perso.get_curCarte().get_id()))return;	//Si la map du personnage n'est pas classÈ comme Ètant dans l'arËne
+					if(inArena && !World.isArenaMap(perso.get_curCarte().get_id()))return;	//Si la map du personnage n'est pas class√© comme √©tant dans l'ar√©ne
 
 					PierreAme pierrePleine = (PierreAme)World.getObjet(itemID);
 
 					String groupData = pierrePleine.parseGroupData();
-					String condition = "MiS = "+perso.get_GUID();	//Condition pour que le groupe ne soit lanÁable que par le personnage qui ‡ utiliser l'objet
+					String condition = "MiS = "+perso.get_GUID();	//Condition pour que le groupe ne soit lan√©able que par le personnage qui √© utiliser l'objet
 					perso.get_curCarte().spawnNewGroup(true, perso.get_curCell().getID(), groupData,condition);
 
 					if(delObj)
@@ -354,7 +354,7 @@ public class Action {
 		    	perso.setisForgetingSpell(true);
 				SocketManager.GAME_SEND_FORGETSPELL_INTERFACE('+', perso);
 			break;
-			case 15://TÈlÈportation donjon
+			case 15://T√©l√©portation donjon
 				try
 				{
 					short newMapID = Short.parseShort(args.split(",")[0]);
@@ -363,13 +363,13 @@ public class Action {
 					int MapNeed = Integer.parseInt(args.split(",")[3]);
 					if(ObjetNeed == 0)
 					{
-						//TÈlÈportation sans objets
+						//T√©l√©portation sans objets
 						perso.teleport(newMapID,newCellID);
 					}else if(ObjetNeed > 0)
 					{
 					if(MapNeed == 0)
 					{
-						//TÈlÈportation sans map
+						//T√©l√©portation sans map
 						perso.teleport(newMapID,newCellID);
 					}else if(MapNeed > 0)
 					{
@@ -377,7 +377,7 @@ public class Action {
 					{
 						//Le perso a l'item
 						//Le perso est sur la bonne map
-						//On tÈlÈporte, on supprime aprËs
+						//On t√©l√©porte, on supprime apr√©s
 						perso.teleport(newMapID,newCellID);
 						perso.removeByTemplateID(ObjetNeed, 1);
 						SocketManager.GAME_SEND_Ow_PACKET(perso);
@@ -389,7 +389,7 @@ public class Action {
 					}
 					else
 					{
-						//Le perso ne possËde pas l'item
+						//Le perso ne poss√©de pas l'item
 						SocketManager.GAME_SEND_MESSAGE(perso, "Vous ne possedez pas la clef necessaire.", "009900");
 					}
 					}
@@ -407,7 +407,7 @@ public class Action {
 					}
 				}catch(Exception e){GameServer.addToLog(e.getMessage());};
 			break;
-			case 17://Xp mÈtier JobID,XpValue
+			case 17://Xp m√©tier JobID,XpValue
 				try
 				{
 					int JobID = Integer.parseInt(args.split(",")[0]);
@@ -418,7 +418,7 @@ public class Action {
 					}
 				}catch(Exception e){GameServer.addToLog(e.getMessage());};
 			break;
-			case 18://TÈlÈportation chez sois
+			case 18://T√©l√©portation chez sois
 				if(House.AlreadyHaveHouse(perso))//Si il a une maison
 				{
 					Objet obj = World.getObjet(itemID);
@@ -431,7 +431,7 @@ public class Action {
 					}
 				}
 			break;
-			case 19://TÈlÈportation maison de guilde (ouverture du panneau de guilde)
+			case 19://T√©l√©portation maison de guilde (ouverture du panneau de guilde)
 				SocketManager.GAME_SEND_GUILDHOUSE_PACKET(perso);
 			break;
 			case 20://+Points de sorts
@@ -448,10 +448,10 @@ public class Action {
 				{
 					int Energy = Integer.parseInt(args);
 					if(Energy < 1) return;
-					
+
 					int EnergyTotal = perso.get_energy()+Energy;
 					if(EnergyTotal > 10000) EnergyTotal = 10000;
-					
+
 					perso.set_energy(EnergyTotal);
 					SocketManager.GAME_SEND_STATS_PACKET(perso);
 				}catch(Exception e){GameServer.addToLog(e.getMessage());};
@@ -461,7 +461,7 @@ public class Action {
 				{
 					long XpAdd = Integer.parseInt(args);
 					if(XpAdd < 1) return;
-					
+
 					long TotalXp = perso.get_curExp()+XpAdd;
 					perso.set_curExp(TotalXp);
 					SocketManager.GAME_SEND_STATS_PACKET(perso);
@@ -495,7 +495,7 @@ public class Action {
 				SocketManager.GAME_SEND_ERASE_ON_MAP_TO_MAP(perso.get_curCarte(), perso.get_GUID());
 				SocketManager.GAME_SEND_ADD_PLAYER_TO_MAP(perso.get_curCarte(), perso);
 			break;
-			case 26://TÈlÈportation enclo de guilde (ouverture du panneau de guilde)
+			case 26://T√©l√©portation enclo de guilde (ouverture du panneau de guilde)
 				SocketManager.GAME_SEND_GUILDENCLO_PACKET(perso);
 			break;
 			case 27://startFigthVersusMonstres args : monsterID,monsterLevel| ...
@@ -509,7 +509,7 @@ public class Action {
 						String[] MobOrLevel = MobAndLevel.split(",");
 						monsterID = Integer.parseInt(MobOrLevel[0]);
 						monsterLevel = Integer.parseInt(MobOrLevel[1]);
-						
+
 						if(World.getMonstre(monsterID) == null || World.getMonstre(monsterID).getGradeByLevel(monsterLevel) == null)
 						{
 							if(Ancestra.CONFIG_DEBUG) GameServer.addToLog("Monstre invalide : monsterID:"+monsterID+" monsterLevel:"+monsterLevel);
@@ -522,7 +522,7 @@ public class Action {
 					perso.get_curCarte().startFigthVersusMonstres(perso, group);
 		        }catch(Exception e){GameServer.addToLog(e.getMessage());};
 			break;
-			case 28://Rune mÈtier
+			case 28://Rune m√©tier
 				int Job = 0;
 				try
 				{
@@ -558,9 +558,9 @@ public class Action {
 					Personnage P = GT.getPerso();
 					if(P == null || P == perso)continue;
 					if(P.get_compte().get_curIP().compareTo(perso.get_compte().get_curIP()) == 0)continue;
-					//SI pas sÈriane ni neutre et si alignement opposÈ
+					//SI pas s√©riane ni neutre et si alignement oppos√©
 					if(P.get_align() == perso.get_align() || P.get_align() == 0 || P.get_align() == 3)continue;
-					
+
 					if(P.get_lvl()>perso.get_lvl())diff = P.get_lvl() - perso.get_lvl();
 					if(perso.get_lvl()>P.get_lvl())diff = perso.get_lvl() - P.get_lvl();
 					if(diff<tmp)tempP = P; tmp = diff;
@@ -570,24 +570,24 @@ public class Action {
 						SocketManager.GAME_SEND_MESSAGE(perso, "Nous n'avons pas trouve de cible a ta hauteur. Reviens plus tard." , "000000");
 						break;
 					}
-					
-					
+
+
 					SocketManager.GAME_SEND_MESSAGE(perso, "Vous etes desormais en chasse de "+tempP.get_name()+"." , "000000");
-					
+
 					perso.get_traque().set_traqued(tempP);
 					perso.get_traque().set_time(System.currentTimeMillis());
-					
-					
+
+
 					ObjTemplate T = World.getObjTemplate(10085);
 					if(T == null)return;
 					perso.removeByTemplateID(T.getID(),100);
-					
+
 					Objet newObj = T.createNewItem(20, false);
-					//On ajoute le nom du type ‡ recherchÈ
+					//On ajoute le nom du type √© recherch√©
 					/*
 					newObj.addTxtStat(962, Integer.toString(tempP.get_lvl()));
 					newObj.addTxtStat(961, Integer.toString(tempP.getGrade()));
-					
+
 					int alignid = tempP.get_align();
 					String align = "";
 					switch(alignid)
@@ -601,13 +601,13 @@ public class Action {
 					align = "Brakmarien";
 					break;
 					case 3:
-					align = "SÈriane";
+					align = "S√©riane";
 					break;
 					}
 					newObj.addTxtStat(960, align);
 					*/
 					newObj.getTxtStat().put(989, tempP.get_name());
-					
+
 					//Si retourne true, on l'ajoute au monde
 					if(perso.addObjet(newObj, true)){
 						World.addObjet(newObj, true);
@@ -621,13 +621,13 @@ public class Action {
 				SocketManager.GAME_SEND_MESSAGE(perso, "Thomas Sacre : Vous venez juste de signer un contrat, vous devez vous reposer." , "000000");
 			}
 			break;
-			case 51://Cible sur la gÈoposition
+			case 51://Cible sur la g√©oposition
 				String perr = "";
-				
+
 				perr = World.getObjet(itemID).getTraquedName();
 				if(perr == null)
 				{
-					break;	
+					break;
 				}
 				Personnage cible = World.getPersoByName(perr);
 				if(cible==null)break;
@@ -656,7 +656,7 @@ public class Action {
 				if((perso.get_sexe() == 0 && perso.get_curCell().getID() == 282) || (perso.get_sexe() == 1 && perso.get_curCell().getID() == 297))
 				{
 					World.AddMarried(perso.get_sexe(), perso);
-				}else 
+				}else
 				{
 					SocketManager.GAME_SEND_Im_PACKET(perso, "1102");
 				}
@@ -698,7 +698,7 @@ public class Action {
 					SocketManager.GAME_SEND_GA_PACKET_TO_MAP(perso.get_curCarte(), "0", 228, perso.get_GUID()+";"+cellid+","+Animations.PrepareToGA(animation), "");
 				}catch(Exception e){GameServer.addToLog(e.getMessage());};
 			break;
-			case 229://Animation d'incarnam ‡ astrub
+			case 229://Animation d'incarnam √© astrub
 				short map = Constants.getClassStatueMap(perso.get_classe());
 				int cell = Constants.getClassStatueCell(perso.get_classe());
 				SocketManager.GAME_SEND_GA_PACKET(perso.get_compte().getGameThread().get_out(), "", "2", perso.get_GUID()+"", "7");

@@ -40,7 +40,7 @@ public class Carte {
 	private byte _maxSize;
 	private int _maxTeam0 = 0;
 	private int _maxTeam1 = 0;
-	
+
 	public static class MountPark
 	{
 		private int _owner;
@@ -52,7 +52,7 @@ public class Carte {
 		private int _cellid = -1;
 		private int _price;
 		private Map<Integer,Integer> MountParkDATA = new TreeMap<Integer,Integer>();//DragoID, IDperso
-		
+
 		public MountPark(int owner, Carte map, int cellid, int size,String data, int guild,int price)
 		{
 			_owner = owner;
@@ -78,11 +78,11 @@ public class Carte {
 		public int get_owner() {
 			return _owner;
 		}
-		
+
 		public void set_owner(int AccID) {
 			_owner = AccID;
 		}
-		
+
 		public InteractiveObject get_door() {
 			return _door;
 		}
@@ -94,7 +94,7 @@ public class Carte {
 		public Guild get_guild() {
 			return _guild;
 		}
-		
+
 		public void set_guild(Guild guild) {
 			_guild = guild;
 		}
@@ -102,7 +102,7 @@ public class Carte {
 		public Carte get_map() {
 			return _map;
 		}
-		
+
 		public int get_cellid() {
 			return _cellid;
 		}
@@ -110,7 +110,7 @@ public class Carte {
 		public int get_price() {
 			return _price;
 		}
-		
+
 		public void set_price(int price) {
 			_price = price;
 		}
@@ -125,7 +125,7 @@ public class Carte {
 		public String parseData(int PID, boolean isPublic)
 		{
 			if(MountParkDATA.isEmpty())return "~";
-			
+
 			StringBuilder packet = new StringBuilder();
 			for(Entry<Integer, Integer> MPdata : MountParkDATA.entrySet())
 			{
@@ -141,12 +141,12 @@ public class Carte {
 			}
 			return packet.toString();
 		}
-		
+
 		public String parseDBData()
 		{
 			StringBuilder str = new StringBuilder();
 			if(MountParkDATA.isEmpty())return "";
-			
+
 			for(Entry<Integer, Integer> MPdata : MountParkDATA.entrySet())
 			{
 				if(str.length() > 0)str.append(";");
@@ -154,27 +154,27 @@ public class Carte {
 			}
 			return str.toString();
 		}
-		
+
 		public void addData(int DID, int PID)
 		{
 			MountParkDATA.put(DID, PID);
 		}
-		
+
 		public void removeData(int DID)
 		{
 			MountParkDATA.remove(DID);
 		}
-		
+
 		public Map<Integer, Integer> getData()
 		{
 			return MountParkDATA;
 		}
-		
+
 		public int MountParkDATASize()
 		{
 			return MountParkDATA.size();
 		}
-		
+
 		public static void removeMountPark(int GuildID)
 		{
 			for(Entry<Short, objects.Carte.MountPark> mp : World.getMountPark().entrySet())//Pour chaque enclo si ils en ont plusieurs
@@ -202,7 +202,7 @@ public class Carte {
 			}
 		}
 	}
-	
+
 	public static class InteractiveObject
 	{
 		private int _id;
@@ -212,7 +212,7 @@ public class Carte {
 		private boolean _interactive = true;
 		private Timer _respawnTimer;
 		private IOTemplate _template;
-		
+
 		public InteractiveObject(Carte a_map,Case a_cell,int a_id)
 		{
 			_id = a_id;
@@ -222,7 +222,7 @@ public class Carte {
 			int respawnTime = 10000;
 			_template = World.getIOTemplate(_id);
 			if(_template != null)respawnTime = _template.getRespawnTime();
-			//dÈfinition du timer
+			//d√©finition du timer
 			_respawnTimer = new Timer(respawnTime,
 					new ActionListener()
 					{
@@ -237,27 +237,27 @@ public class Carte {
 					}
 			);
 		}
-		
+
 		public int getID()
 		{
 			return _id;
 		}
-		
+
 		public boolean isInteractive()
 		{
 			return _interactive;
 		}
-		
+
 		public void setInteractive(boolean b)
 		{
 			_interactive = b;
 		}
-		
+
 		public int getState()
 		{
 			return _state;
 		}
-		
+
 		public void setState(int state)
 		{
 			_state = state;
@@ -296,7 +296,7 @@ public class Carte {
 			return _template.isWalkable() && _state == Constants.IOBJECT_STATE_FULL;
 		}
 	}
-	
+
 	public static class Case
 	{
 		private int _id;
@@ -308,7 +308,7 @@ public class Carte {
 		private ArrayList<Action> _onCellStop;
 		private InteractiveObject _object;
 		private Objet _droppedItem;
-		
+
 		public Case(Carte a_map,int id,boolean _walk,boolean LoS, int objID)
 		{
 			_map = a_map.get_id();
@@ -318,7 +318,7 @@ public class Carte {
 			if(objID == -1)return;
 			_object = new InteractiveObject(a_map,this,objID);
 		}
-		
+
 		public InteractiveObject getObject()
 		{
 			return _object;
@@ -327,7 +327,7 @@ public class Carte {
 		{
 			return _droppedItem;
 		}
-		
+
 		public boolean canDoAction(int id)
 		{
 			switch(id)
@@ -336,11 +336,11 @@ public class Carte {
 				case 122:
 				case 47:
 					return _object.getID() == 7007;
-				//Faucher BlÈ
+				//Faucher Bl√©
 				case 45:
 					switch(_object.getID())
 					{
-						case 7511://BlÈ
+						case 7511://Bl√©
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -352,7 +352,7 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				
+
 				//Faucher Avoine
 				case 57:
 					switch(_object.getID())
@@ -360,7 +360,7 @@ public class Carte {
 						case 7517://Avoine
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
-				return false;	
+				return false;
 				//Faucher Houblon
 				case 46:
 					switch(_object.getID())
@@ -401,7 +401,7 @@ public class Carte {
 						case 7518://Malt
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
-				return false;			
+				return false;
 				//Faucher Chanvre - Cueillir Chanvre
 				case 69:
 				case 54:
@@ -414,19 +414,19 @@ public class Carte {
 				//Scier - Bucheron
 				case 101:
 					return _object.getID() == 7003;
-				//Couper FrÍne
+				//Couper Fr√©ne
 				case 6:
 					switch(_object.getID())
 					{
-						case 7500://FrÍne
+						case 7500://Fr√©ne
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//Couper Ch‚taignier
+				//Couper Ch√©taignier
 				case 39:
 					switch(_object.getID())
 					{
-						case 7501://Ch‚taignier
+						case 7501://Ch√©taignier
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -438,11 +438,11 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//Couper ChÍne
+				//Couper Ch√©ne
 				case 10:
 					switch(_object.getID())
 					{
-						case 7503://ChÍne
+						case 7503://Ch√©ne
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -494,11 +494,11 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//Couper EbËne
+				//Couper Eb√©ne
 				case 34:
 					switch(_object.getID())
 					{
-						case 7507://EbËne
+						case 7507://Eb√©ne
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -534,11 +534,11 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//Couper Bambou SacrÈ
+				//Couper Bambou Sacr√©
 				case 158:
 					switch(_object.getID())
 					{
-						case 7552://Bambou SacrÈ
+						case 7552://Bambou Sacr√©
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -647,11 +647,11 @@ public class Carte {
 				//Fabriquer potion - Alchimiste
 				case 23:
 					return _object.getID() == 7019;
-				//Cueillir TrËfle
+				//Cueillir Tr√©fle
 				case 71:
 					switch(_object.getID())
 					{
-						case 7533://TrËfle
+						case 7533://Tr√©fle
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -663,11 +663,11 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//Cueillir OrchidÈe
+				//Cueillir Orchid√©e
 				case 73:
 					switch(_object.getID())
 					{
-						case 7535:// OrchidÈe
+						case 7535:// Orchid√©e
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -687,10 +687,10 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//Vider - PÍcheur
+				//Vider - P√©cheur
 				case 133:
 					return _object.getID() == 7024;
-				//PÍcher Petits poissons de mer
+				//P√©cher Petits poissons de mer
 				case 128:
 					switch(_object.getID())
 					{
@@ -698,15 +698,15 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Petits poissons de riviËre
+				//P√©cher Petits poissons de rivi√©re
 				case 124:
 					switch(_object.getID())
 					{
-						case 7529://Petits poissons de riviËre
+						case 7529://Petits poissons de rivi√©re
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Pichon
+				//P√©cher Pichon
 				case 136:
 					switch(_object.getID())
 					{
@@ -714,7 +714,7 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Ombre Etrange
+				//P√©cher Ombre Etrange
 				case 140:
 					switch(_object.getID())
 					{
@@ -722,15 +722,15 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Poissons de riviËre
+				//P√©cher Poissons de rivi√©re
 				case 125:
 					switch(_object.getID())
 					{
-						case 7532://Poissons de riviËre
+						case 7532://Poissons de rivi√©re
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Poissons de mer
+				//P√©cher Poissons de mer
 				case 129:
 					switch(_object.getID())
 					{
@@ -738,15 +738,15 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Gros poissons de riviËre
+				//P√©cher Gros poissons de rivi√©re
 				case 126:
 					switch(_object.getID())
 					{
-						case 7537://Gros poissons de riviËre
+						case 7537://Gros poissons de rivi√©re
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Gros poissons de mers
+				//P√©cher Gros poissons de mers
 				case 130:
 					switch(_object.getID())
 					{
@@ -754,19 +754,19 @@ public class Carte {
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Poissons gÈants de riviËre
+				//P√©cher Poissons g√©ants de rivi√©re
 				case 127:
 					switch(_object.getID())
 					{
-						case 7539://Poissons gÈants de riviËre
+						case 7539://Poissons g√©ants de rivi√©re
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
-				//PÍcher Poissons gÈants de mer
+				//P√©cher Poissons g√©ants de mer
 				case 131:
 					switch(_object.getID())
 					{
-						case 7540://Poissons gÈants de mer
+						case 7540://Poissons g√©ants de mer
 							return _object.getState() == Constants.IOBJECT_STATE_FULL;
 					}
 				return false;
@@ -797,8 +797,8 @@ public class Carte {
 							return true;
 					}
 				return false;
-				
-				case 175://AccÈder
+
+				case 175://Acc√©der
 				case 176://Acheter
 				case 177://Vendre
 				case 178://Modifier le prix de vente
@@ -812,8 +812,8 @@ public class Carte {
 							return true;
 					}
 				return false;
-				
-				//Se rendre ‡ incarnam
+
+				//Se rendre √© incarnam
 				case 183:
 					switch(_object.getID())
 					{
@@ -832,7 +832,7 @@ public class Carte {
 							return true;
 					}
 				return false;
-				
+
 				//Enclume magique
 				case  1:
 				case 113:
@@ -907,46 +907,46 @@ public class Carte {
 				//Tailleur (Haut)
 				case 63:
 					return (_object.getID() == 7014 || _object.getID() == 7016);
-				//Atelier : CrÈer Amu // Anneau
+				//Atelier : Cr√©er Amu // Anneau
 				case 11:
 				case 12:
 					return (_object.getID() >= 7008 && _object.getID() <= 7010);
 				//Maison
-				case 81://VÈrouiller
+				case 81://V√©rouiller
 				case 84://Acheter
 				case 97://Entrer
 				case 98://Vendre
 				case 108://Modifier le prix de vente
 					return (_object.getID() >= 6700 && _object.getID() <= 6776);
-				//Coffre	
+				//Coffre
 				case 104://Ouvrir
 				case 105://Code
 					return (_object.getID() == 7350 || _object.getID() == 7351 || _object.getID() == 7353);
 				case 170://Liste des artisans
 					return _object.getID() == 7035;
-				//Action ID non trouvÈ
+				//Action ID non trouv√©
 				default:
 					GameServer.addToLog("MapActionID non existant dans Case.canDoAction: "+id);
 					return false;
 			}
 		}
-		
+
 		public int getID()
 		{
 			return _id;
 		}
-		
+
 		public void addOnCellStopAction(int id, String args, String cond)
 		{
 			if(_onCellStop == null) _onCellStop = new ArrayList<Action>();
-			
+
 			_onCellStop.add(new Action(id,args,cond));
 		}
-		
+
 		public void applyOnCellStopActions(Personnage perso)
 		{
 			if(_onCellStop == null) return;
-			
+
 			for(Action act : _onCellStop)
 			{
 				act.apply(perso, null, -1, -1);
@@ -956,7 +956,7 @@ public class Carte {
 		{
 			if(_persos == null) _persos = new TreeMap<Integer, Personnage>();
 			_persos.put(perso.get_GUID(),perso);
-			
+
 		}
 		public void addFighter(Fighter fighter)
 		{
@@ -1034,9 +1034,9 @@ public class Carte {
 					perso.set_savePos(str);
 					SocketManager.GAME_SEND_Im_PACKET(perso, "06");
 				break;
-			
+
 				case 102://Puiser
-					if(!_object.isInteractive())return;//Si l'objet est utilisÈ
+					if(!_object.isInteractive())return;//Si l'objet est utilis√©
 					if(_object.getState() != Constants.IOBJECT_STATE_FULL)return;//Si le puits est vide
 					_object.setState(Constants.IOBJECT_STATE_EMPTYING);
 					_object.setInteractive(false);
@@ -1052,13 +1052,13 @@ public class Carte {
 					String[] Zaapis;
 					int count = 0;
 					int price = 20;
-					
-					if (perso.get_curCarte()._subArea.get_area().get_id() == 7 && (perso.get_align() == 1 || perso.get_align() == 0 || perso.get_align() == 3))//Ange, Neutre ou SÈrianne
+
+					if (perso.get_curCarte()._subArea.get_area().get_id() == 7 && (perso.get_align() == 1 || perso.get_align() == 0 || perso.get_align() == 3))//Ange, Neutre ou S√©rianne
 					{
 						Zaapis = Constants.ZAAPI.get(Constants.ALIGNEMENT_BONTARIEN).split(",");
 						if (perso.get_align() == 1) price = 10;
 					}
-					else if (perso.get_curCarte()._subArea.get_area().get_id() == 11 && (perso.get_align() == 2 || perso.get_align() == 0 || perso.get_align() == 3))//DÈmons, Neutre ou SÈrianne
+					else if (perso.get_curCarte()._subArea.get_area().get_id() == 11 && (perso.get_align() == 2 || perso.get_align() == 0 || perso.get_align() == 3))//D√©mons, Neutre ou S√©rianne
 					{
 						Zaapis = Constants.ZAAPI.get(Constants.ALIGNEMENT_BRAKMARIEN).split(",");
 						if (perso.get_align() == 2) price = 10;
@@ -1067,7 +1067,7 @@ public class Carte {
 					{
 						Zaapis = Constants.ZAAPI.get(Constants.ALIGNEMENT_NEUTRE).split(",");
 					}
-					
+
 					if(Zaapis.length > 0)
 					{
 						for (String s : Zaapis)
@@ -1106,7 +1106,7 @@ public class Carte {
 					}
 					if(perso.getGuildMember().getRank() != 1)//Non meneur
 					{
-						SocketManager.GAME_SEND_Im_PACKET(perso, "198"); 
+						SocketManager.GAME_SEND_Im_PACKET(perso, "198");
 						return;
 					}
 					SocketManager.GAME_SEND_R_PACKET(perso, "D"+MP.get_price()+"|"+MP.get_price());
@@ -1138,7 +1138,7 @@ public class Carte {
 					perso.teleport(mapID, cellID);
 					perso.get_compte().getGameThread().removeAction(GA);
 				break;
-				case 81://VÈrouiller maison
+				case 81://V√©rouiller maison
 					House h = House.get_house_id_by_coord(perso.get_curCarte().get_id(), CcellID);
 					if(h == null)return;
 					perso.setInHouse(h);
@@ -1156,8 +1156,8 @@ public class Carte {
 					perso.setInHouse(h3);
 					h3.BuyIt(perso);
 				break;
-				
-                case 104://Ouvrir coffre privÈ
+
+                case 104://Ouvrir coffre priv√©
                 	Trunk trunk = Trunk.get_trunk_id_by_coord(perso.get_curCarte().get_id(), CcellID);
                 	if(trunk == null)
                     {
@@ -1167,7 +1167,7 @@ public class Carte {
                     perso.setInTrunk(trunk);
                     trunk.HopIn(perso);
                 break;
-                case 105://VÈrouiller coffre
+                case 105://V√©rouiller coffre
                     Trunk t = Trunk.get_trunk_id_by_coord(perso.get_curCarte().get_id(), CcellID);
                     if(t == null)
                     {
@@ -1177,7 +1177,7 @@ public class Carte {
                     perso.setInTrunk(t);
                     t.Lock(perso);
                 break;
-                
+
 				case 98://Vendre
 				case 108://Modifier prix de vente
 					House h4 = House.get_house_id_by_coord(perso.get_curCarte().get_id(), CcellID);
@@ -1195,7 +1195,7 @@ public class Carte {
 				break;
 			}
 		}
-		
+
 		public void finishAction(Personnage perso, GameAction GA)
 		{
 			int actionID = -1;
@@ -1204,7 +1204,7 @@ public class Carte {
 				actionID = Integer.parseInt(GA._args.split(";")[1]);
 			}catch(Exception e){}
 			if(actionID == -1)return;
-			
+
 			if(Constants.isJobAction(actionID))
 			{
 				perso.finishJobAction(actionID,_object,GA,this);
@@ -1213,7 +1213,7 @@ public class Carte {
 			switch(actionID)
 			{
 				case 44://Sauvegarder a un zaap
-				case 81://VÈrouiller maison
+				case 81://V√©rouiller maison
 				case 84://ouvrir maison
 				case 97://Acheter maison.
 				case 98://Vendre
@@ -1233,10 +1233,10 @@ public class Carte {
 						World.addObjet(obj,true);
 					SocketManager.GAME_SEND_IQ_PACKET(perso,perso.get_GUID(),qua);
 				break;
-				
+
 				case 183:
 				break;
-				
+
 				default:
 					GameServer.addToLog("[FIXME]Case.finishAction non definie pour l'actionID = "+actionID);
 				break;
@@ -1267,7 +1267,7 @@ public class Carte {
 		this._h = _h;
 		this._key = _key;
 		this._placesStr = places;
-		//On rÈcupÈre le nombre de cellule de combat :
+		//On r√©cup√©re le nombre de cellule de combat :
 		try
 		{
 			String[] split = places.split("\\|");
@@ -1289,17 +1289,17 @@ public class Carte {
 			GameServer.addToLog("Erreur de chargement de la map "+_id+": Le champ MapPos est invalide");
 			System.exit(0);
 		}
-		
+
 		if(!dData.isEmpty())
 		{
 		_cases = CryptManager.DecompileMapData(this,dData);
 		}else
 		{
 		String[] cellsDataArray = cellsData.split("\\|");
-		
+
 		for(String o : cellsDataArray)
 		{
-			
+
 			boolean Walkable = true;
 			boolean LineOfSight = true;
 			int Number = -1;
@@ -1316,8 +1316,8 @@ public class Carte {
 				}
 			}catch(Exception d){};
 			if(Number == -1)continue;
-			
-            _cases.put(Number, new Case(this,Number,Walkable,LineOfSight,obj));	
+
+            _cases.put(Number, new Case(this,Number,Walkable,LineOfSight,obj));
 		}
 		}
 		for(String mob : monsters.split("\\|"))
@@ -1325,7 +1325,7 @@ public class Carte {
 			if(mob.equals(""))continue;
 			int id = 0;
 			int lvl = 0;
-			
+
 			try
 			{
 				id = Integer.parseInt(mob.split(",")[0]);
@@ -1337,11 +1337,11 @@ public class Carte {
 			_mobPossibles.add(World.getMonstre(id).getGradeByLevel(lvl));
 		}
 		if(_cases.isEmpty())return;
-		
+
 		if (Ancestra.CONFIG_USE_MOBS)
 		{
 			if(_maxGroup == 0)return;
-			spawnGroup(Constants.ALIGNEMENT_NEUTRE,_maxGroup,false,-1);//Spawn des groupes d'alignement neutre 
+			spawnGroup(Constants.ALIGNEMENT_NEUTRE,_maxGroup,false,-1);//Spawn des groupes d'alignement neutre
 			spawnGroup(Constants.ALIGNEMENT_BONTARIEN,1,false,-1);//Spawn du groupe de gardes bontarien s'il y a
 			spawnGroup(Constants.ALIGNEMENT_BRAKMARIEN,1,false,-1);//Spawn du groupe de gardes brakmarien s'il y a
 		}
@@ -1355,7 +1355,7 @@ public class Carte {
 	public void addEndFightAction(int type,Action A)
 	{
 		if(_endFightAction.get(type) == null)_endFightAction.put(type, new ArrayList<Action>());
-		//On retire l'action si elle existait dÈj‡
+		//On retire l'action si elle existait d√©j√©
 		delEndFightAction(type,A.getID());
 		_endFightAction.get(type).add(A);
 	}
@@ -1384,12 +1384,12 @@ public class Carte {
 		_placesStr = places;
 		_cases = new TreeMap<Integer,Case>();
 	}
-	
+
 	public SubArea getSubArea()
 	{
 		return _subArea;
 	}
-	
+
 	public int getX() {
 		return _X;
 	}
@@ -1397,7 +1397,7 @@ public class Carte {
 	public int getY() {
 		return _Y;
 	}
-	
+
 	public Map<Integer, NPC> get_npcs() {
 		return _npcs;
 	}
@@ -1412,7 +1412,7 @@ public class Carte {
 		_nextObjectID--;
 		return npc;
 	}
-	
+
 	public void spawnGroup(int align, int nbr,boolean log,int cellID)
 	{
 		if(nbr<1)return;
@@ -1430,7 +1430,7 @@ public class Carte {
 			_nextObjectID--;
 		}
 	}
-	
+
 	public void spawnNewGroup(boolean timer,int cellID,String groupData,String condition)
 	{
 		MobGroup group = new MobGroup(_nextObjectID, cellID, groupData);
@@ -1438,16 +1438,16 @@ public class Carte {
 		_mobGroups.put(_nextObjectID, group);
 		group.setCondition(condition);
 		group.setIsFix(false);
-		
+
 		if(Ancestra.CONFIG_DEBUG) GameServer.addToLog("Groupe de monstres ajoutes sur la map: "+_id+" ID: "+_nextObjectID);
-		
+
 		SocketManager.GAME_SEND_MAP_MOBS_GM_PACKET(this, group);
 		_nextObjectID--;
-		
+
 		if(timer)
 			group.startCondTimer();
 	}
-	
+
 	public void spawnGroupOnCommand(int cellID,String groupData)
 	{
 		MobGroup group = new MobGroup(_nextObjectID, cellID, groupData);
@@ -1460,7 +1460,7 @@ public class Carte {
 		SocketManager.GAME_SEND_MAP_MOBS_GM_PACKET(this, group);
 		_nextObjectID--;
 	}
-	
+
 	public void addStaticGroup(int cellID,String groupData)
 	{
 		MobGroup group = new MobGroup(_nextObjectID,cellID,groupData);
@@ -1470,7 +1470,7 @@ public class Carte {
 		_fixMobGroups.put(-1000+_nextObjectID, group);
 		SocketManager.GAME_SEND_MAP_MOBS_GM_PACKET(this, group);
 	}
-	
+
 	public void setPlaces(String place)
 	{
 		_placesStr = place;
@@ -1484,17 +1484,17 @@ public class Carte {
 	{
 		return _npcs.get(id);
 	}
-	
+
 	public NPC RemoveNPC(int id)
 	{
 		return _npcs.remove(id);
 	}
-	
+
 	public Case getCase(int id)
 	{
 		return _cases.get(id);
 	}
-	
+
 	public ArrayList<Personnage> getPersos()
 	{
 		ArrayList<Personnage> persos = new ArrayList<Personnage>();
@@ -1524,7 +1524,7 @@ public class Carte {
 	public String get_placesStr() {
 		return _placesStr;
 	}
-	
+
 	public void addPlayer(Personnage perso)
 	{
 		SocketManager.GAME_SEND_ADD_PLAYER_TO_MAP(this,perso);
@@ -1552,7 +1552,7 @@ public class Carte {
 	public String getMobGroupGMsPackets()
 	{
 		if(_mobGroups.isEmpty())return "";
-		
+
 		StringBuilder packet = new StringBuilder();
 		packet.append("GM|");
 		boolean isFirst = true;
@@ -1560,20 +1560,20 @@ public class Carte {
 		{
 			String GM = entry.parseGM();
 			if(GM.equals(""))continue;
-			
+
 			if(!isFirst)
 				packet.append("|");
-			
+
 			packet.append(GM);
 			isFirst = false;
 		}
 		return packet.toString();
 	}
-	
+
 	public String getNpcsGMsPackets()
 	{
 		if(_npcs.isEmpty())return "";
-		
+
 		StringBuilder packet = new StringBuilder();
 		packet.append("GM|");
 		boolean isFirst = true;
@@ -1581,16 +1581,16 @@ public class Carte {
 		{
 			String GM = entry.getValue().parseGM();
 			if(GM.equals(""))continue;
-			
+
 			if(!isFirst)
 				packet.append("|");
-			
+
 			packet.append(GM);
 			isFirst = false;
 		}
 		return packet.toString();
 	}
-	
+
 	public String getObjectsGDsPackets()
 	{
 		StringBuilder toreturn = new StringBuilder();
@@ -1608,12 +1608,12 @@ public class Carte {
 		}
 		return toreturn.toString();
 	}
-	
+
 	public int getNbrFight()
 	{
 		return _fights.size();
 	}
-	
+
 	public Map<Integer, Fight> get_fights()
 	{
 		return _fights;
@@ -1624,13 +1624,13 @@ public class Carte {
 		int id = 1;
 		if(!_fights.isEmpty())
 			id = ((Integer)(_fights.keySet().toArray()[_fights.size()-1]))+1;
-		
+
 		Fight f = new Fight(type,id,this,init1,init2);
 		_fights.put(id,f);
 		SocketManager.GAME_SEND_MAP_FIGHT_COUNT_TO_MAP(this);
 		return f;
 	}
-	
+
 	public int getRandomFreeCellID()
 	{
 		ArrayList<Integer> freecell = new ArrayList<Integer>();
@@ -1667,7 +1667,7 @@ public class Carte {
 		int rand = Formulas.getRandomValue(0, freecell.size()-1);
 		return freecell.get(rand);
 	}
-	
+
 	public void refreshSpawns()
 	{
 		for(int id : _mobGroups.keySet())
@@ -1678,11 +1678,11 @@ public class Carte {
 		_mobGroups.putAll(_fixMobGroups);
 		for(MobGroup mg : _fixMobGroups.values())SocketManager.GAME_SEND_MAP_MOBS_GM_PACKET(this, mg);
 
-		spawnGroup(Constants.ALIGNEMENT_NEUTRE,_maxGroup,true,-1);//Spawn des groupes d'alignement neutre 
+		spawnGroup(Constants.ALIGNEMENT_NEUTRE,_maxGroup,true,-1);//Spawn des groupes d'alignement neutre
 		spawnGroup(Constants.ALIGNEMENT_BONTARIEN,1,true,-1);//Spawn du groupe de gardes bontarien s'il y a
 		spawnGroup(Constants.ALIGNEMENT_BRAKMARIEN,1,true,-1);//Spawn du groupe de gardes brakmarien s'il y a
 	}
-	
+
 	public void onPlayerArriveOnCell(Personnage perso,int caseID, boolean hasEndingFight)
 	{
 		if(_cases.get(caseID) == null)return;
@@ -1696,11 +1696,11 @@ public class Carte {
 			_cases.get(caseID).clearDroppedItem();
 		}
 		_cases.get(caseID).applyOnCellStopActions(perso);
-		
+
 		if(_placesStr.equalsIgnoreCase("|")) return;
 		//Si le joueur a changer de map ou ne peut etre aggro
 		if(perso.get_curCarte().get_id() != _id || !perso.canAggro())return;
-		
+
 		if(!hasEndingFight)
 		{
 			for(MobGroup group : _mobGroups.values())
@@ -1717,7 +1717,7 @@ public class Carte {
 				}
 			}
 		}
-		//Activation de l'invitation d'autre joueurs si il ce trouve a proximitÈ d'une table de craft.
+		//Activation de l'invitation d'autre joueurs si il ce trouve a proximit√© d'une table de craft.
 		String JobID = Constants.isValidPlaceToInviteCraft(perso, caseID);
 		if(!JobID.isEmpty())
 		{
@@ -1731,19 +1731,19 @@ public class Carte {
 			perso.set_isJobActivate("");
 		}
 	}
-	
+
 	public void startFigthVersusMonstres(Personnage perso, MobGroup group)
 	{
 		int id = 1;
 		if(!_fights.isEmpty())
 			id = ((Integer)(_fights.keySet().toArray()[_fights.size()-1]))+1;
-		
+
 		if(!group.isFix())_mobGroups.remove(group.getID());
 		else SocketManager.GAME_SEND_MAP_MOBS_GMS_PACKETS_TO_MAP(this);
 		_fights.put(id, new Fight(id,this,perso,group));
 		SocketManager.GAME_SEND_MAP_FIGHT_COUNT_TO_MAP(this);
 	}
-	
+
 	public void startFigthVersusPercepteur(Personnage perso, Percepteur perco)
 	{
 		int id = 1;
@@ -1751,7 +1751,7 @@ public class Carte {
 			id = ((Integer)(_fights.keySet().toArray()[_fights.size()-1]))+1;
 		_fights.put(id, new Fight(id,this,perso,perco));
 		SocketManager.GAME_SEND_MAP_FIGHT_COUNT_TO_MAP(this);
-		
+
 		for(Personnage z : World.getGuild(_fights.get(id).get_guildID()).getMembers())
 		{
 			if(z == null) continue;
@@ -1768,9 +1768,9 @@ public class Carte {
 	public Carte getMapCopy()
 	{
 		Map<Integer,Case> cases = new TreeMap<Integer,Case>();
-		
+
 		Carte map = new Carte(_id,_date,_w,_h,_key,_placesStr);
-		
+
 		for(Entry<Integer,Case> entry : _cases.entrySet())
 			cases.put(entry.getKey(),
 					new Case(
@@ -1844,12 +1844,12 @@ public class Carte {
 	public Map<Integer, Case> GetCases() {
 		 return _cases;
 	}
-	
+
 	public int getStoreCount()
 	{
 		return (World.getSeller(get_id()) == null?0:World.getSeller(get_id()).size());
 	}
-	
+
 	public int get_maxTeam1() {
 		return _maxTeam1;
 	}
@@ -1857,17 +1857,17 @@ public class Carte {
 	public int get_maxTeam0() {
 		return _maxTeam0;
 	}
-	
+
 	public boolean hasEndFightAction(int actionId)
 	{
 		return _endFightAction.containsKey(actionId);
 	}
-	
-	public int getRandomNearFreeCellID(int cellid)//obtenir une cell alÈatoire et proche
+
+	public int getRandomNearFreeCellID(int cellid)//obtenir une cell al√©atoire et proche
 	{
 		ArrayList<Integer> freecell = new ArrayList<Integer>();
 		ArrayList<Integer> cases = new ArrayList<Integer>();
-		
+
 		cases.add((cellid+1));
 		cases.add((cellid-1));
 		cases.add((cellid+2));
@@ -1902,7 +1902,7 @@ public class Carte {
 		cases.add((cellid-58));
 		cases.add((cellid+59));
 		cases.add((cellid-59));
-		
+
 		for(Integer entry : cases)
 		{
 			if(_cases.get(entry) == null) continue;
@@ -1931,13 +1931,13 @@ public class Carte {
 		}
 		if(freecell.isEmpty())
 		{
-			GameServer.addToLog("Aucune cellulle libre n'a ete trouve sur la map "+_id+" groupe non dÈplacÈ");
+			GameServer.addToLog("Aucune cellulle libre n'a ete trouve sur la map "+_id+" groupe non d√©plac√©");
 			return -1;
 		}
 		int rand = Formulas.getRandomValue(0, freecell.size()-1);
 		return freecell.get(rand);
 	}
-	
+
 	public void onMap_MonstersDisplacement()
 	{
 		if(getMobGroups().size() == 0) return;
@@ -1959,21 +1959,21 @@ public class Carte {
 	        	SocketManager.GAME_SEND_GA_PACKET(z.get_compte().getGameThread().get_out(), "0", "1", entry.getValue().getID()+"", pathstr);
 	        }
 	    }
-	    
+
 	    int MoveOrNot = Formulas.getRandomValue(1, 2);
 	    if(MoveOrNot == 1)
 	    {
 		    Percepteur perco = Percepteur.GetPercoByMapID(get_id());
 		    if(perco == null) return;
 		    if(perco.get_inFight() > 0) return;
-		    
+
 		    int cell = getRandomNearFreeCellID(perco.get_cellID());
 		    String pathstr;
 		    try{
 		    	pathstr = Pathfinding.getShortestStringPathBetween(this, perco.get_cellID(), cell, 0);
 		    }catch(Exception e){return;}
 		    if(pathstr == null) return;
-		    
+
 		    perco.set_cellID(cell);
 		    for(Personnage z : getPersos())
 		    {

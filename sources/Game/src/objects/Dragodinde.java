@@ -27,8 +27,8 @@ public class Dragodinde {
 	private Stats _stats = new Stats();
 	private String _ancetres = ",,,,,,,,,,,,,";
 	private ArrayList<Objet> _items = new ArrayList<Objet>();
-	//TODO: Capacités
-	
+	//TODO: CapacitÃ©s
+
 	public Dragodinde(int color)
 	{
 		_id = World.getNextIdForMount();
@@ -43,11 +43,11 @@ public class Dragodinde {
 		_serenite = 0;
 		_stats = Constants.getMountStats(_color,_level);
 		_ancetres = ",,,,,,,,,,,,,";
-		
+
 		World.addDragodinde(this);
 		SQLManager.CREATE_MOUNT(this);
 	}
-	
+
 	public Dragodinde(int id, int color, int sexe, int amour, int endurance,
 			int level, long exp, String nom, int fatigue,
 			int energie, int reprod, int maturite, int serenite,String items,String anc)
@@ -139,14 +139,14 @@ public class Dragodinde {
 	public ArrayList<Objet> get_items() {
 		return _items;
 	}
-	
+
 	public String parse()
 	{
 		StringBuilder str = new StringBuilder();
 		str.append(_id).append(":");
 		str.append(_color).append(":");
 		str.append(_ancetres).append(":");
-		str.append(",").append(":");//FIXME capacités
+		str.append(",").append(":");//FIXME capacitÃ©s
 		str.append(_nom).append(":");
 		str.append(_sexe).append(":");
 		str.append(parseXpString()).append(":");
@@ -194,7 +194,7 @@ public class Dragodinde {
 	private int getTotalPod()
 	{
 		int pod = 1000;
-		
+
 		return pod;
 	}
 
@@ -223,16 +223,16 @@ public class Dragodinde {
 		_nom = packet;
 		SQLManager.UPDATE_MOUNT_INFOS(this);
 	}
-	
+
 	public void addXp(long amount)
 	{
 		_exp += amount;
 
 		while(_exp >= World.getExpLevel(_level+1).dinde && _level<100)
 			levelUp();
-		
+
 	}
-	
+
 	public void levelUp()
 	{
 		_level++;

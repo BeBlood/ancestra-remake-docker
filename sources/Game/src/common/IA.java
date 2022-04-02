@@ -22,7 +22,7 @@ public class IA {
 		private Fighter _fighter;
 		private static boolean stop = false;
 		private Thread _t;
-		
+
 		public IAThread(Fighter fighter, Fight fight)
 		{
 			_fighter = fighter;
@@ -59,7 +59,7 @@ public class IA {
 					} catch (InterruptedException e) {};
 					_fight.endTurn();
 				}
-			}else 
+			}else
 			if(_fighter.getMob().getTemplate() == null)
 			{
 				_fight.endTurn();
@@ -70,16 +70,16 @@ public class IA {
 					case 0://Ne rien faire
 						apply_type0(_fighter,_fight);
 					break;
-					case 1://Attaque, Buff sois même, Buff Alliés, Avancer vers ennemis. Si PDV < 15% Auto-Soins, Attaque, soin allié, buff allié, fuite
+					case 1://Attaque, Buff sois mÃ©me, Buff AlliÃ©s, Avancer vers ennemis. Si PDV < 15% Auto-Soins, Attaque, soin alliÃ©, buff alliÃ©, fuite
 						apply_type1(_fighter,_fight);
 					break;
 					case 2://Soutien
 						apply_type2(_fighter,_fight);
 					break;
-					case 3://Avancer vers Alliés, Buff Alliés, Buff sois même
+					case 3://Avancer vers AlliÃ©s, Buff AlliÃ©s, Buff sois mÃ©me
 						apply_type3(_fighter,_fight);
 					break;
-					case 4://Attaque, Fuite, Buff Alliés, Buff sois même
+					case 4://Attaque, Fuite, Buff AlliÃ©s, Buff sois mÃ©me
 						apply_type4(_fighter,_fight);
 					break;
 					case 5://Avancer vers ennemis
@@ -88,21 +88,21 @@ public class IA {
 					case 6://IA type invocations
 						apply_type6(_fighter,_fight);
 					break;
-					case 7://IA sac animé
+					case 7://IA sac animÃ©
 						apply_type7(_fighter,_fight);
 					break;
 				}
 				try {
 					Thread.sleep(2000); // C'est si lent dofus =O
 				} catch (InterruptedException e) {};
-				
+
 				if(!_fighter.isDead())//Mort d'une invocation pendant son tour de jeu : empeche de passer le tour du joueur suivant
 				{
 					_fight.endTurn();
 				}
 			}
 		}
-		
+
 		private static void apply_type0(Fighter F, Fight fight)
 		{
 			stop = true;
@@ -127,9 +127,9 @@ public class IA {
 						{
 							if(!buffIfPossible(fight,F,F))//auto-buff
 							{
-								if(!HealIfPossible(fight,F, false))//soin allié
+								if(!HealIfPossible(fight,F, false))//soin alliÃ©
 								{
-									if(!buffIfPossible(fight,F,T2))//buff allié
+									if(!buffIfPossible(fight,F,T2))//buff alliÃ©
 									{
 										if(!moveNearIfPossible(fight,F,T))//avancer
 										{
@@ -154,9 +154,9 @@ public class IA {
 							if(attack == 5) stop = true;//EC
 							if(!buffIfPossible(fight,F,F))//auto-buff
 							{
-								if(!HealIfPossible(fight,F,false))//soin allié
+								if(!HealIfPossible(fight,F,false))//soin alliÃ©
 								{
-									if(!buffIfPossible(fight,F,T2))//buff allié
+									if(!buffIfPossible(fight,F,T2))//buff alliÃ©
 									{
 										if(!invocIfPossible(fight,F))
 										{
@@ -169,7 +169,7 @@ public class IA {
 								}
 							}
 						}
-					}				
+					}
 				}
 			}
 		}
@@ -179,11 +179,11 @@ public class IA {
 			while(!stop && F.canPlay())
 			{
 				Fighter T = getNearestFriend(fight,F);
-				if(!HealIfPossible(fight,F,false))//soin allié
+				if(!HealIfPossible(fight,F,false))//soin alliÃ©
 				{
-					if(!buffIfPossible(fight,F,T))//buff allié
+					if(!buffIfPossible(fight,F,T))//buff alliÃ©
 					{
-						if(!moveNearIfPossible(fight,F,T))//Avancer vers allié
+						if(!moveNearIfPossible(fight,F,T))//Avancer vers alliÃ©
 						{
 							if(!HealIfPossible(fight,F,true))//auto-soin
 							{
@@ -204,20 +204,20 @@ public class IA {
 							}
 						}
 					}
-				}			
+				}
 			}
 		}
-		
+
 		private static void apply_type3(Fighter F, Fight fight)
 		{
 			while(!stop && F.canPlay())
 			{
 				Fighter T = getNearestFriend(fight,F);
-				if(!moveNearIfPossible(fight,F,T))//Avancer vers allié
+				if(!moveNearIfPossible(fight,F,T))//Avancer vers alliÃ©
 				{
-					if(!HealIfPossible(fight,F,false))//soin allié
+					if(!HealIfPossible(fight,F,false))//soin alliÃ©
 					{
-						if(!buffIfPossible(fight,F,T))//buff allié
+						if(!buffIfPossible(fight,F,T))//buff alliÃ©
 						{
 							if(!HealIfPossible(fight,F,true))//auto-soin
 							{
@@ -232,9 +232,9 @@ public class IA {
 						}
 					}
 				}
-			}		
+			}
 		}
-		
+
 		private static void apply_type4(Fighter F, Fight fight) //IA propre La Folle
 		{
 			while(!stop && F.canPlay())
@@ -247,9 +247,9 @@ public class IA {
 					if(attack == 5) stop = true;//EC
 					if(!moveFarIfPossible(fight, F))//fuite
 					{
-							if(!HealIfPossible(fight,F,false))//soin allié
+							if(!HealIfPossible(fight,F,false))//soin alliÃ©
 							{
-								if(!buffIfPossible(fight,F,T))//buff allié
+								if(!buffIfPossible(fight,F,T))//buff alliÃ©
 								{
 									if(!HealIfPossible(fight,F,true))//auto-soin
 									{
@@ -267,21 +267,21 @@ public class IA {
 				}
 			}
 		}
-		
-		private static void apply_type5(Fighter F, Fight fight) //IA propre aux énus
+
+		private static void apply_type5(Fighter F, Fight fight) //IA propre aux Ã©nus
 		{
 			while(!stop && F.canPlay())
 			{
 				Fighter T = getNearestEnnemy(fight, F);
 				if(T == null) return;
-				
+
 				if(!moveNearIfPossible(fight,F,T))//Avancer vers enemis
 				{
 					stop = true;
 				}
 			}
 		}
-		
+
 		private static void apply_type6(Fighter F, Fight fight)
 		{
 			while(!stop && F.canPlay())
@@ -289,11 +289,11 @@ public class IA {
 				if(!invocIfPossible(fight,F))
 				{
 					Fighter T = getNearestFriend(fight,F);
-					if(!HealIfPossible(fight,F,false))//soin allié
+					if(!HealIfPossible(fight,F,false))//soin alliÃ©
 					{
-						if(!buffIfPossible(fight,F,T))//buff allié
+						if(!buffIfPossible(fight,F,T))//buff alliÃ©
 						{
-							if(!buffIfPossible(fight,F,F))//buff allié
+							if(!buffIfPossible(fight,F,F))//buff alliÃ©
 							{
 								if(!HealIfPossible(fight,F,true))
 								{
@@ -307,11 +307,11 @@ public class IA {
 								}
 							}
 						}
-					}	
+					}
 				}
 			}
 		}
-		
+
 		private static void apply_type7(Fighter fighter, Fight fight)
 		{
 			while(!stop && fighter.canPlay())
@@ -327,7 +327,7 @@ public class IA {
 				}
 			}
 		}
-		
+
 		private static void apply_typePerco(Fighter F, Fight fight)
 		{
 			while(!stop && F.canPlay())
@@ -340,9 +340,9 @@ public class IA {
 					if(attack == 5) stop = true;//EC
 					if(!moveFarIfPossible(fight, F))//fuite
 					{
-						if(!HealIfPossible(fight,F,false))//soin allié
+						if(!HealIfPossible(fight,F,false))//soin alliÃ©
 						{
-							if(!buffIfPossible(fight,F,T))//buff allié
+							if(!buffIfPossible(fight,F,T))//buff alliÃ©
 							{
 								if(!HealIfPossible(fight,F,true))//auto-soin
 								{
@@ -357,20 +357,20 @@ public class IA {
 				}
 			}
 		}
-		
-		private static boolean moveFarIfPossible(Fight fight, Fighter F) 
+
+		private static boolean moveFarIfPossible(Fight fight, Fighter F)
 		{
-			//On créer une liste de distance entre ennemi et de cellid, nous permet de savoir si un ennemi est collé a nous
+			//On crÃ©er une liste de distance entre ennemi et de cellid, nous permet de savoir si un ennemi est collÃ© a nous
 			int dist[] = {1000,1000,1000,1000,1000,1000,1000,1000,1000,1000}, cell[] = {0,0,0,0,0,0,0,0,0,0};
 			for(int i = 0; i < 10 ; i++)//on repete 10 fois pour les 10 joueurs ennemis potentielle
 			{
 				for(Fighter f : fight.getFighters(3))
 				{
-					
+
 					if(f.isDead())continue;
 					if(f == F || f.getTeam() == F.getTeam())continue;
 					int cellf = f.get_fightCell().getID();
-					if(cellf == cell[0] || cellf == cell[1] || cellf == cell[2] || cellf == cell[3] || cellf == cell[4] || cellf == cell[5] || cellf == cell[6] || cellf == cell[7] || cellf == cell[8] || cellf == cell[9])continue;					
+					if(cellf == cell[0] || cellf == cell[1] || cellf == cell[2] || cellf == cell[3] || cellf == cell[4] || cellf == cell[5] || cellf == cell[6] || cellf == cell[7] || cellf == cell[8] || cellf == cell[9])continue;
 					int d = 0;
 					d = Pathfinding.getDistanceBetween(fight.get_map(), F.get_fightCell().getID(), f.get_fightCell().getID());
 					if(d == 0)continue;
@@ -386,52 +386,52 @@ public class IA {
 					}
 				}
 			}
-			
-			if(dist[0] == 0)return false;//Si ennemi "collé"
-			
+
+			if(dist[0] == 0)return false;//Si ennemi "collÃ©"
+
 			int dist2[] = {0,0,0,0,0,0,0,0,0,0};
 			int PM = F.getCurPM(fight), caseDepart = F.get_fightCell().getID(), destCase = F.get_fightCell().getID();
-			for(int i = 0; i <= PM;i++)//Pour chaque PM on analyse la meilleur case a prendre. C'est a dire la plus éliognée de tous.
+			for(int i = 0; i <= PM;i++)//Pour chaque PM on analyse la meilleur case a prendre. C'est a dire la plus Ã©liognÃ©e de tous.
 			{
 				if(destCase > 0)
 					caseDepart = destCase;
 				int curCase = caseDepart;
-				
+
 				/** En +15 **/
 				curCase += 15;
 				int infl = 0, inflF = 0;
 				for(int a = 0; a < 10 && dist[a] != 0; a++)
 				{
 					dist2[a] = Pathfinding.getDistanceBetween(fight.get_map(), curCase, cell[a]);//pour chaque ennemi on calcul la nouvelle distance depuis cette nouvelle case (curCase)
-					if(dist2[a] > dist[a])//Si la cellule (curCase) demander et plus distante que la précedente de l'ennemi alors on dirrige le mouvement vers elle
+					if(dist2[a] > dist[a])//Si la cellule (curCase) demander et plus distante que la prÃ©cedente de l'ennemi alors on dirrige le mouvement vers elle
 						infl++;
 				}
-				
+
 				if(infl > inflF && curCase >= 15 && curCase <= 463 && testCotes(destCase, curCase) && fight.get_map().getCase(curCase).isWalkable(false))//Si l'influence (infl) est la plus forte en comparaison avec inflF on garde la case si celle-ci est valide
 				{
 					inflF = infl;
 					destCase = curCase;
 				}
 				/** En +15 **/
-				
+
 				/** En +14 **/
 				curCase = caseDepart + 14;
 				infl = 0;
-				
+
 				for(int a = 0; a < 10 && dist[a] != 0; a++)
 				{
 					dist2[a] = Pathfinding.getDistanceBetween(fight.get_map(), curCase, cell[a]);
 					if(dist2[a] > dist[a])
 						infl++;
 				}
-				
+
 				if(infl > inflF && curCase >= 15 && curCase <= 463 && testCotes(destCase, curCase) && fight.get_map().getCase(curCase).isWalkable(false))
 				{
 					inflF = infl;
 					destCase = curCase;
 				}
 				/** En +14 **/
-				
+
 				/** En -15 **/
 				curCase = caseDepart -15;
 				infl = 0;
@@ -441,14 +441,14 @@ public class IA {
 					if(dist2[a] > dist[a])
 						infl++;
 				}
-				
+
 				if(infl > inflF && curCase >= 15 && curCase <= 463 && testCotes(destCase, curCase) && fight.get_map().getCase(curCase).isWalkable(false))
 				{
 					inflF = infl;
 					destCase = curCase;
 				}
 				/** En -15 **/
-				
+
 				/** En -14 **/
 				curCase = caseDepart - 14;
 				infl = 0;
@@ -458,7 +458,7 @@ public class IA {
 					if(dist2[a] > dist[a])
 						infl++;
 				}
-				
+
 				if(infl > inflF && curCase >= 15 && curCase <= 463 && testCotes(destCase, curCase) && fight.get_map().getCase(curCase).isWalkable(false))
 				{
 					inflF = infl;
@@ -468,11 +468,11 @@ public class IA {
 			}
 			//SmallMap : 15 at 463 ... BigMap : 19 at 776
 			if(destCase < 15 || destCase > 463 || destCase == F.get_fightCell().getID() || !fight.get_map().getCase(destCase).isWalkable(false))return false;
-			
+
 			if(F.getPM() <= 0)return false;
 			ArrayList<Case> path = Pathfinding.getShortestPathBetween(fight.get_map(),F.get_fightCell().getID(),destCase, 0);
 			if(path == null)return false;
-			
+
 			ArrayList<Case> finalPath = new ArrayList<Case>();
 			for(int a = 0; a<F.getPM();a++)
 			{
@@ -498,7 +498,7 @@ public class IA {
 			if(curCaseID != F.get_fightCell().getID())
 				pathstr += CryptManager.cellID_To_Code(curCaseID);
 			}catch(Exception e){e.printStackTrace();};
-			//Création d'une GameAction
+			//CrÃ©ation d'une GameAction
 			GameAction GA = new GameAction(0,1, "");
 			GA._args = pathstr;
 			boolean result = fight.fighterDeplace(F, GA);
@@ -508,19 +508,19 @@ public class IA {
 			return result;
 		}
 
-		private static boolean testCotes(int cellWeAre, int cellWego)//Nous permet d'interdire le déplacement du bord vers des cellules hors map
+		private static boolean testCotes(int cellWeAre, int cellWego)//Nous permet d'interdire le dÃ©placement du bord vers des cellules hors map
 		{
 			if (cellWeAre == 15 || cellWeAre == 44 || cellWeAre == 73 || cellWeAre == 102 || cellWeAre == 131 || cellWeAre == 160 || cellWeAre == 189 || cellWeAre == 218 || cellWeAre == 247 || cellWeAre == 276 || cellWeAre == 305 || cellWeAre == 334 || cellWeAre == 363 || cellWeAre == 392 || cellWeAre == 421 || cellWeAre == 450)
 			{
 				if(cellWego == cellWeAre + 14 || cellWego == cellWeAre - 15)
-					return false;			
+					return false;
 			}
 			if (cellWeAre == 28 || cellWeAre == 57 || cellWeAre == 86 || cellWeAre == 115 || cellWeAre == 144 || cellWeAre == 173 || cellWeAre == 202 || cellWeAre == 231 || cellWeAre == 260 || cellWeAre == 289 || cellWeAre == 318 || cellWeAre == 347 || cellWeAre == 376 || cellWeAre == 405 || cellWeAre == 434 || cellWeAre == 463)
 			{
 				if(cellWego == cellWeAre + 15 || cellWego == cellWeAre - 14)
 					return false;
 			}
-			
+
 			if (cellWeAre >= 451 && cellWeAre <= 462)
 			{
 				if(cellWego == cellWeAre + 15 || cellWego == cellWeAre + 14)
@@ -533,7 +533,7 @@ public class IA {
 			}
 			return true;
 		}
-		
+
 		private static boolean invocIfPossible(Fight fight,Fighter fighter)
 		{
 			Fighter nearest = getNearestEnnemy(fight, fighter);
@@ -547,10 +547,10 @@ public class IA {
 				return false;
 			int invoc = fight.tryCastSpell(fighter, spell, nearestCell);
 			if(invoc != 0)return false;
-			
+
 			return true;
 		}
-		
+
 		private static SortStats getInvocSpell(Fight fight,Fighter fighter,int nearestCell)
 		{
 			if(fighter.getMob() == null)return null;
@@ -561,29 +561,29 @@ public class IA {
 				for(SpellEffect SE : SS.getValue().getEffects())
 				{
 					if(SE.getEffectID() == 181)
-						return SS.getValue();		
+						return SS.getValue();
 				}
 			}
 			return null;
 		}
-		
-		private static boolean HealIfPossible(Fight fight, Fighter f, boolean autoSoin)//boolean pour choisir entre auto-soin ou soin allié
+
+		private static boolean HealIfPossible(Fight fight, Fighter f, boolean autoSoin)//boolean pour choisir entre auto-soin ou soin alliÃ©
 		{
 			if(autoSoin && (f.getPDV()*100)/f.getPDVMAX() > 95 )return false;
 			Fighter target = null;
 			SortStats SS = null;
 			if(autoSoin)
 			{
-				target = f;			
+				target = f;
 				SS = getHealSpell(fight,f,target);
 			}
-			else//sélection joueur ayant le moins de pv
+			else//sÃ©lection joueur ayant le moins de pv
 			{
 				Fighter curF = null;
 				int PDVPERmin = 100;
 				SortStats curSS = null;
 				for(Fighter F : fight.getFighters(3))
-				{					
+				{
 					if(f.isDead())continue;
 					if(F == f)continue;
 					if(F.getTeam() == f.getTeam())
@@ -623,31 +623,31 @@ public class IA {
 						}
 					}
 				}
-				target = curF;			
+				target = curF;
 			}
 			if(target == null)return false;
 			if(SS == null)return false;
 			int heal = fight.tryCastSpell(f, SS, target.get_fightCell().getID());
 			if(heal != 0)
 				return false;
-			
+
 			return true;
 		}
-		
-		private static boolean buffIfPossible(Fight fight, Fighter fighter,Fighter target) 
-		{		
+
+		private static boolean buffIfPossible(Fight fight, Fighter fighter,Fighter target)
+		{
 			if(target == null)return false;
 			SortStats SS = getBuffSpell(fight,fighter,target);
 			if(SS == null)return false;
 			int buff = fight.tryCastSpell(fighter, SS, target.get_fightCell().getID());
-			if(buff != 0)return false;			
-			
-			return true;	
+			if(buff != 0)return false;
+
+			return true;
 		}
-		
+
 		private static SortStats getBuffSpell(Fight fight, Fighter F, Fighter T)
 		{
-			int infl = 0;	
+			int infl = 0;
 			SortStats ss = null;
 			if(F.isPerco())
 			{
@@ -671,12 +671,12 @@ public class IA {
 					}
 				}
 			}
-			return ss;				
+			return ss;
 		}
-		
+
 		private static SortStats getHealSpell(Fight fight, Fighter F, Fighter T)
 		{
-			int infl = 0;	
+			int infl = 0;
 			SortStats ss = null;
 			if(F.isPerco())
 			{
@@ -703,16 +703,16 @@ public class IA {
 			}
 			return ss;
 		}
-		
+
 		private static boolean moveNearIfPossible(Fight fight, Fighter F, Fighter T)
 		{
 			if(F.getCurPM(fight) <= 0)
 				return false;
 			if(Pathfinding.isNextTo(F.get_fightCell().getID(), T.get_fightCell().getID()))
 				return false;
-			
+
 			if(Ancestra.CONFIG_DEBUG) GameServer.addToLog("Tentative d'approche par "+F.getPacketsName()+" de "+T.getPacketsName());
-			
+
 			int cellID = Pathfinding.getNearestCellAround(fight.get_map(),T.get_fightCell().getID(),F.get_fightCell().getID(),null);
 			//On demande le chemin plus court
 			if(cellID == -1)
@@ -734,12 +734,12 @@ public class IA {
 			/*System.out.println("DEBUG PATHFINDING:");
 			System.out.println("startCell: "+F.get_fightCell().getID());
 			System.out.println("destinationCell: "+cellID);
-			
+
 			for(Case c : path)
 			{
 				System.out.println("Passage par cellID: "+c.getID()+" walk: "+c.isWalkable(true));
 			}*/
-			
+
 			ArrayList<Case> finalPath = new ArrayList<Case>();
 			for(int a = 0; a<F.getCurPM(fight);a++)
 			{
@@ -765,7 +765,7 @@ public class IA {
 			if(curCaseID != F.get_fightCell().getID())
 				pathstr += CryptManager.cellID_To_Code(curCaseID);
 			}catch(Exception e){e.printStackTrace();};
-			//Création d'une GameAction
+			//CrÃ©ation d'une GameAction
 			GameAction GA = new GameAction(0,1, "");
 			GA._args = pathstr;
 			boolean result = fight.fighterDeplace(F, GA);
@@ -795,7 +795,7 @@ public class IA {
 			}
 			return curF;
 		}
-		
+
 		private static Fighter getNearestEnnemy(Fight fight, Fighter fighter)
 		{
 			int dist = 1000;
@@ -815,7 +815,7 @@ public class IA {
 			}
 			return curF;
 		}
-		
+
 		private static Map<Integer,Fighter> getLowHpEnnemyList(Fight fight,Fighter fighter)
 		{
 			Map<Integer,Fighter> list = new TreeMap<Integer,Fighter>();
@@ -831,7 +831,7 @@ public class IA {
 			}
 			int i = 0, i2 = ennemy.size();
 			int curHP = 10000;
-			
+
 			while ( i < i2)
 			{
 				curHP = 200000;
@@ -847,10 +847,10 @@ public class IA {
 			}
 			return list;
 		}
-		
-		
+
+
 		private static int attackIfPossible(Fight fight, Fighter fighter)// 0 = Rien, 5 = EC, 666 = NULL, 10 = SpellNull ou ActionEnCour ou Can'tCastSpell, 0 = AttaqueOK
-		{	
+		{
 			Map<Integer,Fighter> ennemyList = getLowHpEnnemyList(fight,fighter);
 			SortStats SS = null;
 			Fighter target = null;
@@ -865,7 +865,7 @@ public class IA {
 			}
 			int curTarget = 0,cell = 0;
 			SortStats SS2 = null;
-			
+
 			if(fighter.isPerco())
 			{
 				for(Entry<Integer, SortStats> S : World.getGuild(fighter.getPerco().GetPercoGuildID()).getSpells().entrySet())
@@ -912,11 +912,11 @@ public class IA {
 					return 666;
 				int attack = fight.tryCastSpell(fighter, SS, target.get_fightCell().getID());
 				if(attack != 0)
-					return attack;			
+					return attack;
 			}
 			return 0;
 		}
-		
+
 		private static boolean moveToAttackIfPossible(Fight fight,Fighter fighter)
 		{
 			ArrayList<Integer> cells = Pathfinding.getListCaseFromFighter(fight,fighter);
@@ -929,7 +929,7 @@ public class IA {
 			ArrayList <Fighter> targets = getPotentialTarget(fight,fighter,sorts);
 			if(targets == null)
 				return false;
-			
+
 			int CellDest = 0;
 			boolean found = false;
 			for(int i : cells)
@@ -989,7 +989,7 @@ public class IA {
 			if(curCaseID != fighter.get_fightCell().getID())
 				pathstr += CryptManager.cellID_To_Code(curCaseID);
 			}catch(Exception e){e.printStackTrace();};
-			//Création d'une GameAction
+			//CrÃ©ation d'une GameAction
 			GameAction GA = new GameAction(0,1, "");
 			GA._args = pathstr;
 			boolean result = fight.fighterDeplace(fighter, GA);
@@ -997,9 +997,9 @@ public class IA {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {}
 			return result;
-			
+
 		}
-		
+
 		private static ArrayList <SortStats> getLaunchableSort(Fighter fighter,Fight fight,int distMin)
 		{
 			ArrayList <SortStats> sorts = new ArrayList <SortStats>();
@@ -1020,25 +1020,25 @@ public class IA {
 				sorts.add(S.getValue());
 			}
 			ArrayList <SortStats> finalS = TriInfluenceSorts(fighter,sorts);
-			
+
 			return finalS;
 		}
-		
+
 		private static ArrayList <SortStats> TriInfluenceSorts(Fighter fighter, ArrayList <SortStats> sorts)
 		{
 			if(sorts == null)
 				return null;
-			
+
 			ArrayList <SortStats> finalSorts = new ArrayList <SortStats>();
 			Map <Integer,SortStats> copie = new TreeMap <Integer,SortStats>();
 			for(SortStats S : sorts)
 			{
 				copie.put(S.getSpellID(), S);
 			}
-			
+
 			int curInfl = 0;
 			int curID = 0;
-			
+
 			while ( copie.size() > 0)
 			{
 				curInfl = 0;
@@ -1057,10 +1057,10 @@ public class IA {
 				finalSorts.add(copie.get(curID));
 				copie.remove(curID);
 			}
-			
+
 			return finalSorts;
 		}
-		
+
 		private static ArrayList <Fighter> getPotentialTarget(Fight fight,Fighter fighter,ArrayList<SortStats> sorts)
 		{
 			ArrayList <Fighter> targets = new ArrayList <Fighter>();
@@ -1078,10 +1078,10 @@ public class IA {
 				if(dist < distMax)
 					targets.add(T.getValue());
 			}
-			
+
 			return targets;
 		}
-		
+
 		private static SortStats getBestSpellForTarget(Fight fight, Fighter F,Fighter T)
 		{
 			int inflMax = 0;
@@ -1130,8 +1130,8 @@ public class IA {
 								ss = SS.getValue();
 								inflMax = curInfl + Infl1 + Infl2;
 							}
-						}				
-					}			
+						}
+					}
 				}
 			}else
 			{
@@ -1150,7 +1150,7 @@ public class IA {
 						Infl1 = curInfl;
 						inflMax = Infl1;
 					}
-					
+
 					for(Entry<Integer, SortStats> SS2 : F.getMob().getSpells().entrySet())
 					{
 						if( (PA - usedPA[0]) < SS2.getValue().getPACost())continue;
@@ -1175,8 +1175,8 @@ public class IA {
 								ss = SS.getValue();
 								inflMax = curInfl + Infl1 + Infl2;
 							}
-						}				
-					}			
+						}
+					}
 				}
 			}
 			return ss;
@@ -1194,7 +1194,7 @@ public class IA {
 			{
 				char arg1 = 'a';
 				if(spell.isLineLaunch())
-				{	
+				{
 					arg1 = 'X';
 				}
 				else
@@ -1218,12 +1218,12 @@ public class IA {
 			{
 				possibleLaunch.add(fight.get_map().getCase(launchCell));
 			}
-			
+
 			if(possibleLaunch == null)
 			{
 				return -1;
 			}
-			int nbTarget = 0;	
+			int nbTarget = 0;
 			for(Case cell : possibleLaunch)
 			{
 				try{
@@ -1233,7 +1233,7 @@ public class IA {
 					int curTarget = 0;
 					ArrayList<SpellEffect> test = new ArrayList<SpellEffect>();
 					test.addAll(spell.getEffects());
-					
+
 					for(SpellEffect SE : test)
 					{
 						try{
@@ -1261,24 +1261,24 @@ public class IA {
 				}
 				catch(Exception E){}
 			}
-			if(nbTarget > 0 && CellF != -1)	
+			if(nbTarget > 0 && CellF != -1)
 				return CellF + nbTarget * 1000;
 			else
 				return 0;
 		}
-		
+
 		private static int calculInfluenceHeal(SortStats ss)
 		{
 			int inf = 0;
 			for(SpellEffect SE : ss.getEffects())
 			{
-				if(SE.getEffectID() != 108)return 0;			
+				if(SE.getEffectID() != 108)return 0;
 				inf += 100 * Formulas.getMiddleJet(SE.getJet());
 			}
-			
+
 			return inf;
 		}
-		
+
 		private static int calculInfluence(SortStats ss,Fighter C,Fighter T)
 		{
 			//FIXME TODO
@@ -1348,13 +1348,13 @@ public class IA {
 					case 131://poison X pdv par PA
 						inf = 300 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 132://désenvoute
+					case 132://dÃ©senvoute
 						inf = 2000;
 					break;
 					case 138://+ %Dom
 						inf = -50 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 150://invisibilité
+					case 150://invisibilitÃ©
 						inf = -2000;
 					break;
 					case 168://retrait PA non esquivacle
@@ -1363,19 +1363,19 @@ public class IA {
 					case 169://retrait PM non esquivacle
 						inf = 1000 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 210://résistance
+					case 210://rÃ©sistance
 						inf = -300 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 211://résistance
+					case 211://rÃ©sistance
 						inf = -300 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 212://résistance
+					case 212://rÃ©sistance
 						inf = -300 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 213://résistance
+					case 213://rÃ©sistance
 						inf = -300 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 214://résistance
+					case 214://rÃ©sistance
 						inf = -300 * Formulas.getMiddleJet(SE.getJet());
 					break;
 					case 215://faiblesse
@@ -1393,7 +1393,7 @@ public class IA {
 					case 219://faiblesse
 						inf = 300 * Formulas.getMiddleJet(SE.getJet());
 					break;
-					case 265://réduction dommage
+					case 265://rÃ©duction dommage
 						inf = -250 * Formulas.getMiddleJet(SE.getJet());
 					break;
 					case 765://Sacrifice
@@ -1402,7 +1402,7 @@ public class IA {
 					case 786://Arbre de vie
 						inf = -1000;
 					break;
-					
+
 				}
 				if(C.getTeam() == T.getTeam())//Si Amis
 					infTot -= inf;

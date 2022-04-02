@@ -26,13 +26,13 @@ public class House
 	private String _key;
 	private int _mapid;
 	private int _caseid;
-	
+
 	//Droits de chaques maisons
 	private Map<Integer,Boolean> haveRight = new TreeMap<Integer,Boolean>();
 
-	
+
 	public House(int id, short map_id, int cell_id, int owner_id, String owner_pseudo, int sale,
-			int guild_id, int access, String key, int guildrights, int mapid, int caseid) 
+			int guild_id, int access, String key, int guildrights, int mapid, int caseid)
 	{
 		_id = id;
 		_map_id = map_id;
@@ -48,102 +48,102 @@ public class House
 		_mapid = mapid;
 		_caseid = caseid;
 	}
-	
+
 	public int get_id()
 	{
 		return _id;
 	}
-	
+
 	public short get_map_id()
 	{
 		return _map_id;
 	}
-	
+
 	public int get_cell_id()
 	{
 		return _cell_id;
 	}
-	
+
 	public int get_owner_id()
 	{
 		return _owner_id;
 	}
-	
+
 	public void set_owner_id(int id)
 	{
 		_owner_id = id;
 	}
-	
+
 	public int get_sale()
 	{
 		return _sale;
 	}
-	
+
 	public void set_sale(int price)
 	{
 		_sale = price;
 	}
-	
+
 	public int get_guild_id()
 	{
 		return _guild_id;
 	}
-	
+
 	public void set_guild_id(int GuildID)
 	{
 		_guild_id = GuildID;
 	}
-	
+
 	public int get_guild_rights()
 	{
 		return _guildRights;
 	}
-	
+
 	public void set_guild_rights(int GuildRights)
 	{
 		_guildRights = GuildRights;
 	}
-	
+
 	public int get_access()
 	{
 		return _access;
 	}
-	
+
 	public void set_access(int access)
 	{
 		_access = access;
 	}
-	
+
 	public String get_key()
 	{
 		return _key;
 	}
-	
+
 	public void set_key(String key)
 	{
 		_key = key;
 	}
-	
+
 	public int get_mapid()
 	{
 		return _mapid;
 	}
-	
+
 	public int get_caseid()
 	{
 		return _caseid;
 	}
-	
+
 	public String get_owner_pseudo()
 	{
 		return _owner_pseudo;
 	}
-	
+
 	public void set_owner_pseudo(String str)
 	{
 		_owner_pseudo = str;
 	}
-	
+
 	public static House get_house_id_by_coord(int map_id, int cell_id)
 	{
 		for(Entry<Integer, House> house : World.getHouses().entrySet())
@@ -155,10 +155,10 @@ public class House
 		}
 		return null;
 	}
-	
+
 	public static void LoadHouse(Personnage P, int newMapID)//Affichage des maison + Blason
 	{
-		
+
 		for(Entry<Integer, House> house : World.getHouses().entrySet())
 		{
 			if(house.getValue().get_map_id() == newMapID)
@@ -203,7 +203,7 @@ public class House
 							{
 								packet.append(";").append(Gname).append(";").append(Gemblem);
 							}
-							else if(house.getValue().canDo(Constants.H_OBLASON))//Pas de guilde/guilde-différente
+							else if(house.getValue().canDo(Constants.H_OBLASON))//Pas de guilde/guilde-diffÃ©rente
 							{
 								packet.append(";").append(Gname).append(";").append(Gemblem);
 							}
@@ -216,7 +216,7 @@ public class House
 				{
 					StringBuilder packet1 = new StringBuilder();
 					packet1.append("L+|").append(house.getValue().get_id()).append(";").append(house.getValue().get_access()).append(";");
-					
+
 					if(house.getValue().get_sale() <= 0)
 					{
 						packet1.append("0;").append(house.getValue().get_sale());
@@ -242,16 +242,16 @@ public class House
 		{
 			return;
 		}
-		
+
 		House h = P.getInHouse();
 		if(h == null) return;
-		if(h.get_owner_id() == P.getAccID() || (P.get_guild() != null && P.get_guild().get_id() == h.get_guild_id() && canDo(Constants.H_GNOCODE)))//C'est sa maison ou même guilde + droits entrer sans pass
+		if(h.get_owner_id() == P.getAccID() || (P.get_guild() != null && P.get_guild().get_id() == h.get_guild_id() && canDo(Constants.H_GNOCODE)))//C'est sa maison ou mÃ©me guilde + droits entrer sans pass
 		{
 			OpenHouse(P, "-", true);
 		}
 		else if(h.get_owner_id() > 0) //Une personne autre la acheter, il faut le code pour rentrer
 		{
-			SocketManager.GAME_SEND_KODE(P, "CK0|8");//8 étant le nombre de chiffre du code
+			SocketManager.GAME_SEND_KODE(P, "CK0|8");//8 Ã©tant le nombre de chiffre du code
 		}
 		else if(h.get_owner_id() == 0) //Maison non acheter, mais achetable, on peut rentrer sans code
 		{
@@ -261,10 +261,10 @@ public class House
 			return;
 		}
 	}
-	
+
 	public static void OpenHouse(Personnage P, String packet, boolean isHome)//Ouvrir une maison ;o
 	{
-		
+
 		House h = P.getInHouse();
 		if((!h.canDo(Constants.H_OCANTOPEN) && (packet.compareTo(h.get_key()) == 0)) || isHome)//Si c'est chez lui ou que le mot de passe est bon
 		{
@@ -276,7 +276,7 @@ public class House
 			SocketManager.GAME_SEND_KODE(P, "V");
 		}
 	}
-	
+
 	public void BuyIt(Personnage P)//Acheter une maison
 	{
 		House h = P.getInHouse();
@@ -297,13 +297,13 @@ public class House
 		if(P.get_kamas() < h.get_sale()) return;
 		long newkamas = P.get_kamas()-h.get_sale();
 		P.set_kamas(newkamas);
-		
+
 		int tKamas = 0;
 		for(Trunk t : Trunk.getTrunksByHouse(h))
 		{
 			if(h.get_owner_id() > 0)
 			{
-				t.moveTrunktoBank(World.getCompte(h.get_owner_id()));//Déplacement des items vers la banque
+				t.moveTrunktoBank(World.getCompte(h.get_owner_id()));//DÃ©placement des items vers la banque
 			}
 			tKamas += t.get_kamas();
 			t.set_kamas(0);//Retrait kamas
@@ -311,7 +311,7 @@ public class House
 			t.set_owner_id(0);//ResetOwner
 			SQLManager.UPDATE_TRUNK(t);
 		}
-		
+
 		//Ajoute des kamas dans la banque du vendeur
 		if(h.get_owner_id() > 0)
 		{
@@ -322,14 +322,14 @@ public class House
 				long newbankkamas = B.getBankKamas()+h.get_sale()+tKamas;
 				B.setBankKamas(newbankkamas);
 			}
-			//Petit message pour le prévenir si il est on?
+			//Petit message pour le prÃ©venir si il est on?
 			if(Seller != null)
 			{
-				SocketManager.GAME_SEND_MESSAGE(Seller.get_curPerso(), "Une maison vous appartenant à été vendue "+h.get_sale()+" kamas.", Ancestra.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(Seller.get_curPerso(), "Une maison vous appartenant Ã© Ã©tÃ© vendue "+h.get_sale()+" kamas.", Ancestra.CONFIG_MOTD_COLOR);
 				SQLManager.SAVE_PERSONNAGE(Seller.get_curPerso(), true);
 			}
 		}
-		
+
 		//On save l'acheteur
 		SQLManager.SAVE_PERSONNAGE(P, true);
 		SocketManager.GAME_SEND_STATS_PACKET(P);
@@ -338,13 +338,13 @@ public class House
 		//Achat de la maison
 		SQLManager.HOUSE_BUY(P, h);
 
-		//Rafraichir la map après l'achat
+		//Rafraichir la map aprÃ©s l'achat
 		for(Personnage z:P.get_curCarte().getPersos())
 		{
 			LoadHouse(z, z.get_curCarte().get_id());
 		}
 	}
-	
+
 	public void SellIt(Personnage P)//Vendre une maison
 	{
 		House h = P.getInHouse();
@@ -358,25 +358,25 @@ public class House
 			return;
 		}
 	}
-	
+
 	public static void SellPrice(Personnage P, String packet)//Vendre une maison
 	{
 		House h = P.getInHouse();
-		int price = Integer.parseInt(packet);	
+		int price = Integer.parseInt(packet);
 		if(h.isHouse(P, h))
 		{
 			SocketManager.GAME_SEND_hOUSE(P, "V");
 			SocketManager.GAME_SEND_hOUSE(P, "SK"+h.get_id()+"|"+price);
-				
+
 			//Vente de la maison
 			SQLManager.HOUSE_SELL(h, price);
 
-			//Rafraichir la map après la mise en vente
+			//Rafraichir la map aprÃ©s la mise en vente
 			for(Personnage z:P.get_curCarte().getPersos())
 			{
 				LoadHouse(z, z.get_curCarte().get_id());
 			}
-				
+
 			return;
 		}else
 		{
@@ -389,23 +389,23 @@ public class House
 		if(h.get_owner_id() == P.getAccID()) return true;
 		else return false;
 	}
-	
+
 	public static void closeCode(Personnage P)
 	{
 		SocketManager.GAME_SEND_KODE(P, "V");
 	}
-	
+
 	public static void closeBuy(Personnage P)
 	{
 		SocketManager.GAME_SEND_hOUSE(P, "V");
 	}
-	
-	public void Lock(Personnage P) 
+
+	public void Lock(Personnage P)
 	{
 		SocketManager.GAME_SEND_KODE(P, "CK1|8");
 	}
-	
-	public static void LockHouse(Personnage P, String packet) 
+
+	public static void LockHouse(Personnage P, String packet)
 	{
 		House h = P.getInHouse();
 		if(h.isHouse(P, h))
@@ -419,7 +419,7 @@ public class House
 			return;
 		}
 	}
-	
+
 	public static String parseHouseToGuild(Personnage P)
 	{
 		boolean isFirst = true;
@@ -430,7 +430,7 @@ public class House
 			{
 				if(isFirst) packet.append("+");
 				if(!isFirst) packet.append("|");
-				
+
 				packet.append(house.getKey()).append(";");
 				if(World.getPersonnage(house.getValue().get_owner_id()).get_compte() == null)
 				{
@@ -440,14 +440,14 @@ public class House
 					packet.append(World.getPersonnage(house.getValue().get_owner_id()).get_compte().get_pseudo()).append(";");
 				}
 				packet.append(World.getCarte((short)house.getValue().get_mapid()).getX()).append(",").append(World.getCarte((short)house.getValue().get_mapid()).getY()).append(";");
-				packet.append("0;");//TODO : Compétences ...
-				packet.append(house.getValue().get_guild_rights());	
+				packet.append("0;");//TODO : CompÃ©tences ...
+				packet.append(house.getValue().get_guild_rights());
 				isFirst = false;
 			}
 		}
 			return packet.toString();
 	}
-	
+
 	public static boolean AlreadyHaveHouse(Personnage P)
 	{
 		for(Entry<Integer, House> house : World.getHouses().entrySet())
@@ -459,13 +459,13 @@ public class House
 		}
 		return false;
 	}
-	
+
 	public static void parseHG(Personnage P, String packet)
 	{
 		House h = P.getInHouse();
-		
+
 		if(P.get_guild() == null) return;
-		
+
 		if(packet != null)
 		{
 			if(packet.charAt(0) == '+')
@@ -500,8 +500,8 @@ public class House
 		}
 		}
 	}
-	
-	public static byte HouseOnGuild(int GuildID) 
+
+	public static byte HouseOnGuild(int GuildID)
 	{
 		byte i = 0;
 		for(Entry<Integer, House> house : World.getHouses().entrySet())
@@ -515,10 +515,10 @@ public class House
 	}
 
 	public boolean canDo(int rightValue)
-	{	
+	{
 		return haveRight.get(rightValue);
 	}
-	
+
 	public void initRight()
 	{
 		haveRight.put(Constants.H_GBLASON, false);
@@ -530,7 +530,7 @@ public class House
 		haveRight.put(Constants.H_GREPOS,false);
 		haveRight.put(Constants.H_GTELE,false);
 	}
-	
+
 	public void parseIntToRight(int total)
 	{
 		if(haveRight.isEmpty())
@@ -540,12 +540,12 @@ public class House
 		if(total == 1)
 			return;
 
-		if(haveRight.size() > 0)	//Si les droits contiennent quelque chose -> Vidage (Même si le TreeMap supprimerais les entrées doublon lors de l'ajout)
+		if(haveRight.size() > 0)	//Si les droits contiennent quelque chose -> Vidage (MÃ©me si le TreeMap supprimerais les entrÃ©es doublon lors de l'ajout)
 			haveRight.clear();
 
 		initRight();	//Remplissage des droits
 
-		Integer[] mapKey = haveRight.keySet().toArray(new Integer[haveRight.size()]);	//Récupère les clef de map dans un tableau d'Integer
+		Integer[] mapKey = haveRight.keySet().toArray(new Integer[haveRight.size()]);	//RÃ©cupÃ©re les clef de map dans un tableau d'Integer
 
 		while(total > 0)
 		{
@@ -560,7 +560,7 @@ public class House
 			}
 		}
 	}
-	
+
 	public static void Leave(Personnage P, String packet)
 	{
 		House h = P.getInHouse();
@@ -571,8 +571,8 @@ public class House
 		Target.teleport(h.get_map_id(), h.get_cell_id());
 		SocketManager.GAME_SEND_Im_PACKET(Target, "018;"+P.get_name());
 	}
-	
-	
+
+
 	public static House get_HouseByPerso(Personnage P)//Connaitre la MAPID + CELLID de sa maison
 	{
 		for(Entry<Integer, House> house : World.getHouses().entrySet())
@@ -584,7 +584,7 @@ public class House
 		}
 		return null;
 	}
-	
+
 	public static void removeHouseGuild(int GuildID)
 	{
 		for(Entry<Integer, House> h : World.getHouses().entrySet())

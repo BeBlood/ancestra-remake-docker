@@ -29,7 +29,7 @@ public class RealmThread implements Runnable {
 	private Account _compte;
 	public static ComThread exchangeThread;
 	public static ComServer exchangeServer;
-	
+
 
 	public RealmThread(Socket sock)
 	{
@@ -64,10 +64,10 @@ public class RealmThread implements Runnable {
 		{
 			String packet = "";
 			char charCur[] = new char[1];
-			
+
 			SocketManager.SEND_POLICY_FILE(_out);
 			_hashKey = SocketManager.SEND_HC_PACKET(_out);
-			
+
 			while(_in.read(charCur, 0, 1) != -1 && Ancestra.isRunning)
 			{
 				if(charCur[0] != '\u0000' && charCur[0] != '\n' && charCur[0] != '\r')
@@ -118,7 +118,7 @@ public class RealmThread implements Runnable {
 			}catch(IOException e1){}
 		}
 	}
-	
+
 	public void kick()
 	{
 		try
@@ -142,14 +142,14 @@ public class RealmThread implements Runnable {
 			Ancestra.addToErrorLog("RealmThreadKick : "+e.getMessage());
 		}
 	}
-	
+
 	public void closeSocket()
 	{
 		try {
 			this._s.close();
 		} catch (IOException e) {}
 	}
-	
+
 	public void refresh()
 	{
 		try
@@ -164,10 +164,10 @@ public class RealmThread implements Runnable {
 			Ancestra.addToErrorLog("RealmThreadRefresh : "+e.getMessage());
 		}
 	}
-	
-	private void parsePacket(String packet) 
+
+	private void parsePacket(String packet)
 	{
-		switch (_packetNum) 
+		switch (_packetNum)
 		{
 		case 1:// Version
 			if(!packet.equalsIgnoreCase(Ancestra.CLIENT_VERSION) && !Ancestra.REALM_IGNORE_VERSION)
@@ -185,70 +185,70 @@ public class RealmThread implements Runnable {
 				kick();
 				return;
 			}
-			
+
 			_hashPass = packet;
 			Account acc = Realm.getCompteByName(_accountName);
-			
-			if(acc != null && acc.isValidPass(_hashPass, _hashKey))//Si il existe alors il est connecté au Realm && mot de passe OK
+
+			if(acc != null && acc.isValidPass(_hashPass, _hashKey))//Si il existe alors il est connectÃ© au Realm && mot de passe OK
 			{
 				SocketManager.SEND_ALREADY_CONNECTED(acc.getRealmThread()._out);
 				SocketManager.SEND_ALREADY_CONNECTED(_out);
 				return;
 			}
-			if(acc != null && !acc.isValidPass(_hashPass, _hashKey))//Si il existe alors il est connecté au Realm && mot de passe Invalide
+			if(acc != null && !acc.isValidPass(_hashPass, _hashKey))//Si il existe alors il est connectÃ© au Realm && mot de passe Invalide
 			{
 				SocketManager.SEND_LOGIN_ERROR(_out);
 				return;
 			}
-			
+
 			SQLManager.LOAD_ACCOUNT_BY_USER(_accountName);//On le "charge"
-			
+
 			_compte = Realm.getCompteByName(_accountName);
-			
+
 			if(_compte == null)//Il n'existe pas
 			{
 				SocketManager.SEND_LOGIN_ERROR(_out);
 				return;
 			}
-			
+
 			if(!_compte.isValidPass(_hashPass, _hashKey))//Mot de passe invalide
 			{
 				SocketManager.SEND_LOGIN_ERROR(_out);
 				return;
 			}
-			
+
 			if(_compte.isBanned())//Compte Ban
 			{
 				SocketManager.SEND_BANNED(_out);
 				return;
 			}
-			
+
 			String ip = _s.getInetAddress().getHostAddress();
-			
+
 			if(Realm.IPcompareToBanIP(ip))//IP Ban
 			{
 				SocketManager.SEND_BANNED(_out);
 				return;
 			}
-			
-			for(Entry<Integer, GameServer> G : Realm.GameServers.entrySet())//On vérifie qu'il n'est pas connecté dans un GameThread
+
+			for(Entry<Integer, GameServer> G : Realm.GameServers.entrySet())//On vÃ©rifie qu'il n'est pas connectÃ© dans un GameThread
 			{
 				if(G.getValue().getThread() == null) continue;
-				G.getValue().getThread().sendDeco(_compte.get_GUID());//On le déconnete du GameThread
+				G.getValue().getThread().sendDeco(_compte.get_GUID());//On le dÃ©connete du GameThread
 			}
-			
+
 			if(_compte.getRealmThread() != null)//Ne devrait pas arriver
 			{
 				SocketManager.SEND_ALREADY_CONNECTED(_out);
 				SocketManager.SEND_ALREADY_CONNECTED(_compte.getRealmThread()._out);
 				return;
 			}
-			
+
 			_compte.setRealmThread(this);
 			_compte.setCurIP(ip);
-			
+
 			SQLManager.UPDATE_ACCOUNT(ip, false, _compte.get_subscriberTime(), _compte.get_GUID());
-			
+
 			SocketManager.SEND_Ad_Ac_AH_AlK_AQ_PACKETS(_out, _compte.get_pseudo(), (_compte.get_gmLvl() > 0 ? (1) : (0)), _compte.get_question(), _compte.get_gmLvl());
 		break;
 		default:
@@ -269,15 +269,15 @@ public class RealmThread implements Runnable {
 			{
 				int number = Integer.parseInt(packet.substring(2,3));
 				Realm.GameServers.get(number).getThread().sendGetOnline();
-				
+
 				try
 				{
 					Thread.sleep(2000);
 				}catch(Exception e){}
-				
+
 				int ActualP = Realm.GameServers.get(number).get_NumPlayer();
 				int MaxP = Realm.GameServers.get(number).get_PlayerLimit();
-				
+
 				if(ActualP >= MaxP)
 				{
 					SocketManager.SEND_TOO_MANY_PLAYER_ERROR(_out);

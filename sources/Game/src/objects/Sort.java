@@ -20,7 +20,7 @@ public class Sort {
 	private Map<Integer,SortStats> sortStats = new TreeMap<Integer,SortStats>();
 	private ArrayList<Integer> effectTargets = new ArrayList<Integer>();
 	private ArrayList<Integer> CCeffectTargets = new ArrayList<Integer>();
-	
+
 	public static class SortStats
 	{
 		private int spellID;
@@ -42,7 +42,7 @@ public class Sort {
 		private ArrayList<SpellEffect> effects;
 		private ArrayList<SpellEffect> CCeffects;
 		private String porteeType;
-		
+
 		public SortStats(int AspellID,int Alevel,int cost, int minPO, int maxPO, int tauxCC,int tauxEC, boolean isLineLaunch, boolean hasLDV,
 				boolean isEmptyCell, boolean isModifPO, int maxLaunchbyTurn,int maxLaunchbyByTarget, int coolDown,
 				int reqLevel,boolean isEcEndTurn, String effects,String ceffects,String typePortee)
@@ -67,7 +67,7 @@ public class Sort {
 			this.CCeffects = parseEffect(ceffects);
 			this.porteeType = typePortee;
 		}
-		
+
 		private ArrayList<SpellEffect> parseEffect(String e)
 		{
 			ArrayList<SpellEffect> effets = new ArrayList<SpellEffect>();
@@ -89,7 +89,7 @@ public class Sort {
 		public int getSpellID() {
 			return spellID;
 		}
-		
+
 		public Sort getSpell()
 		{
 			return World.getSort(spellID);
@@ -98,12 +98,12 @@ public class Sort {
 		{
 			return getSpell().getSpriteID();
 		}
-		
+
 		public String getSpriteInfos()
 		{
 			return getSpell().getSpriteInfos();
 		}
-		
+
 		public int getLevel() {
 			return level;
 		}
@@ -176,12 +176,12 @@ public class Sort {
 			return porteeType;
 		}
 
-		
+
 		public void applySpellEffectToFight(Fight fight, Fighter perso,Case cell,ArrayList<Case> cells,boolean isCC)
 		{
-			//Seulement appellé par les pieges, or les sorts de piege
+			//Seulement appellÃ© par les pieges, or les sorts de piege
 			ArrayList<SpellEffect> effets;
-			
+
 			if(isCC)
 				effets = CCeffects;
 			else
@@ -200,16 +200,16 @@ public class Sort {
 					}
 					curMin += SE.getChance();
 				}
-				
+
 				ArrayList<Fighter> cibles = SpellEffect.getTargets(SE,fight,cells);
 				SE.applyToFight(fight, perso, cell,cibles);
 			}
 		}
-		
+
 		public void applySpellEffectToFight(Fight fight, Fighter perso,Case cell,boolean isCC)
 		{
 			ArrayList<SpellEffect> effets;
-			
+
 			if(isCC)
 				effets = CCeffects;
 			else
@@ -230,27 +230,27 @@ public class Sort {
 					}
 					curMin += SE.getChance();
 				}
-				
+
 				int POnum = num*2;
 				if(isCC)
 				{
 					POnum += effects.size()*2;//On zaap la partie du String des effets hors CC
-				} 
+				}
 				ArrayList<Case> cells = Pathfinding.getCellListFromAreaString(fight.get_map(),cell.getID(),perso.get_fightCell().getID(),porteeType,POnum,isCC);
-				
+
 				ArrayList<Case> finalCells = new ArrayList<Case>();
-				
+
 				int TE = 0;
 				Sort S = World.getSort(spellID);
 				//on prend le targetFlag corespondant au num de l'effet
 				if(S!= null?S.getEffectTargets().size()>num:false)TE = S.getEffectTargets().get(num);
-				
+
 				for(Case C : cells)
 				{
 					if(C == null)continue;
 					Fighter F = C.getFirstFighter();
 					if(F == null)continue;
-					//Ne touches pas les alliés
+					//Ne touches pas les alliÃ©s
 					if(((TE & 1) == 1) && (F.getTeam() == perso.getTeam()))continue;
 					//Ne touche pas le lanceur
 					if((((TE>>1) & 1) == 1) && (F.getGUID() == perso.getGUID()))continue;
@@ -272,10 +272,10 @@ public class Sort {
 				num++;
 			}
 		}
-		
-		
+
+
 	}
-	
+
 	public Sort(int aspellID, int aspriteID, String aspriteInfos,String ET)
 	{
 		spellID = aspellID;
@@ -307,8 +307,8 @@ public class Sort {
 			};
 		}
 	}
-	
-	
+
+
 	public ArrayList<Integer> getEffectTargets()
 	{
 		return effectTargets;
@@ -326,16 +326,16 @@ public class Sort {
 	public int getSpellID() {
 		return spellID;
 	}
-	
+
 	public SortStats getStatsByLevel(int lvl)
 	{
 		return sortStats.get(lvl);
 	}
-	
+
 	public void addSortStats(Integer lvl,SortStats stats)
 	{
 		if(sortStats.get(lvl) != null)return;
 		sortStats.put(lvl,stats);
 	}
-	
+
 }

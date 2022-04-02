@@ -48,7 +48,7 @@ public class World {
 	private static Map<Integer,Map<Integer,ArrayList<HdvEntry>>> HdvsItems = new HashMap<Integer,Map<Integer,ArrayList<HdvEntry>>>();//Contient tout les items en ventes des comptes dans le format<compteID,<hdvID,items<>>>
 	private static Map<Integer,Map<Integer,Map<Integer, Map<Integer, Objet>>>> HdvsTypes = new HashMap<Integer,Map<Integer,Map<Integer, Map<Integer, Objet>>>>();//Contient tout les items en ventes des comptes dans le format<TypeID,<hdvID,<TemplateID,<ItemID,items<>>>>>
 	private static Map<Integer,Map<Integer, HdvEntry>> HdvsTemplates = new HashMap<Integer,Map<Integer, HdvEntry>>();//Contient tout les items en ventes des comptes dans le format<TemplateID,<ItemID, HdvEntry>>>>
-	private static Map<Integer,Personnage> Married = new TreeMap<Integer,Personnage>(); 
+	private static Map<Integer,Personnage> Married = new TreeMap<Integer,Personnage>();
 	private static Map<Integer,Animations> Animations = new TreeMap<Integer,Animations>();
 	private static Map<Short,Carte.MountPark> MountPark = new TreeMap<Short,Carte.MountPark>();
 	private static Map<Integer,Trunk> Trunks = new TreeMap<Integer,Trunk>();
@@ -63,20 +63,20 @@ public class World {
 	private static StringBuilder Challenges = new StringBuilder();
 	private static Map<Integer,Collection<Integer>> CraftBook	= new TreeMap<Integer,Collection<Integer>>();
 	private static Map<Integer, Gift> Gifts = new HashMap<Integer, Gift>();
-	
+
 	private static int saveTry = 1;
-	
+
 	private static byte _GmAccess = 0;
-	
-	private static int nextObjetID; //Contient le derniere ID utilisé pour crée un Objet
-	
+
+	private static int nextObjetID; //Contient le derniere ID utilis pour cre un Objet
+
 	public static class Drop
 	{
 		private int _itemID;
 		private int _prosp;
 		private float _taux;
 		private int _max;
-		
+
 		public Drop(int itm,int p,float t,int m)
 		{
 			_itemID = itm;
@@ -110,7 +110,7 @@ public class World {
 		private int _id;
 		private ArrayList<ObjTemplate> _itemTemplates = new ArrayList<ObjTemplate>();
 		private ArrayList<Stats> _bonuses = new ArrayList<Stats>();
-		
+
 		public ItemSet (int id,String items, String bonuses)
 		{
 			_id = id;
@@ -124,14 +124,14 @@ public class World {
 					_itemTemplates.add(t);
 				}catch(Exception e){};
 			}
-			
+
 			//on ajoute un bonus vide pour 1 item
 			_bonuses.add(new Stats());
 			//parse bonuses String
 			for(String str : bonuses.split(";"))
 			{
 				Stats S = new Stats();
-				//séparation des bonus pour un même nombre d'item
+				//sparation des bonus pour un mme nombre d'item
 				for(String str2 : str.split(","))
 				{
 					try
@@ -152,53 +152,53 @@ public class World {
 		{
 			return _id;
 		}
-		
+
 		public Stats getBonusStatByItemNumb(int numb)
 		{
 			if(numb>_bonuses.size())return new Stats();
 			return _bonuses.get(numb-1);
 		}
-		
+
 		public ArrayList<ObjTemplate> getItemTemplates()
 		{
 			return _itemTemplates;
 		}
 	}
-	
+
 	public static class SuperArea
 	{
 		private int _id;
 		private ArrayList<Area> _areas = new ArrayList<Area>();
-		
+
 		public SuperArea(int a_id)
 		{
 			_id = a_id;
 		}
-		
+
 		public void addArea(Area A)
 		{
 			_areas.add(A);
 		}
-		
+
 		public int get_id()
 		{
 			return _id;
 		}
 	}
-	
+
 	public static class Area
 	{
 		private int _id;
 		private SuperArea _superArea;
 		private String _name;
 		private ArrayList<SubArea> _subAreas = new ArrayList<SubArea>();
-		
+
 		public Area(int id, int superArea,String name)
 		{
 			_id = id;
 			_name = name;
 			_superArea = World.getSuperArea(superArea);
-			//Si le continent n'est pas encore créer, on le créer et on l'ajoute au monde
+			//Si le continent n'est pas encore crer, on le crer et on l'ajoute au monde
 			if(_superArea == null)
 			{
 				_superArea = new SuperArea(superArea);
@@ -213,17 +213,17 @@ public class World {
 		{
 			return _id;
 		}
-		
+
 		public SuperArea get_superArea()
 		{
 			return _superArea;
 		}
-		
+
 		public void addSubArea(SubArea sa)
 		{
 			_subAreas.add(sa);
 		}
-		
+
 		public ArrayList<Carte> getMaps()
 		{
 			ArrayList<Carte> maps = new ArrayList<Carte>();
@@ -231,7 +231,7 @@ public class World {
 			return maps;
 		}
 	}
-	
+
 	public static class SubArea
 	{
 		private int _id;
@@ -240,7 +240,7 @@ public class World {
 		private String _name;
 		private boolean _subscribeNeed;
 		private ArrayList<Carte> _maps = new ArrayList<Carte>();
-		
+
 		public SubArea(int id, int areaID, int alignement,String name, boolean subscribe)
 		{
 			_id = id;
@@ -277,9 +277,9 @@ public class World {
 		{
 			return _subscribeNeed;
 		}
-		
+
 	}
-	
+
 	public static class Couple<L,R>
 	{
 	    public L first;
@@ -299,7 +299,7 @@ public class World {
 		private int _duration;
 		private int _unk;
 		private boolean _walkable;
-		
+
 		public IOTemplate(int a_i,int a_r,int a_d,int a_u, boolean a_w)
 		{
 			_id = a_i;
@@ -308,10 +308,10 @@ public class World {
 			_unk = a_u;
 			_walkable = a_w;
 		}
-		
+
 		public int getId() {
 			return _id;
-		}	
+		}
 		public boolean isWalkable() {
 			return _walkable;
 		}
@@ -326,7 +326,7 @@ public class World {
 			return _unk;
 		}
 	}
-	
+
 	public static class Exchange
 	{
 		private Personnage perso1;
@@ -337,13 +337,13 @@ public class World {
 		private ArrayList<Couple<Integer,Integer>> items2 = new ArrayList<Couple<Integer,Integer>>();
 		private boolean ok1;
 		private boolean ok2;
-		
+
 		public Exchange(Personnage p1, Personnage p2)
 		{
 			perso1 = p1;
 			perso2 = p2;
 		}
-		
+
 		synchronized public long getKamas(int guid)
 		{
 			int i = 0;
@@ -351,14 +351,14 @@ public class World {
 				i = 1;
 			else if(perso2.get_GUID() == guid)
 				i = 2;
-			
+
 			if(i == 1)
 				return kamas1;
 			else if (i == 2)
 				return kamas2;
 			return 0;
 		}
-		
+
 		synchronized public void toogleOK(int guid)
 		{
 			int i = 0;
@@ -366,7 +366,7 @@ public class World {
 				i = 1;
 			else if(perso2.get_GUID() == guid)
 				i = 2;
-			
+
 			if(i == 1)
 			{
 				ok1 = !ok1;
@@ -379,19 +379,19 @@ public class World {
 				SocketManager.GAME_SEND_EXCHANGE_OK(perso1.get_compte().getGameThread().get_out(),ok2,guid);
 				SocketManager.GAME_SEND_EXCHANGE_OK(perso2.get_compte().getGameThread().get_out(),ok2,guid);
 			}
-			else 
+			else
 				return;
-			
-			
+
+
 			if(ok1 && ok2)
 				apply();
 		}
-		
+
 		synchronized public void setKamas(int guid, long k)
 		{
 			ok1 = false;
 			ok2 = false;
-			
+
 			int i = 0;
 			if(perso1.get_GUID() == guid)
 				i = 1;
@@ -401,7 +401,7 @@ public class World {
 			SocketManager.GAME_SEND_EXCHANGE_OK(perso2.get_compte().getGameThread().get_out(),ok1,perso1.get_GUID());
 			SocketManager.GAME_SEND_EXCHANGE_OK(perso1.get_compte().getGameThread().get_out(),ok2,perso2.get_GUID());
 			SocketManager.GAME_SEND_EXCHANGE_OK(perso2.get_compte().getGameThread().get_out(),ok2,perso2.get_GUID());
-			
+
 			if(i == 1)
 			{
 				kamas1 = k;
@@ -411,10 +411,10 @@ public class World {
 			{
 				kamas2 = k;
 				SocketManager.GAME_SEND_EXCHANGE_OTHER_MOVE_OK(perso1.get_compte().getGameThread().get_out(), 'G', "", k+"");
-				SocketManager.GAME_SEND_EXCHANGE_MOVE_OK(perso2, 'G', "", k+"");	
+				SocketManager.GAME_SEND_EXCHANGE_MOVE_OK(perso2, 'G', "", k+"");
 			}
 		}
-		
+
 		synchronized public void cancel()
 		{
 			if(perso1.get_compte() != null)if(perso1.get_compte().getGameThread() != null)SocketManager.GAME_SEND_EV_PACKET(perso1.get_compte().getGameThread().get_out());
@@ -424,7 +424,7 @@ public class World {
 			perso1.setCurExchange(null);
 			perso2.setCurExchange(null);
 		}
-		
+
 		synchronized public void apply()
 		{
 			//Gestion des Kamas
@@ -435,11 +435,11 @@ public class World {
 				if(couple.second == 0)continue;
 				if(!perso1.hasItemGuid(couple.first))//Si le perso n'a pas l'item (Ne devrait pas arriver)
 				{
-					couple.second = 0;//On met la quantité a 0 pour éviter les problemes
+					couple.second = 0;//On met la quantit a 0 pour viter les problemes
 					continue;
-				}	
+				}
 				Objet obj = World.getObjet(couple.first);
-				if((obj.getQuantity() - couple.second) <1)//S'il ne reste plus d'item apres l'échange
+				if((obj.getQuantity() - couple.second) <1)//S'il ne reste plus d'item apres l'change
 				{
 					perso1.removeItem(couple.first);
 					couple.second = obj.getQuantity();
@@ -460,11 +460,11 @@ public class World {
 				if(couple.second == 0)continue;
 				if(!perso2.hasItemGuid(couple.first))//Si le perso n'a pas l'item (Ne devrait pas arriver)
 				{
-					couple.second = 0;//On met la quantité a 0 pour éviter les problemes
+					couple.second = 0;//On met la quantit a 0 pour viter les problemes
 					continue;
-				}	
+				}
 				Objet obj = World.getObjet(couple.first);
-				if((obj.getQuantity() - couple.second) <1)//S'il ne reste plus d'item apres l'échange
+				if((obj.getQuantity() - couple.second) <1)//S'il ne reste plus d'item apres l'change
 				{
 					perso2.removeItem(couple.first);
 					couple.second = obj.getQuantity();
@@ -490,7 +490,7 @@ public class World {
 			SocketManager.GAME_SEND_STATS_PACKET(perso1);
 			SocketManager.GAME_SEND_STATS_PACKET(perso2);
 			SocketManager.GAME_SEND_EXCHANGE_VALID(perso1.get_compte().getGameThread().get_out(),'a');
-			SocketManager.GAME_SEND_EXCHANGE_VALID(perso2.get_compte().getGameThread().get_out(),'a');	
+			SocketManager.GAME_SEND_EXCHANGE_VALID(perso2.get_compte().getGameThread().get_out(),'a');
 			SQLManager.SAVE_PERSONNAGE(perso1,true);
 			SQLManager.SAVE_PERSONNAGE(perso2,true);
 		}
@@ -499,13 +499,13 @@ public class World {
 		{
 			ok1 = false;
 			ok2 = false;
-			
+
 			Objet obj = World.getObjet(guid);
 			int i = 0;
-			
+
 			if(perso1.get_GUID() == pguid) i = 1;
 			if(perso2.get_GUID() == pguid) i = 2;
-			
+
 			if(qua == 1) qua = 1;
 			String str = guid+"|"+qua;
 			if(obj == null)return;
@@ -525,7 +525,7 @@ public class World {
 					return;
 				}
 				SocketManager.GAME_SEND_EXCHANGE_MOVE_OK(perso1, 'O', "+", str);
-				SocketManager.GAME_SEND_EXCHANGE_OTHER_MOVE_OK(perso2.get_compte().getGameThread().get_out(), 'O', "+", str+add);	
+				SocketManager.GAME_SEND_EXCHANGE_OTHER_MOVE_OK(perso2.get_compte().getGameThread().get_out(), 'O', "+", str+add);
 				items1.add(new Couple<Integer,Integer>(guid,qua));
 			}else if(i == 2)
 			{
@@ -543,7 +543,7 @@ public class World {
 			}
 		}
 
-		
+
 		synchronized public void removeItem(int guid, int qua, int pguid)
 		{
 			int i = 0;
@@ -553,12 +553,12 @@ public class World {
 				i = 2;
 			ok1 = false;
 			ok2 = false;
-			
+
 			SocketManager.GAME_SEND_EXCHANGE_OK(perso1.get_compte().getGameThread().get_out(),ok1,perso1.get_GUID());
 			SocketManager.GAME_SEND_EXCHANGE_OK(perso2.get_compte().getGameThread().get_out(),ok1,perso1.get_GUID());
 			SocketManager.GAME_SEND_EXCHANGE_OK(perso1.get_compte().getGameThread().get_out(),ok2,perso2.get_GUID());
 			SocketManager.GAME_SEND_EXCHANGE_OK(perso2.get_compte().getGameThread().get_out(),ok2,perso2.get_GUID());
-			
+
 			Objet obj = World.getObjet(guid);
 			if(obj == null)return;
 			String add = "|"+obj.getTemplate().getID()+"|"+obj.parseStatsString();
@@ -581,7 +581,7 @@ public class World {
 			{
 				Couple<Integer,Integer> couple = getCoupleInList(items2,guid);
 				int newQua = couple.second - qua;
-				
+
 				if(newQua <1)//Si il n'y a pu d'item
 				{
 					items2.remove(couple);
@@ -605,7 +605,7 @@ public class World {
 			}
 			return null;
 		}
-		
+
 		public synchronized int getQuaItem(int itemID, int playerGuid)
 		{
 			ArrayList<Couple<Integer, Integer>> items;
@@ -613,7 +613,7 @@ public class World {
 				items = items1;
 			else
 				items = items2;
-			
+
 			for(Couple<Integer, Integer> curCoupl : items)
 			{
 				if(curCoupl.first == itemID)
@@ -621,10 +621,10 @@ public class World {
 					return curCoupl.second;
 				}
 			}
-			
+
 			return 0;
 		}
-		
+
 	}
 
 	public static class ExpLevel
@@ -634,7 +634,7 @@ public class World {
 		public int dinde;
 		public int pvp;
 		public long guilde;
-		
+
 		public ExpLevel(long c, int m, int d, int p)
 		{
 			perso = c;
@@ -643,9 +643,9 @@ public class World {
 			pvp = p;
 			guilde = perso*10;
 		}
-		
+
 	}
-	
+
 	public static void createWorld()
 	{
 		System.out.println("====>Donnees statique<====");
@@ -727,7 +727,7 @@ public class World {
 		System.out.println("Chargement des cadeaux: ");
 		nbr = SQLManager.LOAD_GIFTS();
 		System.out.println(nbr+" cadeaux charges");
-		
+
 		System.out.println("====>Donnees dynamique<====");
 		System.out.print("Chargement des items: ");
 		SQLManager.LOAD_ITEMS();
@@ -765,10 +765,10 @@ public class World {
 		System.out.print("Chargement des pets: ");
 		nbr = SQLManager.LOAD_PETS_ENTRY();
 		System.out.println(nbr+" pets charges");
-		
+
 		nextObjetID = SQLManager.getNextObjetID();
 	}
-	
+
 	public static Area getArea(int areaID)
 	{
 		return Areas.get(areaID);
@@ -778,57 +778,57 @@ public class World {
 	{
 		return SuperAreas.get(areaID);
 	}
-	
+
 	public static SubArea getSubArea(int areaID)
 	{
 		return SubAreas.get(areaID);
 	}
-	
+
 	public static void addArea(Area area)
 	{
 		Areas.put(area.get_id(), area);
 	}
-	
+
 	public static void addSuperArea(SuperArea SA)
 	{
 		SuperAreas.put(SA.get_id(), SA);
 	}
-	
+
 	public static void addSubArea(SubArea SA)
 	{
 		SubAreas.put(SA.get_id(), SA);
 	}
-	
+
 	public static void addNPCreponse(NPC_reponse rep)
 	{
 		NPCReponses.put(rep.get_id(), rep);
 	}
-	
+
 	public static NPC_reponse getNPCreponse(int guid)
 	{
 		return NPCReponses.get(guid);
 	}
-	
+
 	public static int getExpLevelSize()
 	{
 		return ExpLevels.size();
 	}
-	
+
 	public static void addExpLevel(int lvl,ExpLevel exp)
 	{
 		ExpLevels.put(lvl, exp);
 	}
-	
+
 	public static Compte getCompte(int guid)
 	{
 		return Comptes.get(guid);
 	}
-	
+
 	public static void addNPCQuestion(NPC_question quest)
 	{
 		NPCQuestions.put(quest.get_id(), quest);
 	}
-	
+
 	public static NPC_question getNPCQuestion(int guid)
 	{
 		return NPCQuestions.get(guid);
@@ -837,45 +837,45 @@ public class World {
 	{
 		return NPCTemplates.get(guid);
 	}
-	
+
 	public static void addNpcTemplate(NPC_tmpl temp)
 	{
 		NPCTemplates.put(temp.get_id(), temp);
 	}
-	
+
 	public static Carte getCarte(short id)
 	{
 		return Cartes.get(id);
 	}
-	
+
 	public static  void addCarte(Carte map)
 	{
 		if(!Cartes.containsKey(map.get_id()))
 			Cartes.put(map.get_id(),map);
 	}
-	
-	public static void delCarte(Carte map) 
+
+	public static void delCarte(Carte map)
 	{
 		  if (Cartes.containsKey(map.get_id()))
 			  Cartes.remove(map.get_id());
 	}
-	
+
 	public static Compte getCompteByName(String name)
 	{
 		return (ComptebyName.get(name.toLowerCase())!=null?Comptes.get(ComptebyName.get(name.toLowerCase())):null);
 	}
-	
+
 	public static Personnage getPersonnage(int guid)
 	{
 		return Persos.get(guid);
 	}
-	
+
 	public static void addAccount(Compte compte)
 	{
 		Comptes.put(compte.get_GUID(), compte);
 		ComptebyName.put(compte.get_name().toLowerCase(), compte.get_GUID());
 	}
-	
+
 	public static void removeAccount(int guid, String name)
 	{
 		if(Comptes.containsKey(guid))
@@ -884,18 +884,18 @@ public class World {
 			ComptebyName.remove(name);
 		}
 	}
-	
+
 	public static void addPersonnage(Personnage perso)
 	{
 		Persos.put(perso.get_GUID(), perso);
 		PersosbyName.put(perso.get_name().toLowerCase(), perso.get_GUID());
 	}
-	
+
 	public static Personnage getPersoByName(String name)
 	{
 		return (PersosbyName.get(name.toLowerCase())!=null?Persos.get(PersosbyName.get(name.toLowerCase())):null);
 	}
-	
+
 	public static void deletePerso(Personnage perso)
 	{
 		if(perso.get_guild() != null)
@@ -933,21 +933,21 @@ public class World {
 		/* TODO: Sous Zone Alignement */
 		return data;
 	}
-	
+
 	public static long getPersoXpMin(int _lvl)
 	{
 		if(_lvl > getExpLevelSize()) 	_lvl = getExpLevelSize();
 		if(_lvl < 1) 	_lvl = 1;
 		return ExpLevels.get(_lvl).perso;
 	}
-	
+
 	public static long getPersoXpMax(int _lvl)
 	{
 		if(_lvl >= getExpLevelSize()) 	_lvl = (getExpLevelSize()-1);
 		if(_lvl <= 1)	 	_lvl = 1;
 		return ExpLevels.get(_lvl+1).perso;
 	}
-	
+
 	public static void addSort(Sort sort)
 	{
 		Sorts.put(sort.getSpellID(), sort);
@@ -957,7 +957,7 @@ public class World {
 	{
 		ObjTemplates.put(obj.getID(), obj);
 	}
-	
+
 	public static Sort getSort(int id)
 	{
 		return Sorts.get(id);
@@ -967,12 +967,12 @@ public class World {
 	{
 		return ObjTemplates.get(id);
 	}
-	
+
 	public static Collection<ObjTemplate> getObjTemplates()
 	{
 		return ObjTemplates.values();
 	}
-	
+
 	public synchronized static int getNewItemGuid()
 	{
 		nextObjetID++;
@@ -1031,7 +1031,7 @@ public class World {
 	{
 		IOTemplate.put(IOT.getId(), IOT);
 	}
-	
+
 	public static Dragodinde getDragoByID(int id)
 	{
 		return Dragodindes.get(id);
@@ -1049,7 +1049,7 @@ public class World {
 		PrintWriter _out = null;
 		if(saver != null)
 		_out = saver.get_compte().getGameThread().get_out();
-		
+
 		Ancestra.comServer.sendChangeState('S');
 
 		try
@@ -1057,10 +1057,10 @@ public class World {
 			GameServer.addToLog("Lancement de la sauvegarde du Monde...");
 			Ancestra.isSaving = true;
 			SQLManager.commitTransacts();
-			SQLManager.TIMER(false);//Arrête le timer d'enregistrement SQL
-			
+			SQLManager.TIMER(false);//Arrte le timer d'enregistrement SQL
+
 			Thread.sleep(5000);
-			
+
 			GameServer.addToLog("Sauvegarde des personnages...");
 			for(Personnage perso : Persos.values())
 			{
@@ -1068,27 +1068,27 @@ public class World {
 				Thread.sleep(100);//0.1 sec. pour 1 objets
 				SQLManager.SAVE_PERSONNAGE(perso,true);//sauvegarde des persos et de leurs items
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des banques...");
 			for(Bank bk : Banks.values())
 			{
 				Thread.sleep(100);//0.1 sec. pour 1 banque
 				SQLManager.UPDATE_BANK(bk);
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des guildes...");
 			for(Guild guilde : Guildes.values())
 			{
 				Thread.sleep(100);//0.1 sec. pour 1 guilde
 				SQLManager.UPDATE_GUILD(guilde);
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des percepteurs...");
 			for(Percepteur perco : Percepteurs.values())
 			{
@@ -1096,9 +1096,9 @@ public class World {
 				Thread.sleep(100);//0.1 sec. pour 1 percepteur
 				SQLManager.UPDATE_PERCO(perco);
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des maisons...");
 			for(House house : Houses.values())
 			{
@@ -1108,9 +1108,9 @@ public class World {
 					SQLManager.UPDATE_HOUSE(house);
 				}
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des coffres...");
 			for(Trunk t : Trunks.values())
 			{
@@ -1120,9 +1120,9 @@ public class World {
 					SQLManager.UPDATE_TRUNK(t);
 				}
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des enclos...");
 			for(Carte.MountPark mp : MountPark.values())
 			{
@@ -1132,18 +1132,18 @@ public class World {
 					SQLManager.UPDATE_MOUNTPARK(mp);
 				}
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des pets...");
 			for(PetsEntry pets : PetsEntry.values())
 			{
 				Thread.sleep(100);//0.1 sec. pour 1 familier
 				SQLManager.UPDATE_PETS_DATA(pets);
 			}
-			
+
 			Thread.sleep(2000);
-			
+
 			GameServer.addToLog("Sauvegarde des Hdvs...");
 			ArrayList<HdvEntry> toSave = new ArrayList<HdvEntry>();
 			for(Map<Integer, HdvEntry> curEntry : HdvsTemplates.values())
@@ -1151,13 +1151,13 @@ public class World {
 				toSave.addAll(curEntry.values());
 			}
 			SQLManager.SAVE_HDVS_ITEMS(toSave);
-			
+
 			Thread.sleep(5000);
-			
+
 			GameServer.addToLog("Sauvegarde effectuee !");
-			
+
 			Ancestra.comServer.sendChangeState('O');
-			
+
 		}catch(ConcurrentModificationException e)
 		{
 			if(saveTry < 10)
@@ -1176,7 +1176,7 @@ public class World {
 					SocketManager.GAME_SEND_CONSOLE_MESSAGE_PACKET(_out, mess);
 				GameServer.addToLog(mess);
 			}
-				
+
 		}catch(Exception e)
 		{
 			GameServer.addToLog("Erreur lors de la sauvegarde : " + e.getMessage());
@@ -1185,7 +1185,7 @@ public class World {
 		finally
 		{
 			SQLManager.commitTransacts();
-			SQLManager.TIMER(true); //Redémarre le timer d'enregistrement SQL
+			SQLManager.TIMER(true); //Redmarre le timer d'enregistrement SQL
 			Ancestra.isSaving = false;
 			saveTry = 1;
 		}
@@ -1222,7 +1222,7 @@ public class World {
 	{
 		Crafts.put(id,m);
 	}
-	
+
 	public static ArrayList<Couple<Integer,Integer>> getCraft(int i)
 	{
 		return Crafts.get(i);
@@ -1243,7 +1243,7 @@ public class World {
 			boolean ok = true;
 			for(Couple<Integer,Integer> c : craft)
 			{
-				//si ingredient non présent ou mauvaise quantité
+				//si ingredient non prsent ou mauvaise quantit
 				if(ingredients.get(c.first) != c.second)ok = false;
 			}
 			if(ok)return tID;
@@ -1325,7 +1325,7 @@ public class World {
 		if(_lvl <= 1)	 	_lvl = 1;
 		return ExpLevels.get(_lvl+1).guilde;
 	}
-	
+
 	public static void ReassignAccountToChar(Compte C)
 	{
 		C.get_persos().clear();
@@ -1338,7 +1338,7 @@ public class World {
 			}
 		}
 	}
-	
+
 	public static int getZaapCellIdByMapId(short i)
 	{
 		for(Entry<Integer, Integer> zaap : Constants.ZAAPS.entrySet())
@@ -1356,7 +1356,7 @@ public class World {
 				return World.getCarte(i).getMountPark().get_cellid();
 			}
 		}
-		
+
 		return -1;
 	}
 
@@ -1384,7 +1384,7 @@ public class World {
 		for(Compte c : Comptes.values())if(c.get_curIP().compareTo(ip) == 0)return true;
 		return false;
 	}
-	
+
 	public static void unloadPerso(int g)
 	{
 		Personnage toRem = Persos.get(g);
@@ -1397,7 +1397,7 @@ public class World {
 		}
 		toRem = null;
 	}
-	
+
 	public static boolean isArenaMap(int mapID)
 	{
 		for(int curID : Ancestra.arenaMap)
@@ -1409,23 +1409,23 @@ public class World {
 	}
 	public static Objet newObjet(int Guid, int template,int qua, int pos, String strStats)
 	{
-		if(World.getObjTemplate(template) == null) 
-		{ 
+		if(World.getObjTemplate(template) == null)
+		{
 			System.out.println("ItemTemplate "+template+" inexistant, GUID dans la table `items`:"+Guid);
-			Ancestra.closeServers(); 
-		} 
-		
+			Ancestra.closeServers();
+		}
+
 		if(World.getObjTemplate(template).getType() == 85)
 			return new PierreAme(Guid, qua, template, pos, strStats);
 		else
 			return new Objet(Guid, template, qua, pos, strStats);
 	}
-	
+
 	public static byte getGmAccess()
 	{
 		return _GmAccess;
 	}
-	
+
 	public static void setGmAccess(byte GmAccess)
 	{
 		_GmAccess = GmAccess;
@@ -1435,12 +1435,12 @@ public class World {
 	{
 		return Hdvs.get(mapID);
 	}
-	
+
 	public static void addHdv(Hdv toAdd)
 	{
 		Hdvs.put(toAdd.get_mapID(),toAdd);
 	}
-	
+
 	public static String parse_EHl(int Tid)
 	{
 		StringBuilder str = new StringBuilder();
@@ -1455,7 +1455,7 @@ public class World {
 		}
 		return str.toString();
 	}
-	
+
 	public static int get_averagePrice(int Tid)
 	{
 		int averagePrice = 0;
@@ -1467,7 +1467,7 @@ public class World {
 		}
 		return (int) Math.ceil(averagePrice/HdvsTemplates.get(Tid).size());
 	}
-	
+
 	public static String get_HdvsTemplate(int TypeID, int HdvID)
 	{
 		StringBuilder str = new StringBuilder();
@@ -1479,20 +1479,20 @@ public class World {
 		}
 		return (str.toString().length()>0?str.toString().substring(0, str.length()-1):"");
 	}
-	
+
 	public static Map<Integer, ArrayList<HdvEntry>> getMyItems(int compteID)
 	{
 		if(HdvsItems.get(compteID) == null)//Si le compte n'est pas dans la memoire
-			HdvsItems.put(compteID,new HashMap<Integer,ArrayList<HdvEntry>>());//Ajout du compte clé:compteID et un nouveau map<hdvID,items<>>
-			
+			HdvsItems.put(compteID,new HashMap<Integer,ArrayList<HdvEntry>>());//Ajout du compte cl:compteID et un nouveau map<hdvID,items<>>
+
 		return HdvsItems.get(compteID);
 	}
-	
+
 	public static HdvEntry get_HdvEntry(int Tid, int ObjetID)
 	{
 		return HdvsTemplates.get(Tid).get(ObjetID);
 	}
-	
+
 	public static void addHdvItem(int compteID, int hdvID, HdvEntry toAdd)
 	{
 		if(HdvsItems.get(compteID) == null)
@@ -1501,26 +1501,26 @@ public class World {
 			HdvsTypes.put(toAdd.get_obj().getTemplate().getType(), new HashMap<Integer,Map<Integer, Map<Integer, Objet>>>());
 		if(HdvsTemplates.get(toAdd.get_obj().getTemplate().getID()) == null)
 			HdvsTemplates.put(toAdd.get_obj().getTemplate().getID(), new HashMap<Integer, HdvEntry>());
-		
+
 		if(HdvsItems.get(compteID).get(hdvID) == null)
 			HdvsItems.get(compteID).put(hdvID,new ArrayList<HdvEntry>());
 		if(HdvsTypes.get(toAdd.get_obj().getTemplate().getType()).get(hdvID) == null)
 			HdvsTypes.get(toAdd.get_obj().getTemplate().getType()).put(hdvID, new HashMap<Integer, Map<Integer, Objet>>());
-			
+
 		if(HdvsTypes.get(toAdd.get_obj().getTemplate().getType()).get(hdvID).get(toAdd.get_obj().getTemplate().getID()) == null)
 			HdvsTypes.get(toAdd.get_obj().getTemplate().getType()).get(hdvID).put(toAdd.get_obj().getTemplate().getID(), new HashMap<Integer, Objet>());
-		
+
 		HdvsTemplates.get(toAdd.get_obj().getTemplate().getID()).put(toAdd.get_ObjetID(), toAdd);
 		HdvsTypes.get(toAdd.get_obj().getTemplate().getType()).get(hdvID).get(toAdd.get_obj().getTemplate().getID()).put(toAdd.get_ObjetID(), toAdd.get_obj());
 		HdvsItems.get(compteID).get(hdvID).add(toAdd);
 	}
-	
+
 	public static void removeHdvItem(int compteID,int hdvID,HdvEntry toDel)
 	{
 		HdvsItems.get(compteID).get(hdvID).remove(toDel);
 		HdvsTypes.get(toDel.get_obj().getTemplate().getType()).get(hdvID).get(toDel.get_obj().getTemplate().getID()).remove(toDel.get_ObjetID());
 		HdvsTemplates.get(toDel.get_obj().getTemplate().getID()).remove(toDel.get_ObjetID());
-		
+
 		if(HdvsTypes.get(toDel.get_obj().getTemplate().getType()).get(hdvID).get(toDel.get_obj().getTemplate().getID()).isEmpty())
 		{
 			HdvsTypes.get(toDel.get_obj().getTemplate().getType()).get(hdvID).remove(toDel.get_obj().getTemplate().getID());
@@ -1531,7 +1531,7 @@ public class World {
 	{
 		return Married.get(ordre);
 	}
-	
+
 	public static void AddMarried(int ordre,Personnage perso)
 	{
 		Personnage Perso = Married.get(ordre);
@@ -1545,7 +1545,7 @@ public class World {
 				Married.put(ordre, perso);
 				return;
 			}
-			
+
 			return;
 		}else
 		{
@@ -1553,7 +1553,7 @@ public class World {
 			return;
 		}
 	}
-	
+
 	public static void PriestRequest(Personnage perso, Carte carte, int IdPretre)
 	{
 		Personnage Homme = Married.get(0);
@@ -1566,15 +1566,15 @@ public class World {
 			SocketManager.GAME_SEND_MESSAGE_TO_MAP(carte, Femme.get_name()+" est deja marier!", Ancestra.CONFIG_MOTD_COLOR);
 			return;
 		}
-		SocketManager.GAME_SEND_cMK_PACKET_TO_MAP(perso.get_curCarte(), "", -1, "Prêtre", perso.get_name()+" acceptez-vous d'épouser "+getMarried((perso.get_sexe()==1?0:1)).get_name()+" ?");
+		SocketManager.GAME_SEND_cMK_PACKET_TO_MAP(perso.get_curCarte(), "", -1, "Prtre", perso.get_name()+" acceptez-vous d'pouser "+getMarried((perso.get_sexe()==1?0:1)).get_name()+" ?");
 		SocketManager.GAME_SEND_WEDDING(carte, 617, (Homme==perso?Homme.get_GUID():Femme.get_GUID()), (Homme==perso?Femme.get_GUID():Homme.get_GUID()), IdPretre);
 	}
-	
+
 	public static void Wedding(Personnage Homme, Personnage Femme, int isOK)
 	{
 		if(isOK > 0)
 		{
-			SocketManager.GAME_SEND_cMK_PACKET_TO_MAP(Homme.get_curCarte(), "", -1, "Prêtre", "Je déclare "+Homme.get_name()+" et "+Femme.get_name()+" unis par les liens sacrés du mariage.");
+			SocketManager.GAME_SEND_cMK_PACKET_TO_MAP(Homme.get_curCarte(), "", -1, "Prtre", "Je dclare "+Homme.get_name()+" et "+Femme.get_name()+" unis par les liens sacrs du mariage.");
 			Homme.MarryTo(Femme);
 			Femme.MarryTo(Homme);
 		}else
@@ -1585,79 +1585,79 @@ public class World {
 		Married.get(1).setisOK(0);
 		Married.clear();
 	}
-	
+
 	public static Animations getAnimation(int AnimationId)
 	{
 		return Animations.get(AnimationId);
 	}
-	
+
 	public static void addAnimation(Animations animation)
 	{
 		Animations.put(animation.getId(), animation);
 	}
-	
+
 	public static void addHouse(House house)
 	{
 		Houses.put(house.get_id(), house);
 	}
-	
+
 	public static Map<Integer, House> getHouses()
 	{
 		return Houses;
 	}
-	
+
 	public static House getHouse(int id)
 	{
 		return Houses.get(id);
 	}
-	
+
 	public static void addPerco(Percepteur perco)
 	{
 		Percepteurs.put(perco.getGuid(), perco);
 	}
-	
+
 	public static Percepteur getPerco(int percoID)
 	{
 		return Percepteurs.get(percoID);
 	}
-	
+
 	public static Map<Integer, Percepteur> getPercos()
 	{
 		return Percepteurs;
 	}
-	
+
 	public static void addTrunk(Trunk trunk)
 	{
 		Trunks.put(trunk.get_id(), trunk);
 	}
-	
+
 	public static Trunk getTrunk(int id)
 	{
 		return Trunks.get(id);
 	}
-	
+
 	public static Map<Integer, Trunk> getTrunks()
 	{
 		return Trunks;
 	}
-	
+
 	public static void addMountPark(Carte.MountPark mp)
 	{
 		MountPark.put(mp.get_map().get_id(), mp);
 	}
-	
+
 	public static Map<Short, Carte.MountPark> getMountPark()
 	{
 		return MountPark;
 	}
-	
+
 	public static String parseMPtoGuild(int GuildID)
 	{
 		Guild G = World.getGuild(GuildID);
 		byte enclosMax = (byte)Math.floor(G.get_lvl()/10);
 		StringBuilder packet = new StringBuilder();
 		packet.append(enclosMax);
-		
+
 		for(Entry<Short, Carte.MountPark> mp : MountPark.entrySet())
 		{
 			if(mp.getValue().get_guild() != null && mp.getValue().get_guild().get_id() == GuildID)
@@ -1670,7 +1670,7 @@ public class World {
 		}
 		return packet.toString();
 	}
-	
+
 	public static int totalMPGuild(int GuildID)
 	{
 		int i = 0;
@@ -1686,7 +1686,7 @@ public class World {
 		}
 		return i;
 	}
-	
+
 	public static void addSeller(Personnage p)
 	{
 		if(Seller.get(p.get_curCarte().get_id()) == null)
@@ -1703,101 +1703,101 @@ public class World {
 			Seller.put(p.get_curCarte().get_id(), PersoID);
 		}
 	}
-	
+
 	public static Collection<Integer> getSeller(short mapID)
 	{
 		return Seller.get(mapID);
 	}
-	
+
 	public static void removeSeller(int pID, short mapID)
 	{
 		Seller.get(mapID).remove(pID);
 	}
-	
+
 	public static Bank GetBank(int guid)
 	{
 		return Banks.get(guid);
 	}
-	
+
 	public static void AddBank(Bank bk)
 	{
 		Banks.put(bk.getGuid(), bk);
 	}
-	
+
 	public static FriendList GetFriends(int guid)
 	{
 		return Friends.get(guid);
 	}
-	
+
 	public static void AddFriendList(int guid, FriendList fr)
 	{
 		Friends.put(guid, fr);
 	}
-	
+
 	public static EnemyList GetEnemys(int guid)
 	{
 		return Enemys.get(guid);
 	}
-	
+
 	public static void AddEnemyList(int guid, EnemyList fr)
 	{
 		Enemys.put(guid, fr);
 	}
-	
+
 	public static Collection<Compte> getComptes()
 	{
 		return Comptes.values();
 	}
-	
+
 	public static void addPets(Pets pets)
 	{
 		Pets.put(pets.get_Tid(), pets);
 	}
-	
+
 	public static Pets get_Pets(int Tid)
 	{
 		return Pets.get(Tid);
 	}
-	
+
 	public static Map<Integer, objects.Pets> get_Pets()
 	{
 		return Pets;
 	}
-	
+
 	public static void addPetsEntry(PetsEntry pets)
 	{
 		PetsEntry.put(pets.get_ObjectID(), pets);
 	}
-	
+
 	public static PetsEntry get_PetsEntry(int guid)
 	{
 		return PetsEntry.get(guid);
 	}
-	
+
 	public static Percepteur getPercepteur(int guid)
     {
         return getPercos().get(guid);
     }
-	
+
 	public static void addChallenge(String chal)
-	{	
+	{
 		//FormaType : ChalID,gainXP,gainDrop,gainParMob,Conditions;
 		if(!Challenges.toString().isEmpty())
 			Challenges.append(";");
 		Challenges.append(chal);
 	}
-	
+
 	public static String getChallengeFromConditions(boolean sevEnn, boolean sevAll, boolean bothSex, boolean EvenEnn, boolean MoreEnn, boolean hasCaw, boolean hasChaf, boolean hasRoul, boolean hasArak, boolean isBoss)
 	{
-		//sevEnn : Nécessite plusieurs ennemis
-		//secAll : Nécessite plusieurs alliés
-		//bothSex : Nécessite les deux sexe
+		//sevEnn : Ncessite plusieurs ennemis
+		//secAll : Ncessite plusieurs allis
+		//bothSex : Ncessite les deux sexe
 		//EvenEnn : True : Nb ennemis pair, False : impaire
-		//MoreEnn : Plus d'ennemis que d'allié
-		//hasCaw : Possède le sort cawotte
-		//hasChaf : Possède le sort chafer
-		//hasRoul : Possède le sort roulette
-		//hasArak : Possède le sort arakne
+		//MoreEnn : Plus d'ennemis que d'alli
+		//hasCaw : Possde le sort cawotte
+		//hasChaf : Possde le sort chafer
+		//hasRoul : Possde le sort roulette
+		//hasArak : Possde le sort arakne
 		String noBossChals = ";2;5;9;17;19;24;38;47;50;";//Liste des challenge impossibles contre un boss
 		StringBuilder toReturn = new StringBuilder();
 		boolean isFirst = true, isGood = false;
@@ -1844,20 +1844,20 @@ public class World {
 		}
 		return toReturn.toString();
 	}
-	
+
 	public static ArrayList<String> getRandomChallenge(int nombreChal, String challenges)
 	{
-		String MovingChals = ";1;2;8;36;37;39;40;";// Challenges de dï¿½placements incompatibles
+		String MovingChals = ";1;2;8;36;37;39;40;";// Challenges de dplacements incompatibles
 		boolean hasMovingChal = false;
 		String TargetChals = ";3;4;10;25;31;32;34;35;38;42;";// ceux qui ciblent
 		boolean hasTargetChal = false;
-		String SpellChals = ";5;6;9;11;19;20;24;41;";// ceux qui obligent ï¿½ caster spï¿½cialement
+		String SpellChals = ";5;6;9;11;19;20;24;41;";// ceux qui obligent  caster spcialement
 		boolean hasSpellChal = false;
 		String KillerChals = ";28;29;30;44;45;46;48;";// ceux qui disent qui doit tuer
 		boolean hasKillerChal = false;
-		String HealChals = ";18;43;";// ceux qui empï¿½chent de soigner
+		String HealChals = ";18;43;";// ceux qui empchent de soigner
 		boolean hasHealChal = false;
-		
+
 		int compteur = 0, i = 0;
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String chal = new String();
@@ -1866,24 +1866,24 @@ public class World {
 			compteur++;
 			i = Formulas.getRandomValue(1, challenges.split(";").length);
 			chal = challenges.split(";")[i-1];// challenge au hasard dans la liste
-			
+
 			if(!toReturn.contains(chal))// si le challenge n'y etait pas encore
 			{
-				if(MovingChals.contains(";"+chal.split(",")[0]+";"))// s'il appartient a une liste 
+				if(MovingChals.contains(";"+chal.split(",")[0]+";"))// s'il appartient a une liste
 					if(!hasMovingChal)// et qu'aucun de la liste n'a ete choisi deja
 					{
 						hasMovingChal = true;
 						toReturn.add(chal);
 						continue;
 					}else continue;
-				if(TargetChals.contains(";"+chal.split(",")[0]+";")) 
+				if(TargetChals.contains(";"+chal.split(",")[0]+";"))
 					if(!hasTargetChal)
 					{
 						hasTargetChal = true;
 						toReturn.add(chal);
 						continue;
 					}else continue;
-				if(SpellChals.contains(";"+chal.split(",")[0]+";")) 
+				if(SpellChals.contains(";"+chal.split(",")[0]+";"))
 					if(!hasSpellChal)
 					{
 						hasSpellChal = true;
@@ -1904,13 +1904,13 @@ public class World {
 						toReturn.add(chal);
 						continue;
 					}else continue;
-				toReturn.add(chal);	
+				toReturn.add(chal);
 			}
 			compteur++;
 		}
 		return toReturn;
 	}
-	
+
 	public static void addCrafterOnBook(int guid, int jobID)
 	{
 		if(CraftBook.get(jobID) == null)
@@ -1927,17 +1927,17 @@ public class World {
 			CraftBook.put(jobID, Guid);
 		}
 	}
-	
+
 	public static Collection<Integer> getCrafterOnBook(int jobID)
 	{
 		return CraftBook.get(jobID);
 	}
-	
+
 	public static void removeCrafterOnBook(int guid, int jobID)
 	{
 		CraftBook.get(jobID).remove(guid);
 	}
-	
+
 	public static void removeCrafterOnBook(int guid)
 	{
 		for(Entry<Integer, Collection<Integer>> ID : CraftBook.entrySet())
@@ -1949,7 +1949,7 @@ public class World {
 			}
 		}
 	}
-	
+
 	public static void MoveMobsOnMaps()
 	{
 		for(Carte map : Cartes.values())
@@ -1957,7 +1957,7 @@ public class World {
 			map.onMap_MonstersDisplacement();
 		}
 	}
-	
+
 	public static Gift getGift(int giftId)
 	{
 		return Gifts.get(giftId);

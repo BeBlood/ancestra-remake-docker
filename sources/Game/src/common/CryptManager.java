@@ -9,7 +9,7 @@ import objects.*;
 import objects.Carte.Case;
 
 public class CryptManager {
-	
+
 	public static String CryptIP(String IP)
     {
 		String[] Splitted = IP.split("\\.");
@@ -34,7 +34,7 @@ public class CryptManager {
         }
         return "DD";
     }
-	
+
 	public static String CryptPort(int config_game_port)
 	{
 		char[] HASH = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
@@ -49,17 +49,17 @@ public class CryptManager {
 		}
 		return nbr64;
 	}
-	
+
 	public static String cellID_To_Code(int cellID)
 	{
 		char[] HASH = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 	            't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
 	            'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'};
-		
+
 		int char1 = cellID/64,char2 = cellID%64;
 		return  HASH[char1]+""+HASH[char2];
 	}
-	
+
 	public static int cellCode_To_ID(String cellCode)
 	{
 		char[] HASH = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
@@ -93,18 +93,18 @@ public class CryptManager {
 			{
 				return a;
 			}
-		}	
+		}
 		return -1;
 	}
-	
+
 	public static char getHashedValueByInt(int c)
 	{
 		char[] HASH = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 	            't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-	            'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'};	
+	            'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'};
 		return HASH[c];
 	}
-	
+
 	public static ArrayList<Case> parseStartCell(Carte map,int num)
 	{
 		ArrayList<Case> list = null;
@@ -141,8 +141,8 @@ public class CryptManager {
 	    }
 		return cells;
 	}
-	
-	//Fonction qui convertis tout les textes ANSI(Unicode) en UTF-8. Les fichiers doivent être codé en ANSI sinon les phrases seront illisible.
+
+	//Fonction qui convertis tout les textes ANSI(Unicode) en UTF-8. Les fichiers doivent Ã©tre codÃ© en ANSI sinon les phrases seront illisible.
 	public static String toUtf(String _in)
 	{
 		String _out = "";
@@ -150,15 +150,15 @@ public class CryptManager {
 		try
 		{
 			_out = new String(_in.getBytes("UTF8"));
-			
+
 		}catch(Exception e)
 		{
 			System.out.println ("Conversion en UTF-8 echoue! : "+e.getMessage());
 		}
-		
+
 		return _out;
 	}
-	//Utilisé pour convertir les inputs UTF-8 en String normal.
+	//UtilisÃ© pour convertir les inputs UTF-8 en String normal.
 	public static String toUnicode(String _in)
 	{
 		String _out = "";
@@ -166,12 +166,12 @@ public class CryptManager {
 		try
 		{
 			_out = new String(_in.getBytes(),"UTF8");
-			
+
 		}catch(Exception e)
 		{
 			System.out.println ("Conversion en UTF-8 echoue! : "+e.getMessage());
 		}
-		
+
 		return _out;
 	}
 

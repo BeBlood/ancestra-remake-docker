@@ -14,14 +14,14 @@ import objects.Others.Bank;
 import common.*;
 
 public class Compte {
-	
+
 	public static class FriendList
 	{
 		private ArrayList<String> _pseudos = new ArrayList<String>();
-		
+
 		public FriendList(String chain)
 		{
-			
+
 			try
 			{
 				String pseudo[] = chain.split(",");
@@ -32,15 +32,15 @@ public class Compte {
 			}
 			catch(Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public ArrayList<String> GetFriends()
 		{
 			return _pseudos;
 		}
-		
+
 		public String parseFriends()
 		{
 			String g = "";
@@ -55,14 +55,14 @@ public class Compte {
 			return g;
 		}
 	}
-	
+
 	public static class EnemyList
 	{
 		private ArrayList<String> _pseudos = new ArrayList<String>();
-		
+
 		public EnemyList(String chain)
 		{
-			
+
 			try
 			{
 				String pseudo[] = chain.split(",");
@@ -71,15 +71,15 @@ public class Compte {
 			}
 			catch(Exception e)
 			{
-				
+
 			}
 		}
-		
+
 		public ArrayList<String> GetEnemys()
 		{
 			return _pseudos;
 		}
-		
+
 		public String parseEnemys()
 		{
 			String g = "";
@@ -94,7 +94,7 @@ public class Compte {
 			return g;
 		}
 	}
-	
+
 	private int _GUID;
 	private String _name;
 	private String _pass;
@@ -119,7 +119,7 @@ public class Compte {
 	private EnemyList _enemys;
 	private String _ClientKey;
 	private Map<Integer, Gift> giftList = new TreeMap<Integer, Gift>();
-	
+
 	public Compte(int aGUID, String aName, String aPass, String aPseudo, String aQuestion, String aReponse, int aGmLvl, int subscriber, boolean aBanned, String aLastIp, String aLastConnectionDate, String curIP, String gifts)
 	{
 		this._GUID 					= aGUID;
@@ -135,29 +135,29 @@ public class Compte {
 		this._lastConnectionDate	= aLastConnectionDate;
 		this._hdvsItems 			= World.getMyItems(_GUID);
 		this._curIP 				= curIP;
-		
-		
+
+
 		this._bank = World.GetBank(this._GUID);
 		this._friends = World.GetFriends(this._GUID);
 		this._enemys = World.GetEnemys(this._GUID);
-		
+
 		if (this._friends == null && this._enemys == null && _bank == null)
 		{
 			this._bank = new Bank(this._GUID, 0 , "");
 			World.AddBank(new Bank(this._GUID, 0, ""));
-			
+
 			this._friends = new FriendList("");
 			World.AddFriendList(this._GUID, new FriendList(""));
-			
+
 			this._enemys = new EnemyList("");
 			World.AddEnemyList(this._GUID, new EnemyList(""));
-			
+
 			SQLManager.ADD_ACCOUNT_DATA(this._GUID);
 		}
 		if(!gifts.isEmpty())
 		{
 			if(gifts.contains(";"))
-			{ 
+			{
 				for(String gift : gifts.split(";"))
 				{
 					int giftId = Integer.parseInt(gift);
@@ -172,37 +172,37 @@ public class Compte {
 			}
 		}
 	}
-	
+
 	/** Bank **/
 	public Map<Integer, Objet> get_bank()
 	{
 		return _bank.getBankItems();
 	}
-	
+
 	public Bank getBank()
 	{
 		return _bank;
 	}
-	
+
 	public int getBankCost()
 	{
 		return _bank.getBankItems().size();
 	}
-	
+
 	public long GetBankKamas()
 	{
 		return _bank.getBankKamas();
 	}
-	
+
 	public void setBankKamas(long i)
 	{
 		_bank.setBankKamas(i);
 	}
-	
+
 	public String getBankItemsIDSplitByChar(String splitter)
 	{
 		String str = "";
-		
+
 		for (Objet obj : _bank.getBankItems().values())
 		{
 			str += obj.getGuid() + splitter;
@@ -215,12 +215,12 @@ public class Compte {
 	{
 		return _friends;
 	}
-	
+
 	public EnemyList GetEnemys()
 	{
 		return _enemys;
 	}
-	
+
 	public String parseFriendList()
 	{
 		String str = "";
@@ -236,8 +236,8 @@ public class Compte {
 		}
 		return str;
 	}
-	
-	public String parseEnemyList() 
+
+	public String parseEnemyList()
 	{
 		String str = "";
 		for(String g : this._enemys.GetEnemys())
@@ -252,7 +252,7 @@ public class Compte {
 		}
 		return str;
 	}
-	
+
 	public void SendOnline()
 	{
 		for (Compte c : World.getComptes())
@@ -277,7 +277,7 @@ public class Compte {
 		}
 		else SocketManager.GAME_SEND_FA_PACKET(_curPerso,"Ea");
 	}
-	
+
 	public void addEnemy(String ps)
 	{
 		if(ps.compareTo(_pseudo) == 0)
@@ -298,13 +298,13 @@ public class Compte {
 		if(_friends._pseudos.remove(ps))SQLManager.UPDATE_FL_AND_EL(get_GUID(), _friends.parseFriends(), _enemys.parseEnemys());
 		SocketManager.GAME_SEND_FD_PACKET(_curPerso,"K");
 	}
-	
+
 	public void removeEnemy(String ps)
 	{
 		if(_enemys._pseudos.remove(ps))SQLManager.UPDATE_FL_AND_EL(get_GUID(), _friends.parseFriends(), _enemys.parseEnemys());
 		SocketManager.GAME_SEND_iD_COMMANDE(_curPerso,"K");
 	}
-	
+
 	public boolean isFriendWith(String ps)
 	{
 		for (String g : _friends._pseudos)
@@ -314,7 +314,7 @@ public class Compte {
 		}
 		return false;
 	}
-	
+
 	public boolean isEnemyWith(String ps)
 	{
 		for (String g : _enemys._pseudos)
@@ -352,13 +352,13 @@ public class Compte {
 			_muteTimer.start();
 		}else if(time ==0)
 		{
-			//SI 0 on désactive le Timer (Infinie)
+			//SI 0 on dÃ©sactive le Timer (Infinie)
 			_muteTimer = null;
 		}else
 		{
-			if (_muteTimer.isRunning()) _muteTimer.stop(); 
-			_muteTimer.setInitialDelay(time*1000); 
-			_muteTimer.start(); 
+			if (_muteTimer.isRunning()) _muteTimer.stop();
+			_muteTimer.setInitialDelay(time*1000);
+			_muteTimer.start();
 		}
 	}
 	/** Mute **/
@@ -367,14 +367,14 @@ public class Compte {
 	{
 		if(_hdvsItems.get(hdvID) == null)
 			return 0;
-		
+
 		return _hdvsItems.get(hdvID).size();
 	}
 	public HdvEntry[] getHdvItems(int hdvID)
 	{
 		if(_hdvsItems.get(hdvID) == null)
 			return new HdvEntry[1];
-		
+
 		HdvEntry[] toReturn = new HdvEntry[20];
 		for (int i = 0; i < _hdvsItems.get(hdvID).size(); i++)
 		{
@@ -382,15 +382,15 @@ public class Compte {
 		}
 		return toReturn;
 	}
-	
+
 	public boolean recoverItem(int itemID, int amount)
 	{
 		if(_curPerso == null) return false;
 		if(_curPerso.get_isTradingWith() >= 0) return false;
-		int hdvID = Math.abs(_curPerso.get_isTradingWith());//Récupère l'ID de l'HDV
+		int hdvID = Math.abs(_curPerso.get_isTradingWith());//RÃ©cupÃ©re l'ID de l'HDV
 		HdvEntry entry = null;
-		
-		for(HdvEntry tempEntry : _hdvsItems.get(hdvID))//Boucle dans la liste d'entry de l'HDV pour trouver un entry avec le meme cheapestID que spécifié
+
+		for(HdvEntry tempEntry : _hdvsItems.get(hdvID))//Boucle dans la liste d'entry de l'HDV pour trouver un entry avec le meme cheapestID que spÃ©cifiÃ©
 		{
 			if(tempEntry.get_ObjetID() == itemID)//Si la boucle trouve un objet avec le meme cheapestID, arrete la boucle
 			{
@@ -398,10 +398,10 @@ public class Compte {
 				break;
 			}
 		}
-		if(entry == null)//Si entry == null cela veut dire que la boucle s'est effectué sans trouver d'item avec le meme cheapestID
+		if(entry == null)//Si entry == null cela veut dire que la boucle s'est effectuÃ© sans trouver d'item avec le meme cheapestID
 			return false;
 		_hdvsItems.get(hdvID).remove(entry);//Retire l'item de la liste des objets a vendre du compte
-		
+
 		Objet obj = entry.get_obj();
 		if(obj == null)return false;
 		boolean OBJ = _curPerso.addObjet(obj,true);//False = Meme item dans l'inventaire donc augmente la qua
@@ -412,80 +412,80 @@ public class Compte {
 		World.removeHdvItem(_curPerso.get_compte().get_GUID(), hdvID, entry);//Retire l'item des ventes
 		return true;
 	}
-	
+
 	/** HDV **/
-	public int get_GUID() 
+	public int get_GUID()
 	{
 		return _GUID;
 	}
-	
-	public String get_name() 
+
+	public String get_name()
 	{
 		return _name;
 	}
 
-	public String get_pass() 
+	public String get_pass()
 	{
 		return _pass;
 	}
 
-	public String get_pseudo() 
+	public String get_pseudo()
 	{
 		return _pseudo;
 	}
-	
-	public void setLastIP(String _lastip) 
+
+	public void setLastIP(String _lastip)
 	{
 		_lastIP = _lastip;
 	}
-	
-	public String get_lastIP() 
+
+	public String get_lastIP()
 	{
 		return _lastIP;
 	}
 
-	public String get_question() 
+	public String get_question()
 	{
 		return _question;
 	}
-	
-	public String get_reponse() 
+
+	public String get_reponse()
 	{
 		return _reponse;
 	}
 
-	public boolean isBanned() 
+	public boolean isBanned()
 	{
 		return _banned;
 	}
 
-	public void setBanned(boolean banned) 
+	public void setBanned(boolean banned)
 	{
 		_banned = banned;
 	}
-	
-	public int get_gmLvl() 
+
+	public int get_gmLvl()
 	{
 		return _gmLvl;
 	}
-	
+
 	public void setGmLvl(int gmLvl)
 	{
 		_gmLvl = gmLvl;
 	}
-	
+
 	public int get_subscriber()
 	{
 		//Retourne le temps restant
 		if(!Ancestra.USE_SUBSCRIBE) return 525600;
 		if(_subscriber == 0)
 		{
-			//Si non abo ou abo dépasser
+			//Si non abo ou abo dÃ©passer
 			return 0;
 		}else
 		if((System.currentTimeMillis()/1000) > _subscriber)
 		{
-			//Il faut désabonner le compte
+			//Il faut dÃ©sabonner le compte
 			_subscriber = 0;
 			SQLManager.UPDATE_ACCOUNT_SUBSCRIBE(get_GUID(), 0);
 			return 0;
@@ -495,90 +495,90 @@ public class Compte {
 			int TimeRemaining = (int) (_subscriber - (System.currentTimeMillis()/1000));
 			//Conversion en minute
 			int TimeRemMinute = (int) Math.floor(TimeRemaining/60);
-			
+
 			return TimeRemMinute;
 		}
 	}
-	
+
 	public boolean get_subscriberMessage()
 	{
 		return _subscriberMessage;
 	}
-	
+
 	public void set_subscriberMessage(boolean b)
 	{
 		_subscriberMessage = b;
 	}
-	
+
 	public void setCurIP(String ip)
 	{
 		_curIP = ip;
 	}
-	
-	public String get_curIP() 
+
+	public String get_curIP()
 	{
 		return _curIP;
 	}
-	
-	public String getLastConnectionDate() 
+
+	public String getLastConnectionDate()
 	{
 		return _lastConnectionDate;
 	}
-	
-	public void setLastConnectionDate(String connectionDate) 
+
+	public void setLastConnectionDate(String connectionDate)
 	{
 		_lastConnectionDate = connectionDate;
 	}
-	
+
 	public GameThread getGameThread()
 	{
 		return _gameThread;
 	}
-	
+
 	public void setGameThread(GameThread t)
 	{
 		_gameThread = t;
 	}
-	
+
 	public void setClientKey(String ID)
 	{
 		_ClientKey = ID;
 	}
-	
+
 	public String getClientKey()
 	{
 		return _ClientKey;
 	}
-	
+
 	public boolean isOnline()
 	{
 		if(_gameThread != null)return true;
 		return false;
 	}
-	
-	public Map<Integer, Personnage> get_persos() 
+
+	public Map<Integer, Personnage> get_persos()
 	{
 		return _persos;
 	}
-	
-	public Personnage get_curPerso() 
+
+	public Personnage get_curPerso()
 	{
 		return _curPerso;
 	}
-	
+
 	public int GET_PERSO_NUMBER()
 	{
 		return _persos.size();
 	}
-	
+
 	public void addPerso(Personnage perso)
 	{
 		_persos.put(perso.get_GUID(),perso);
 	}
-	
+
 	public boolean createPerso(String name, int sexe, int classe,int color1, int color2, int color3)
 	{
-		
+
 		Personnage perso = Personnage.CREATE_PERSONNAGE(name, sexe, classe, color1, color2, color3, this);
 		if(perso==null)
 		{
@@ -587,19 +587,19 @@ public class Compte {
 		_persos.put(perso.get_GUID(), perso);
 		return true;
 	}
-	
+
 	public void deletePerso(int guid)
 	{
 		if(!_persos.containsKey(guid))return;
 		World.deletePerso(_persos.get(guid));
 		_persos.remove(guid);
 	}
-	
+
 	public void setCurPerso(Personnage perso)
 	{
 		_curPerso = perso;
 	}
-	
+
 	public void deconnexion()
 	{
 		_curPerso = null;
@@ -623,7 +623,7 @@ public class Compte {
 				P.set_onCraftBookCrafter(false);
 				World.removeCrafterOnBook(P.get_GUID());
 			}
-			//Mettre fin aux demande d'échange
+			//Mettre fin aux demande d'Ã©change
 			if(P.get_isTradingWith() > 0)
 			{
 				Personnage p = World.getPersonnage(P.get_isTradingWith());
@@ -637,7 +637,7 @@ public class Compte {
 					}
 				}
 			}
-			//Mettre fin au demande d'échange craft
+			//Mettre fin au demande d'Ã©change craft
 			if(P.get_isCraftingWith() != 0)
 			{
 				Personnage target = World.getPersonnage(P.get_isCraftingWith());
@@ -646,7 +646,7 @@ public class Compte {
 				target.set_isCraftingWith(0);
 				target.set_isCraftingWithskID(0);
 			}
-			
+
 			//Si en combat
 			if(P.get_fight() != null)P.get_fight().leftFight(P, null);
 			else//Si hors combat
@@ -663,7 +663,7 @@ public class Compte {
 		_persos.clear();
 		World.removeAccount(_GUID, get_name().toLowerCase());
 	}
-	
+
 	public Map<Integer,Gift> getGifts()
 	{
 	   return giftList;
@@ -673,12 +673,12 @@ public class Compte {
 	{
 	  return giftList.get(id);
 	}
-	  
+
 	public void addGift(Gift gift)
 	{
 	  giftList.put(gift.getId(), gift);
 	}
-	
+
 	public void sendListGift()
 	{
 		if(giftList.size() > 0)
@@ -691,7 +691,7 @@ public class Compte {
 			}
 		}
 	}
-	
+
 	public void removeGift(int giftId)
 	{
 		giftList.remove(giftId);

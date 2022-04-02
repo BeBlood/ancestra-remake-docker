@@ -12,7 +12,7 @@ import common.SocketManager;
 import common.World;
 
 public class PetsEntry {
-	
+
 	private int ObjectID;
 	private long LastEatDate;
 	private int quaEat;
@@ -20,8 +20,8 @@ public class PetsEntry {
 	private int Poids;
 	private int Corpulence;
 	private boolean isEupeoh;
-	
-	public PetsEntry(int Oid, long LastEatDate, int quaEat, int PDV, int corpulence, boolean isEPO) 
+
+	public PetsEntry(int Oid, long LastEatDate, int quaEat, int PDV, int corpulence, boolean isEPO)
 	{
 		this.ObjectID = Oid;
 		this.LastEatDate = LastEatDate;
@@ -31,66 +31,66 @@ public class PetsEntry {
 		get_currentStatsPoids();
 		this.isEupeoh = isEPO;
 	}
-	
+
 	public int get_ObjectID()
 	{
 		return ObjectID;
 	}
-	
+
 	public long get_LastEatDate()
 	{
 		return LastEatDate;
 	}
-	
+
 	public String parse_LastEatDate()
 	{
 		String hexDate = "#";
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String date = formatter.format(this.LastEatDate); 
-		
+		String date = formatter.format(this.LastEatDate);
+
 		String[] split = date.split("\\s");
-		
+
 		String[] split0 = split[0].split("-");
 		hexDate += Integer.toHexString(Integer.parseInt(split0[0]))+"#";
 		int mois = Integer.parseInt(split0[1])-1;
 		int jour = Integer.parseInt(split0[2]);
 		hexDate += Integer.toHexString(Integer.parseInt((mois < 10?"0"+mois:mois)+""+(jour < 10?"0"+jour:jour)))+"#";
-		
+
 		String[] split1 = split[1].split(":");
 		String heure = split1[0]+split1[1];
 		hexDate += Integer.toHexString(Integer.parseInt(heure));
-		
+
 		return hexDate;
 	}
-		
+
 	public int get_quaEat()
 	{
 		return quaEat;
 	}
-	
+
 	public int get_PDV()
 	{
 		return PDV;
 	}
-	
+
 	public int get_Corpulence()
 	{
 		return Corpulence;
 	}
-	
+
 	public boolean get_isEupeoh()
 	{
 		return isEupeoh;
 	}
-	
-	public int parse_Corpulence()//Pour l'affichage obèse ou maigrichon
+
+	public int parse_Corpulence()//Pour l'affichage obÃ©se ou maigrichon
 	{
 		int corpu = 0;
 		if(Corpulence > 0 || Corpulence < 0) corpu = 7;
 		if(Corpulence == 0) corpu = 0;
 		return corpu;
 	}
-	
+
 	public int get_currentStatsPoids()//Nous donne le poids actuel des stats du pets
 	{
 		/*
@@ -117,29 +117,29 @@ public class PetsEntry {
 				cumul = cumul+(8*entry.getValue());
 			else
 				cumul = cumul+(1*entry.getValue());
-				
+
 		}
 		this.Poids = cumul;
 		return this.Poids;
 	}
-	
+
 	public void LooseFight(Personnage p)
 	{
 		Objet obj = World.getObjet(this.ObjectID);
 		if(obj == null) return;
 		Pets pets = World.get_Pets(obj.getTemplate().getID());
 		if(pets == null) return;
-		
+
 		this.PDV--;
 		obj.getTxtStat().remove(Constants.STATS_PETS_PDV);
 		obj.getTxtStat().put(Constants.STATS_PETS_PDV, Integer.toHexString((this.PDV>0?(this.PDV):0)));
-		
+
 		if(this.PDV <= 0)
 		{
 			this.PDV = 0;
 			obj.getTxtStat().remove(Constants.STATS_PETS_PDV);
 			obj.getTxtStat().put(Constants.STATS_PETS_PDV, Integer.toHexString(0));//Mise a 0 des pdv
-			
+
 			if(pets.get_DeadTemplate() == 0)// Si Pets DeadTemplate = 0 remove de l'item et pet entry
 			{
 				World.removeItem(obj.getGuid());
@@ -158,15 +158,15 @@ public class PetsEntry {
 		}
 		SocketManager.GAME_SEND_UPDATE_OBJECT_DISPLAY_PACKET(p, obj);
 	}
-	
+
 	public void Eat(Personnage p, int min, int max, int statsID)
 	{
 		Objet obj = World.getObjet(this.ObjectID);
 		if(obj == null) return;
 		Pets pets = World.get_Pets(obj.getTemplate().getID());
 		if(pets == null) return;
-		
-		if(this.Corpulence < 0)//Si il est maigrichon (X repas ratés) on peu le nourrire plusieurs fois
+
+		if(this.Corpulence < 0)//Si il est maigrichon (X repas ratÃ©s) on peu le nourrire plusieurs fois
 		{
 			//Update du petsEntry
 			this.LastEatDate = System.currentTimeMillis();
@@ -191,11 +191,11 @@ public class PetsEntry {
 				obj.getTxtStat().put(Constants.STATS_PETS_PDV, Integer.toHexString((this.PDV>0?(this.PDV):0)));
 				SocketManager.GAME_SEND_Im_PACKET(p, "027");
 			}
-		}else if(((this.LastEatDate+(min*3600000)) < System.currentTimeMillis()) && this.Corpulence >= 0)//Si il n'est pas maigrichon, et que le temps minimal est écoulé
+		}else if(((this.LastEatDate+(min*3600000)) < System.currentTimeMillis()) && this.Corpulence >= 0)//Si il n'est pas maigrichon, et que le temps minimal est Ã©coulÃ©
 		{
 			//Update du petsEntry
 			this.LastEatDate = System.currentTimeMillis();
-			
+
 			if(statsID != 0) this.quaEat++;
 			else return;
 			if(this.quaEat >= 3)
@@ -216,7 +216,7 @@ public class PetsEntry {
 			}
 			SocketManager.GAME_SEND_Im_PACKET(p, "032");
 		}
-			
+
 		if(this.PDV <= 0)
 		{
 			this.PDV = 0;
@@ -230,7 +230,7 @@ public class PetsEntry {
 			}else
 			{
 				obj.set_Template(pets.get_DeadTemplate());
-				
+
 				if(obj.getPosition() == Constants.ITEM_POS_FAMILIER)
 				{
 					obj.setPosition(Constants.ITEM_POS_NO_EQUIPED);
@@ -241,14 +241,14 @@ public class PetsEntry {
 			SocketManager.GAME_SEND_Im_PACKET(p, "154");
 		}
 	}
-	
+
 	public void EatSouls(Personnage p, Map<Integer, Integer> souls)
 	{
 		Objet obj = World.getObjet(this.ObjectID);
 		if(obj == null) return;
 		Pets pet = World.get_Pets(obj.getTemplate().getID());
 		if(pet == null || pet.get_Type() != 1) return;
-		//Ajout a l'item les SoulStats tués
+		//Ajout a l'item les SoulStats tuÃ©s
 		for(Entry<Integer, Integer> entry : souls.entrySet())
 		{
 			int soul = entry.getKey();
@@ -271,7 +271,7 @@ public class PetsEntry {
 				}
 			}
 		}
-		//Re-Calcul des points gagnés
+		//Re-Calcul des points gagnÃ©s
 		for(Entry<Integer, ArrayList<Map<Integer, Integer>>> ent : pet.get_Monsters().entrySet())
 		{
 				for(Map<Integer, Integer> entry : ent.getValue())
@@ -298,7 +298,7 @@ public class PetsEntry {
 		}
 		SocketManager.GAME_SEND_UPDATE_OBJECT_DISPLAY_PACKET(p, obj);
 	}
-	
+
 	public void update_pets(Personnage p, int max)
 	{
 		Objet obj = World.getObjet(this.ObjectID);
@@ -306,15 +306,15 @@ public class PetsEntry {
 		Pets pets = World.get_Pets(obj.getTemplate().getID());
 		if(pets == null) return;
 		if(this.PDV <= 0 && obj.getTemplate().getID() == pets.get_DeadTemplate()) return;//Ne le met pas a jour si deja mort
-		
+
 		if(this.LastEatDate+(max*3600000) < System.currentTimeMillis())//Oublier de le nourrir
 		{
-			//On calcul le nombre de repas oublier arrondi au supérieur :
+			//On calcul le nombre de repas oublier arrondi au supÃ©rieur :
 			int nbrepas = (int) Math.floor((System.currentTimeMillis()-this.LastEatDate)/(max*3600000));
 			//Perte corpulence
 			this.Corpulence = this.Corpulence - nbrepas;
-			
-			if(nbrepas != 0) 
+
+			if(nbrepas != 0)
 			{
 				obj.getTxtStat().remove(Constants.STATS_PETS_POIDS);
 				obj.getTxtStat().put(Constants.STATS_PETS_POIDS, Integer.toHexString(this.Corpulence));
@@ -328,13 +328,13 @@ public class PetsEntry {
 		{
 			if(this.PDV > 0) SocketManager.GAME_SEND_Im_PACKET(p, "025");
 		}
-		
+
 		if(this.PDV <= 0)
 		{
 			this.PDV = 0;
 			obj.getTxtStat().remove(Constants.STATS_PETS_PDV);
 			obj.getTxtStat().put(Constants.STATS_PETS_PDV, Integer.toHexString((this.PDV>0?(this.PDV):0)));
-			
+
 			if(pets.get_DeadTemplate() == 0)//Si Pets DeadTemplate = 0 remove de l'item et pet entry
 			{
 				World.removeItem(obj.getGuid());
@@ -354,14 +354,14 @@ public class PetsEntry {
 		}
 		SocketManager.GAME_SEND_UPDATE_OBJECT_DISPLAY_PACKET(p, obj);
 	}
-		
+
 	public void resurrection()
 	{
 		Objet obj = World.getObjet(this.ObjectID);
 		if(obj == null) return;
 		Pets pets = null;
 		int LiveTemplate = 0;
-		
+
 		for(Entry<Integer, Pets> Template : World.get_Pets().entrySet())
 		{
 			if(Template.getValue().get_DeadTemplate() == obj.getTemplate().getID())
@@ -372,25 +372,25 @@ public class PetsEntry {
 		}
 		if(LiveTemplate == 0 || pets == null) return;
 		obj.set_Template(LiveTemplate);
-		
+
 		this.PDV = 10;
 		this.Corpulence = 0;
 		this.quaEat = 0;
 		this.LastEatDate = System.currentTimeMillis();
-		
-		
+
+
 		obj.getTxtStat().remove(Constants.STATS_PETS_PDV);
 		obj.getTxtStat().put(Constants.STATS_PETS_PDV, Integer.toHexString(this.PDV));
 		SQLManager.SAVE_ITEM(obj);
 	}
-	
+
 	public void RestoreLife(Personnage p)
 	{
 		Objet obj = World.getObjet(this.ObjectID);
 		if(obj == null) return;
 		Pets pets = World.get_Pets(obj.getTemplate().getID());
 		if(pets == null) return;
-		
+
 		if(this.PDV >= 10)
 		{
 			//Il la mange pas de pdv en plus
@@ -399,10 +399,10 @@ public class PetsEntry {
 		if(this.PDV < 10 && this.PDV > 0)
 		{
 			this.PDV++;
-			
+
 			obj.getTxtStat().remove(Constants.STATS_PETS_PDV);
 			obj.getTxtStat().put(Constants.STATS_PETS_PDV, Integer.toHexString(this.PDV));
-			
+
 			this.LastEatDate = System.currentTimeMillis();
 			SocketManager.GAME_SEND_Im_PACKET(p, "032");
 		}else
@@ -410,7 +410,7 @@ public class PetsEntry {
 			return;
 		}
 	}
-	
+
 	public void Give_EPO(Personnage p)
 	{
 		Objet obj = World.getObjet(this.ObjectID);
@@ -418,9 +418,9 @@ public class PetsEntry {
 		Pets pets = World.get_Pets(obj.getTemplate().getID());
 		if(pets == null) return;
 		if(this.isEupeoh) return;
-		
+
 		obj.getTxtStat().put(Constants.STATS_PETS_EPO, Integer.toHexString(1));
-		
+
 		SocketManager.GAME_SEND_Im_PACKET(p, "032");
 		SocketManager.GAME_SEND_UPDATE_OBJECT_DISPLAY_PACKET(p, obj);
 	}

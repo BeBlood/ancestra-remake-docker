@@ -16,7 +16,7 @@ import java.util.Calendar;
 import communication.ComServer;
 
 public class Ancestra {
-	
+
 	/** RealmServer **/
 	public static String REALM_IP;
 	public static String REALM_DB_HOST;
@@ -76,7 +76,7 @@ public class Ancestra {
 	public static int CONFIG_ARENA_TIMER = 10*60*1000;// 10 minutes
 	//BDD
 	public static int CONFIG_DB_COMMIT = 30*1000;
-	//Inactivité
+	//InactivitÃ©
 	public static int CONFIG_MAX_IDLE_TIME = 1800000;//En millisecondes
 	//HDV
 	public static ArrayList<Integer> NOTINHDV = new ArrayList<Integer>();
@@ -94,7 +94,7 @@ public class Ancestra {
 	public static BufferedWriter Log_Shop;
 	public static PrintStream Log_Errors;
 	public static boolean canLog;
-	
+
 	public static void main(String[] args)
 	{
 		Runtime.getRuntime().addShutdownHook(new Thread()
@@ -105,14 +105,14 @@ public class Ancestra {
 			}
 		}
 		);
-		
+
 		try {
 	         System.setOut(new PrintStream(System.out, true, "IBM850"));
 		} catch (final UnsupportedEncodingException e)
 		{
 		         e.printStackTrace();
 		}
-		
+
 		System.out.println("==============================================================\n\n");
 		System.out.println(makeHeader());
 		System.out.println("==============================================================\n");
@@ -128,7 +128,7 @@ public class Ancestra {
 			System.exit(0);
 		}
 		System.out.println("Utilisation des monstres : "+CONFIG_USE_MOBS);
-		
+
 		System.out.println("\n");
 		System.out.println("Creation du Monde :");
 		long startTime = System.currentTimeMillis();
@@ -137,7 +137,7 @@ public class Ancestra {
 		long differenceTime = (endTime - startTime)/1000;
 		System.out.println("Monde OK! en : "+differenceTime+" s");
 		isRunning = true;
-		
+
 		System.out.println("\n");
 		System.out.print("Creation du GameServer sur le port "+CONFIG_GAME_PORT);
 		String Ip = "";
@@ -152,19 +152,19 @@ public class Ancestra {
 			} catch (InterruptedException e1) {}
 			System.exit(1);
 		}
-		
+
 		Ip = IP;
 		gameServer = new GameServer(Ip);
 		System.out.println(" : GameServer OK!");
 		if(CONFIG_USE_IP) System.out.println("Ip du serveur "+IP+" crypt "+GAMESERVER_IP);
-		
+
 		System.out.print("Creation du ComServer sur le port "+Ancestra.COM_PORT);
 		comServer = new ComServer();
 		System.out.println(" : ComServer OK!");
-		
+
 		System.out.println("\n\nEn attente de connexions");
 	}
-	
+
 	private static void loadConfiguration()
 	{
 		boolean log = false;
@@ -176,7 +176,7 @@ public class Ancestra {
 				if(line.split("=").length == 1) continue ;
 				String param = line.split("=")[0].trim();
 				String value = line.split("=")[1].trim();
-				
+
 				if(param.equalsIgnoreCase("REALM_IP"))
 				{
 					Ancestra.REALM_IP = value;
@@ -366,7 +366,7 @@ public class Ancestra {
 			String date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+Calendar.getInstance().get(Calendar.YEAR);
 			if(log)
 			{
-				if(!(new File("Game_logs")).exists()) 
+				if(!(new File("Game_logs")).exists())
 				{
 					new File("Game_logs").mkdir();
 				}
@@ -387,14 +387,14 @@ public class Ancestra {
 				Log_Shop = new BufferedWriter(new FileWriter("Shop_logs/"+date+".txt", true));
 				Log_MJ = new BufferedWriter(new FileWriter("Gms_logs/"+date+"_GM.txt",true));
 				Log_Errors = new PrintStream(new File("Error_logs/"+date+"_error.txt"));
-				
+
 				Log_Errors.append("Lancement du serveur..\n");
 				Log_Errors.flush();
 				System.setErr(Log_Errors);
 				canLog = true;
-				
+
 				String str = "Lancement du serveur...\n";
-				
+
 				Log_GameSock.write(str);
 				Log_Game.write(str);
 				Log_MJ.write(str);
@@ -411,7 +411,7 @@ public class Ancestra {
 			System.exit(1);
 		}
 	}
-	
+
 	public static void closeServers()
 	{
 		System.out.println("Arret du serveur demande ...");
@@ -425,7 +425,7 @@ public class Ancestra {
 			{
 				System.out.println(e.getMessage());
 			}
-			
+
 			World.saveAll(null);
 			SQLManager.closeCons();
 		}
@@ -443,7 +443,7 @@ public class Ancestra {
 			Log_MJ.flush();
 		} catch (IOException e) {}
 	}
-	
+
 	public static void addToShopLog(String str)
 	{
 		if(!canLog)return;
@@ -454,7 +454,7 @@ public class Ancestra {
 			Log_Shop.flush();
 		} catch (IOException e) {}
 	}
-	
+
 	public static String makeHeader()
 	{
 		StringBuilder mess = new StringBuilder();
@@ -464,7 +464,7 @@ public class Ancestra {
 		mess.append("\nhttp://sourceforge.net/projects/ancestrar/\n\n");
 		return mess.toString();
 	}
-	
+
 	public static void try_ComServer()
 	{
 		if(com_Try == 0 && isRunning)

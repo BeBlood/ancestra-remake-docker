@@ -11,13 +11,13 @@ import objects.Fight.*;
 import objects.Guild.GuildMember;
 
 public class Formulas {
-	
+
 	public static int getRandomValue(int i1,int i2)
 	{
 		Random rand = new Random();
 		return (rand.nextInt((i2-i1)+1))+i1;
 	}
-	
+
 	public static int getRandomJet(String jet)//1d5+6
 	{
 		try
@@ -34,7 +34,7 @@ public class Formulas {
 			return num;
 		}catch(NumberFormatException e){return -1;}
 	}
-	
+
 	public static int getMiddleJet(String jet)//1d5+6
 	{
 		try
@@ -48,12 +48,12 @@ public class Formulas {
 			return num;
 		}catch(NumberFormatException e){return 0;}
 	}
-	
+
 	public static int getTacleChance(Fighter tacleur, ArrayList<Fighter> tacle)
 	{
 		int agiTR = tacleur.getTotalStats().getEffect(Constants.STATS_ADD_AGIL);
 		int agiT = 0;
-		for(Fighter T : tacle) 
+		for(Fighter T : tacle)
 		{
 			agiT += T.getTotalStats().getEffect(Constants.STATS_ADD_AGIL);
 		}
@@ -72,7 +72,7 @@ public class Formulas {
 		if(statC<0)statC=0;
 		return (int)(jet * (100 + statC) / 100 + soins);
 	}
-	
+
 	public static int calculFinalDommage(Fight fight,Fighter caster,Fighter target,int statID,int jet,boolean isHeal, boolean isCaC, int spellid)
 	{
 		float i = 0;//Bonus maitrise
@@ -90,7 +90,7 @@ public class Formulas {
 		{
 			domC = caster.getTotalStats().getEffect(Constants.STATS_ADD_SOIN);
 		}
-		
+
 		switch(statID)
 		{
 			case Constants.ELEMENT_NULL://Fixe
@@ -151,7 +151,7 @@ public class Formulas {
 				//Ajout de la resist Magique
 				resfT = target.getTotalStats().getEffect(183);
 			break;
-			case Constants.ELEMENT_AIR://agilité
+			case Constants.ELEMENT_AIR://agilitÃ©
 				statC = caster.getTotalStats().getEffect(Constants.STATS_ADD_AGIL);
 				resfT = target.getTotalStats().getEffect(Constants.STATS_ADD_R_AIR);
 				respT = target.getTotalStats().getEffect(Constants.STATS_ADD_RP_AIR);
@@ -164,9 +164,9 @@ public class Formulas {
 				resfT = target.getTotalStats().getEffect(183);
 			break;
 		}
-		//On bride la resistance a 50% si c'est un joueur 
+		//On bride la resistance a 50% si c'est un joueur
 		if(target.getMob() == null && respT >50)respT = 50;
-		
+
 		if(statC<0)statC=0;
 		/* DEBUG
 		System.out.println("Jet: "+jet+" Stats: "+statC+" perdomC: "+perdomC+" multiplier: "+multiplier);
@@ -179,13 +179,13 @@ public class Formulas {
 			System.out.println("resmonstre: "+target.getMob().getStats().getEffect(Constants.STATS_ADD_RP_FEU));
 			System.out.println("TotalStat: "+target.getTotalStats().getEffect(Constants.STATS_ADD_RP_FEU));
 			System.out.println("FightStat: "+target.getTotalStatsLessBuff().getEffect(Constants.STATS_ADD_RP_FEU));
-			
+
 		}
 		//*/
 			if(caster.getPersonnage() != null && isCaC)
 			{
 			int ArmeType = caster.getPersonnage().getObjetByPos(1).getTemplate().getType();
-			
+
 			if((caster.getSpellValueBool(392) == true) && ArmeType == 2)//ARC
 			{
 				i = caster.getMaitriseDmg(392);
@@ -220,21 +220,21 @@ public class Formulas {
 			}
 				a = (((100+i)/100)*(j/100));
 			}
-			
-			num = a*(jet * ((100 + statC + perdomC + (multiplier*100)) / 100 ))+ domC;//dégats bruts
-			
+
+			num = a*(jet * ((100 + statC + perdomC + (multiplier*100)) / 100 ))+ domC;//dÃ©gats bruts
+
 		//Poisons
 		if(spellid != -1)
 		{
 			switch(spellid)
 			{
-				/* 
-				 * case [SPELLID]: 
-				 * statC = caster.getTotalStats().getEffect([EFFECT]) 
-				 * num = (jet * ((100 + statC + perdomC + (multiplier*100)) / 100 ))+ domC; 
-				 * return (int) num; 
+				/*
+				 * case [SPELLID]:
+				 * statC = caster.getTotalStats().getEffect([EFFECT])
+				 * num = (jet * ((100 + statC + perdomC + (multiplier*100)) / 100 ))+ domC;
+				 * return (int) num;
 				 */
-				case 66 : 
+				case 66 :
 				statC = caster.getTotalStats().getEffect(Constants.STATS_ADD_AGIL);
 				num = (jet * ((100 + statC + perdomC + (multiplier*100)) / 100 ))+ domC;
 				if(target.hasBuff(105))
@@ -248,7 +248,7 @@ public class Formulas {
 					return 0;
 				}
 				return (int) num;
-				
+
 				case 71 :
 				case 196:
 				case 219:
@@ -265,7 +265,7 @@ public class Formulas {
 						return 0;
 					}
 				return (int) num;
-				
+
 				case 181:
 				case 200:
 					statC = caster.getTotalStats().getEffect(Constants.STATS_ADD_INTE);
@@ -295,21 +295,21 @@ public class Formulas {
 			caster.removePDV(renvoie);
 			SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 100, caster.getGUID()+"", caster.getGUID()+",-"+renvoie);
 		}
-		
+
 		if(!isHeal)num -= resfT;//resis fixe
 		int reduc =	(int)((num/(float)100)*respT);//Reduc %resis
 		if(!isHeal)num -= reduc;
-		
+
 		int armor = getArmorResist(target,statID);
 		if(!isHeal)num -= armor;
 		if(!isHeal)if(armor > 0)SocketManager.GAME_SEND_GA_PACKET_TO_FIGHT(fight, 7, 105, caster.getGUID()+"", target.getGUID()+","+armor);
-		//dégats finaux
+		//dÃ©gats finaux
 		if(num < 1)num=0;
-		
-		// Début Formule pour les MOBs
+
+		// DÃ©but Formule pour les MOBs
 		if(caster.getPersonnage() == null && !caster.isPerco())
 		{
-			if(caster.getMob().getTemplate().getID() == 116)//Sacrifié Dommage = PDV*2
+			if(caster.getMob().getTemplate().getID() == 116)//SacrifiÃ© Dommage = PDV*2
 			{
 				return (int)((num/25)*caster.getPDVMAX());
 			}else
@@ -333,41 +333,41 @@ public class Formulas {
 	{
 		return (int) (10*(Math.abs(map2.getX()-map1.getX())+Math.abs(map2.getY()-map1.getY())-1));
 	}
-	
+
 	private static int getArmorResist(Fighter target, int statID)
 	{
 		int armor = 0;
 		for(SpellEffect SE : target.getBuffsByEffectID(265))
 		{
 			Fighter fighter;
-			
+
 			switch(SE.getSpell())
 			{
 				case 1://Armure incandescente
 					//Si pas element feu, on ignore l'armure
 					if(statID != Constants.ELEMENT_FEU)continue;
-					//Les stats du féca sont prises en compte
+					//Les stats du fÃ©ca sont prises en compte
 					fighter = SE.getCaster();
 				break;
 				case 6://Armure Terrestre
 					//Si pas element terre/neutre, on ignore l'armure
 					if(statID != Constants.ELEMENT_TERRE && statID != Constants.ELEMENT_NEUTRE)continue;
-					//Les stats du féca sont prises en compte
+					//Les stats du fÃ©ca sont prises en compte
 					fighter = SE.getCaster();
 				break;
 				case 14://Armure Venteuse
 					//Si pas element air, on ignore l'armure
 					if(statID != Constants.ELEMENT_AIR)continue;
-					//Les stats du féca sont prises en compte
+					//Les stats du fÃ©ca sont prises en compte
 					fighter = SE.getCaster();
 				break;
 				case 18://Armure aqueuse
 					//Si pas element eau, on ignore l'armure
 					if(statID != Constants.ELEMENT_EAU)continue;
-					//Les stats du féca sont prises en compte
+					//Les stats du fÃ©ca sont prises en compte
 					fighter = SE.getCaster();
 				break;
-				
+
 				default://Dans les autres cas on prend les stats de la cible et on ignore l'element de l'attaque
 					fighter = target;
 				break;
@@ -426,7 +426,7 @@ public class Formulas {
 		float esquiveC = z=='a'?caster.getTotalStats().getEffect(Constants.STATS_ADD_AFLEE):caster.getTotalStats().getEffect(Constants.STATS_ADD_MFLEE);
 		float esquiveT = z=='a'?target.getTotalStats().getEffect(Constants.STATS_ADD_AFLEE):target.getTotalStats().getEffect(Constants.STATS_ADD_MFLEE);
 		float ptsMax = z=='a'?target.getTotalStatsLessBuff().getEffect(Constants.STATS_ADD_PA):target.getTotalStatsLessBuff().getEffect(Constants.STATS_ADD_PM);
-		
+
 		int retrait = 0;
 
 		for(int i = 0; i < value;i++)
@@ -435,10 +435,10 @@ public class Formulas {
 			{
 				ptsMax= z=='a'?target.getMob().getPA():target.getMob().getPM();
 			}
-			
+
 			float pts = z =='a'?target.getPA():target.getPM();
 			float ptsAct = pts - retrait;
-			
+
 			if(esquiveT == 0)esquiveT=1;
 			if(esquiveC == 0)esquiveC=1;
 
@@ -447,13 +447,13 @@ public class Formulas {
 
 			float pourcentage = (float)(a*b*50);
 			int chance = (int)Math.ceil(pourcentage);
-			
+
 			/*
 			System.out.println("Esquive % : "+a+" Facteur PA/PM : "+b);
 			System.out.println("ptsMax : "+ptsMax+" ptsAct : "+ptsAct);
 			System.out.println("Chance d'esquiver le "+(i+1)+" eme PA/PM : "+chance);
 			*/
-			
+
 			if(chance <0)chance = 0;
 			if(chance >100)chance = 100;
 
@@ -465,7 +465,7 @@ public class Formulas {
 		}
 		return retrait;
 	}
-	
+
 	public static long getXpWinPerco(Percepteur perco, ArrayList<Fighter> winners,ArrayList<Fighter> loosers,long groupXP)
 	{
 			Guild G = World.getGuild(perco.get_guildID());
@@ -483,9 +483,9 @@ public class Formulas {
 			for(Fighter entry : winners)
 			{
 				if(entry.get_lvl() > (lvlmax / 3))
-					nbbonus += 1;				
+					nbbonus += 1;
 			}
-			
+
 			double bonus = 1;
 			if(nbbonus == 2)
 				bonus = 1.1;
@@ -501,7 +501,7 @@ public class Formulas {
 				bonus = 3.1;
 			if(nbbonus >= 8)
 				bonus = 3.5;
-			
+
 			int lvlLoosers = 0;
 			for(Fighter entry : loosers)
 				lvlLoosers += entry.get_lvl();
@@ -511,15 +511,15 @@ public class Formulas {
 			double rapport = 1+((double)lvlLoosers/(double)lvlWinners);
 			if (rapport <= 1.3)
 				rapport = 1.3;
-			
+
 			int lvl = G.get_lvl();
 			double rapport2 = 1 + ((double)lvl / (double)lvlWinners);
 
 			xpWin = (long) (groupXP * rapport * bonus * taux *coef * rapport2);
-			
-			return xpWin;	
+
+			return xpWin;
 	}
-	
+
 	public static long getXpWinPvm2(Fighter perso, ArrayList<Fighter> winners,ArrayList<Fighter> loosers,long groupXP, int star)
 	{
 		if(perso.getPersonnage()== null)return 0;
@@ -539,9 +539,9 @@ public class Formulas {
 			for(Fighter entry : winners)
 			{
 				if(entry.get_lvl() > (lvlmax / 3))
-					nbbonus += 1;				
+					nbbonus += 1;
 			}
-			
+
 			double bonus = 1;
 			if(nbbonus == 2)
 				bonus = 1.1;
@@ -557,7 +557,7 @@ public class Formulas {
 				bonus = 3.1;
 			if(nbbonus >= 8)
 				bonus = 3.5;
-			
+
 			int lvlLoosers = 0;
 			for(Fighter entry : loosers)
 				lvlLoosers += entry.get_lvl();
@@ -567,14 +567,14 @@ public class Formulas {
 			double rapport = 1+((double)lvlLoosers/(double)lvlWinners);
 			if (rapport <= 1.3)
 				rapport = 1.3;
-			
+
 			int lvl = perso.get_lvl();
 			double rapport2 = 1 + ((double)lvl / (double)lvlWinners);
-			
+
 			xpWin = (long) (groupXP * rapport * bonus * taux * coef * rapport2);
 			if(star > 0)
 				xpWin = (long) (xpWin + xpWin*(star/100));
-			
+
 			/*/ DEBUG XP
 			System.out.println("=========");
 			System.out.println("groupXP: "+groupXP);
@@ -587,7 +587,7 @@ public class Formulas {
 			System.out.println("xpWin: "+xpWin);
 			System.out.println("=========");
 			//*/
-			return xpWin;	
+			return xpWin;
 		}
 		return 0;
 	}
@@ -596,18 +596,18 @@ public class Formulas {
 	{
 		if(perso.getPersonnage()== null)return 0;
 		if(perso.getPersonnage().getGuildMember() == null)return 0;
-		
+
 
 		GuildMember gm = perso.getPersonnage().getGuildMember();
-		
+
 		double xp = (double)xpWin.get(), Lvl = perso.get_lvl(),LvlGuild = perso.getPersonnage().get_guild().get_lvl(),pXpGive = (double)gm.getPXpGive()/100;
-		
-		double maxP = xp * pXpGive * 0.10;	//Le maximum donné à la guilde est 10% du montant prélevé sur l'xp du combat
-		double diff = Math.abs(Lvl - LvlGuild);	//Calcul l'écart entre le niveau du personnage et le niveau de la guilde
+
+		double maxP = xp * pXpGive * 0.10;	//Le maximum donnÃ© Ã© la guilde est 10% du montant prÃ©levÃ© sur l'xp du combat
+		double diff = Math.abs(Lvl - LvlGuild);	//Calcul l'Ã©cart entre le niveau du personnage et le niveau de la guilde
 		double toGuild;
 		if(diff >= 70)
 		{
-			toGuild = maxP * 0.10;	//Si l'écart entre les deux level est de 70 ou plus, l'experience donnée a la guilde est de 10% la valeur maximum de don
+			toGuild = maxP * 0.10;	//Si l'Ã©cart entre les deux level est de 70 ou plus, l'experience donnÃ©e a la guilde est de 10% la valeur maximum de don
 		}
 		else if(diff >= 31 && diff <= 69)
 		{
@@ -617,26 +617,26 @@ public class Formulas {
 		{
 			toGuild = maxP - ((maxP * 0.20) * (Math.floor(diff/10))) ;
 		}
-		else	//Si la différence est [0,9]
+		else	//Si la diffÃ©rence est [0,9]
 		{
 			toGuild = maxP;
 		}
 		xpWin.set((long)(xp - xp*pXpGive));
 		return (long) Math.round(toGuild);
 	}
-	
+
 	public static long getMountXpWin(Fighter perso, AtomicReference<Long> xpWin)
 	{
 		if(perso.getPersonnage()== null)return 0;
 		if(perso.getPersonnage().getMount() == null)return 0;
-		
+
 
 		int diff = Math.abs(perso.get_lvl() - perso.getPersonnage().getMount().get_level());
-		
+
 		double coeff = 0;
 		double xp = (double) xpWin.get();
 		double pToMount = (double)perso.getPersonnage().getMountXpGive() / 100 + 0.2;
-		
+
 		if(diff >= 0 && diff <= 9)
 			coeff = 0.1;
 		else if(diff >= 10 && diff <= 19)
@@ -653,10 +653,10 @@ public class Formulas {
 			coeff = 0.015;
 		else
 			coeff = 0.01;
-		
+
 		if(pToMount > 0.2)
 			xpWin.set((long)(xp - (xp*(pToMount-0.2))));
-		
+
 		return (long)Math.round(xp * pToMount * coeff);
 	}
 
@@ -666,14 +666,14 @@ public class Formulas {
 		int rkamas = (int)(Math.random() * (maxk-mink)) + mink;
 		return rkamas*Ancestra.RATE_KAMAS;
 	}
-	
+
 	public static int getKamasWinPerco(int maxk, int mink)
 	{
 		maxk++;
 		int rkamas = (int)(Math.random() * (maxk-mink)) + mink;
 		return rkamas*Ancestra.RATE_KAMAS;
 	}
-	
+
 	public static int calculElementChangeChance(int lvlM,int lvlA,int lvlP)
 	{
 		int K = 350;
@@ -703,14 +703,14 @@ public class Formulas {
 			totalGradeLoose += f.getPersonnage().getGrade();
 
 		}
-		
+
 		if(totalLevelWin-totalLevelLoose > Ancestra.CONFIG_LVL_PVP) return 0;
 
 		int base = (int)(100 * (float)(totalGradeLoose/totalGradeWin))/winners.size();
 		if(loosers.contains(F))base = -base;
 		return base * Ancestra.RATE_HONOR;
 	}
-	
+
 	public static Couple<Integer, Integer> decompPierreAme(Objet toDecomp)
 	{
 		Couple<Integer, Integer> toReturn;
@@ -718,10 +718,10 @@ public class Formulas {
 		int lvlMax = Integer.parseInt(stats[3],16);
 		int chance = Integer.parseInt(stats[1],16);
 		toReturn = new Couple<Integer,Integer>(chance,lvlMax);
-		
+
 		return toReturn;
 	}
-	
+
 	public static int totalCaptChance(int pierreChance, Personnage p)
 	{
 		int sortChance = 0;
@@ -747,30 +747,30 @@ public class Formulas {
 				sortChance = 25;
 				break;
 		}
-		
+
 		return sortChance + pierreChance;
 	}
-	
+
 	public static String parseReponse(String reponse)
 	{
 		StringBuilder toReturn = new StringBuilder("");
-		
+
 		String[] cut = reponse.split("[%]");
-		
+
 		if(cut.length == 1)return reponse;
-		
+
 		toReturn.append(cut[0]);
-		
+
 		char charact;
 		for (int i = 1; i < cut.length; i++)
 		{
 			charact = (char) Integer.parseInt(cut[i].substring(0, 2),16);
 			toReturn.append(charact).append(cut[i].substring(2));
 		}
-		
+
 		return toReturn.toString();
 	}
-	
+
 	public static int spellCost(int nb)
 	{
 		int total = 0;
@@ -778,10 +778,10 @@ public class Formulas {
 		{
 			total += i;
 		}
-		
+
 		return total;
 	}
-	
+
 	public static int ChanceFM(int poidItemBase, int poidItemActual, int poidBaseJet, int poidActualJet, double poidRune, int Puis, double Coef)
 	{
 		int Chance = 0;
@@ -789,13 +789,13 @@ public class Formulas {
 		int b = (int) (Math.sqrt(poidItemActual+poidActualJet+poidRune));
 		if(b <= 0) b = 1;
 		Chance = (int) Math.floor((a/b)*Coef);
-		
+
 		//DEBUG :
 		System.out.println("A : "+a);
 		System.out.println("B : "+b);
 		return Chance;
 	}
-	
+
 	public static int getTraqueXP(int lvl)
 	{
 		if(lvl < 50)return 10000 * Ancestra.RATE_PVM;
@@ -821,7 +821,7 @@ public class Formulas {
 		if(lvl < 200)return 3000000 * Ancestra.RATE_PVM;
 		return 0;
 	}
-	
+
 	public static int getLoosEnergy(int lvl, boolean isAgression, boolean isPerco)
 	{
 		int returned = 25*lvl;
@@ -829,16 +829,16 @@ public class Formulas {
 		if(isPerco) returned *= (3/2);
 		return returned;
 	}
-	
+
 	public static int getRandomChallenge(Personnage _perso)
 	{
 	   int challenge = 0;
 	   if(_perso.get_lvl() < 6)
-	   { 
-	       return 0; 
+	   {
+	       return 0;
 	   }else
-	   { 
-	      challenge++; 
+	   {
+	      challenge++;
 	   }
 	   if(_perso.get_curCarte().hasEndFightAction(0))
 	   {

@@ -19,21 +19,21 @@ public class SQLManager
 
 	private static Timer timerCommit;
 	private static boolean needCommit;
-	
-	
+
+
 	public synchronized static ResultSet executeQuery(String query,String DBNAME) throws SQLException
 	{
 		if(!Ancestra.isInit)
 			return null;
 		Connection DB = othCon;
-		
-		
+
+
 		Statement stat = DB.createStatement();
 		ResultSet RS = stat.executeQuery(query);
 		stat.setQueryTimeout(300);
 		return RS;
 	}
-	
+
 	public synchronized static ResultSet executeQueryG(String query, GameServer G) throws SQLException
 	{
 		if (!Ancestra.isInit)
@@ -56,15 +56,15 @@ public class SQLManager
 			return null;
 		}
 	}
-	
+
 	public synchronized static PreparedStatement newTransact(String baseQuery,Connection dbCon) throws SQLException
 	{
 		PreparedStatement toReturn = (PreparedStatement) dbCon.prepareStatement(baseQuery);
-		
+
 		needCommit = true;
 		return toReturn;
 	}
-	
+
 	public synchronized static void commitTransacts()
 	{
 		try
@@ -74,10 +74,10 @@ public class SQLManager
 				closeCons();
 				setUpConnexion();
 			}
-			
-			
+
+
 			othCon.commit();
-			
+
 		}catch(SQLException e)
 		{
 			System.out.println("SQL : "+e.getMessage());
@@ -86,39 +86,39 @@ public class SQLManager
 			commitTransacts();
 		}
 	}
-	
+
 	public synchronized static void closeCons()
 	{
 		try
 		{
 			commitTransacts();
-			
+
 			othCon.close();
-			
+
 		}catch (Exception e)
 		{
-			System.out.println("SQL : Erreur à la fermeture des connexions : "+e.getMessage());
-			Ancestra.addToErrorLog("SQL : Erreur à la fermeture des connexions : "+e.getMessage());
+			System.out.println("SQL : Erreur Ã© la fermeture des connexions : "+e.getMessage());
+			Ancestra.addToErrorLog("SQL : Erreur Ã© la fermeture des connexions : "+e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static final boolean setUpConnexion()
 	{
 		try
 		{
 			othCon = DriverManager.getConnection("jdbc:mysql://"+Ancestra.REALM_DB_HOST+"/"+Ancestra.REALM_DB_NAME,Ancestra.REALM_DB_USER,Ancestra.REALM_DB_PASSWORD);
 			othCon.setAutoCommit(false);
-			
+
 			if(!othCon.isValid(1000))
 			{
 				Ancestra.addToErrorLog("SQL : Connexion a la BD invalide!");
 				return false;
 			}
-			
+
 			needCommit = false;
 			TIMER(true);
-			
+
 			return true;
 		}catch(SQLException e)
 		{
@@ -128,55 +128,55 @@ public class SQLManager
 			return false;
 		}
 	}
-	
+
 	public static void TIMER(boolean start)
 	{
 		if(start)
 		{
 			timerCommit = new Timer();
 			timerCommit.schedule(new TimerTask() {
-				
+
 				public void run() {
 					if(!needCommit)return;
-					
+
 					commitTransacts();
 					needCommit = false;
-					
+
 				}
 			}, Ancestra.REALM_DB_COMMIT, Ancestra.REALM_DB_COMMIT);
 		}
 		else
 			timerCommit.cancel();
 	}
-	
+
 	private static void closeResultSet(ResultSet RS)
 	{
 		try
 		{
 			RS.getStatement().close();
 			RS.close();
-		}catch(SQLException e) 
+		}catch(SQLException e)
 		{
 			System.out.println("SQL : "+e.getMessage());
 			Ancestra.addToErrorLog("SQL : "+e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void closePreparedStatement(PreparedStatement p)
 	{
 		try
 		{
 			p.clearParameters();
 			p.close();
-		}catch(SQLException e) 
+		}catch(SQLException e)
 		{
 			System.out.println("SQL : "+e.getMessage());
 			Ancestra.addToErrorLog("SQL : "+e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void UPDATE_ACCOUNT(String ip, boolean UpdateSub, int Sub, int guid)
 	{
 		String bquery;
@@ -203,7 +203,7 @@ public class SQLManager
 			}
 		}
 	}
-	
+
 	public static void RESET_CUR_IP()
 	{
 		String bquery = "UPDATE accounts SET `curIP`=?;";
@@ -220,7 +220,7 @@ public class SQLManager
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static int getNumberPersosOnThisServer(int guid, int ID)
 	{
 		int a = 0;
@@ -245,13 +245,13 @@ public class SQLManager
 		}
 		return a;
 	}
-	
+
 	public static void LOAD_ACCOUNT_BY_USER(String user)
 	{
 		try
 		{
 			ResultSet RS = SQLManager.executeQuery("SELECT * from accounts WHERE `account` LIKE '"+user+"';",Ancestra.REALM_DB_NAME);
-			
+
 			while(RS.next())
 			{
 				Realm.addAccount(new Account(
@@ -268,7 +268,7 @@ public class SQLManager
 					RS.getString("lastConnectionDate"),
 					RS.getString("giftID")));
 			}
-			
+
 			closeResultSet(RS);
 		}catch(SQLException e)
 		{
@@ -283,7 +283,7 @@ public class SQLManager
 			}
 		}
 	}
-	
+
 	public static void LOAD_SERVERS()
 	{
 		try
@@ -312,20 +312,20 @@ public class SQLManager
 			e.printStackTrace();
 		}
 	}
-	
-	public static int LOAD_BANIP() 
+
+	public static int LOAD_BANIP()
 	{
 		int i = 0;
 		try
 		{
-			ResultSet RS = SQLManager.executeQuery("SELECT ip from banip;",Ancestra.REALM_DB_NAME); 
-		      while (RS.next()) 
-		      { 
+			ResultSet RS = SQLManager.executeQuery("SELECT ip from banip;",Ancestra.REALM_DB_NAME);
+		      while (RS.next())
+		      {
 		    	  	if(!RS.isLast())
 		    	  		Realm.BAN_IP += RS.getString("ip")+",";
 		    	  	else
 		    	  		Realm.BAN_IP += RS.getString("ip");
-					
+
 		    	  	i++;
 		      }
 				closeResultSet(RS);
@@ -337,7 +337,7 @@ public class SQLManager
 		}
 		return i;
 	}
-	
+
 	public static void ADD_BANIP(String ip)
 	{
 		String baseQuery = "INSERT INTO `banip` VALUES (?);";

@@ -31,7 +31,7 @@ public class Metier {
 		private boolean _noRessource = false;
 		private int _slotsPublic = 2;
 		private JobAction _curAction;
-		
+
 		public StatsMetier(int id,Metier tp,int lvl,long xp)
 		{
 			_id = id;
@@ -79,10 +79,10 @@ public class Metier {
 		{
 			_lvl++;
 			_posActions = Constants.getPosActionsToJob(_template.getId(),_lvl);
-			
+
 			if(send)
 			{
-				//on crÈer la listes des statsMetier a envoyer (Seulement celle ci)
+				//on cr√©er la listes des statsMetier a envoyer (Seulement celle ci)
 				ArrayList<StatsMetier> list = new ArrayList<StatsMetier>();
 				list.add(this);
 				SocketManager.GAME_SEND_JS_PACKET(P, list);
@@ -92,7 +92,7 @@ public class Metier {
 				SocketManager.GAME_SEND_JO_PACKET(P, list);
 			}
 		}
-		
+
 		public String parseJS()
 		{
 			StringBuilder str = new StringBuilder();
@@ -108,12 +108,12 @@ public class Metier {
 			}
 			return str.toString();
 		}
-		
+
 		public long getXp()
 		{
 			return _xp;
 		}
-		
+
 		public void startAction(int id,Personnage P,InteractiveObject IO,GameAction GA,Case cell)
 		{
 			for(JobAction JA : _posActions)
@@ -126,33 +126,33 @@ public class Metier {
 				}
 			}
 		}
-		
+
 		public void endAction(int id,Personnage P,InteractiveObject IO,GameAction GA,Case cell)
 		{
 			if(_curAction == null)return;
 			_curAction.endAction(P,IO,GA,cell);
 			addXp(P,_curAction.getXpWin()*Ancestra.RATE_METIER);
 			//Packet JX
-			//on crÈer la listes des statsMetier a envoyer (Seulement celle ci)
+			//on cr√©er la listes des statsMetier a envoyer (Seulement celle ci)
 			ArrayList<StatsMetier> list = new ArrayList<StatsMetier>();
 			list.add(this);
 			SocketManager.GAME_SEND_JX_PACKET(P, list);
 		}
-		
+
 		public void addXp(Personnage P,long xp)
 		{
 			if(_lvl >99)return;
 			int exLvl = _lvl;
 			_xp += xp;
-			
-			//Si l'xp dÈpasse le pallier du niveau suivant
+
+			//Si l'xp d√©passe le pallier du niveau suivant
 			while(_xp >= World.getExpLevel(_lvl+1).metier && _lvl <100)
 				levelUp(P,false);
-			
+
 			//s'il y a eu Up
 			if(_lvl > exLvl && P.isOnline())
 			{
-				//on crÈer la listes des statsMetier a envoyer (Seulement celle ci)
+				//on cr√©er la listes des statsMetier a envoyer (Seulement celle ci)
 				ArrayList<StatsMetier> list = new ArrayList<StatsMetier>();
 				list.add(this);
 				//on envoie le packet
@@ -163,7 +163,7 @@ public class Metier {
 				SocketManager.GAME_SEND_JO_PACKET(P, list);
 			}
 		}
-		
+
 		public String getXpString(String s)
 		{
 			StringBuilder str = new StringBuilder();
@@ -172,10 +172,10 @@ public class Metier {
 			str.append(World.getExpLevel((_lvl<100?_lvl+1:_lvl)).metier);
 			return str.toString();
 		}
-		
+
 		public Metier getTemplate()
 		{
-			
+
 			return _template;
 		}
 
@@ -187,19 +187,19 @@ public class Metier {
 			nbr += (_noRessource?4:0);
 			return nbr;
 		}
-		
+
 		public boolean isValidMapAction(int id)
 		{
 			for(JobAction JA : _posActions)if(JA.getSkillID() == id) return true;
 			return false;
 		}
-		
+
 		public void setOptBinValue(int bin)
 		{
 			_isCheap = false;
 			_freeOnFails = false;
 			_noRessource = false;
-			
+
 			if(bin - 4 >=0)
 			{
 				bin -= 4;
@@ -232,7 +232,7 @@ public class Metier {
 			this._slotsPublic = slotsPublic;
 		}
 	}
-	
+
 	public static class JobAction
 	{
 		private int _skID;
@@ -247,7 +247,7 @@ public class Metier {
 		private Map<Integer,Integer> _lastCraft = new TreeMap<Integer,Integer>();
 		private Timer _craftTimer;
 		private Personnage _P;
-		
+
 		public JobAction(int sk,int min, int max,boolean craft, int arg,int xpWin)
 		{
 			_skID = sk;
@@ -257,7 +257,7 @@ public class Metier {
 			if(craft)_chan = arg;
 			else _time = arg;
 			_xpWin = xpWin;
-			
+
 			_craftTimer = new Timer(100,new ActionListener()
 			{
 				public void actionPerformed(ActionEvent e)
@@ -267,7 +267,7 @@ public class Metier {
 				}
 			});
 		}
-		
+
 		public void endAction(Personnage P, InteractiveObject IO, GameAction GA,Case cell)
 		{
 			if(!_isCraft)
@@ -276,15 +276,15 @@ public class Metier {
 				if(_startTime - System.currentTimeMillis() > 500)return;
 				IO.setState(Constants.IOBJECT_STATE_EMPTY);
 				IO.startTimer();
-				//Packet GDF (changement d'Ètat de l'IO)
+				//Packet GDF (changement d'√©tat de l'IO)
 				SocketManager.GAME_SEND_GDF_PACKET_TO_MAP(P.get_curCarte(), cell);
-				
+
 				boolean special = Formulas.getRandomValue(0, 99)==0;//Restriction de niveau ou pas ?
-				
+
 				//On ajoute X ressources
 				int qua = (_max>_min?Formulas.getRandomValue(_min, _max):_min);
 				int tID = Constants.getObjectByJobSkill(_skID,special);
-								
+
 				ObjTemplate T = World.getObjTemplate(tID);
 				if(T == null)return;
 				Objet O = T.createNewItem(qua, false);
@@ -302,7 +302,7 @@ public class Metier {
                       	if(tID == protectors[i][1])
                        	{
                       		int monsterId = protectors[i][0];
-                         	int monsterLvl = Constants.getProtectorLvl(P.get_lvl());            
+                         	int monsterLvl = Constants.getProtectorLvl(P.get_lvl());
                           	P.get_curCarte().startFigthVersusMonstres(P, new Monstre.MobGroup(P.get_curCarte()._nextObjectID, cell.getID(), monsterId+","+monsterLvl+","+monsterLvl));
                             break;
                      	}
@@ -359,12 +359,12 @@ public class Metier {
 		{
 			return _isCraft;
 		}
-		
+
 		public void modifIngredient(Personnage P,int guid, int qua)
 		{
 			//on prend l'ancienne valeur
 			int q = _ingredients.get(guid)==null?0:_ingredients.get(guid);
-			//on enleve l'entrÈe dans la Map
+			//on enleve l'entr√©e dans la Map
 			_ingredients.remove(guid);
 			//on ajoute (ou retire, en fct du signe) X objet
 			q += qua;
@@ -397,9 +397,9 @@ public class Metier {
 				doFmCraft();
 				return;
 			}
-			
+
 			Map<Integer,Integer> items = new TreeMap<Integer,Integer>();
-			//on retire les items mis en ingrÈdients
+			//on retire les items mis en ingr√©dients
 			for(Entry<Integer,Integer> e : _ingredients.entrySet())
 			{
 				//Si le joueur n'a pas l'objet
@@ -417,16 +417,16 @@ public class Metier {
 					GameServer.addToLog("/!\\ "+_P.get_name()+" essaye de crafter avec un objet qui n'existe pas");
 					return;
 				}
-				//Si la quantitÈ est trop faible
+				//Si la quantit√© est trop faible
 				if(obj.getQuantity() < e.getValue())
 				{
 					SocketManager.GAME_SEND_Ec_PACKET(_P,"EI");
 					GameServer.addToLog("/!\\ "+_P.get_name()+" essaye de crafter avec un objet dont la quantite est trop faible");
 					return;
 				}
-				//On calcule la nouvelle quantitÈ
+				//On calcule la nouvelle quantit√©
 				int newQua = obj.getQuantity() - e.getValue();
-				
+
 				if(newQua <0)return;//ne devrais pas arriver
 				if(newQua == 0)
 				{
@@ -438,7 +438,7 @@ public class Metier {
 					obj.setQuantity(newQua);
 					SocketManager.GAME_SEND_OBJECT_QUANTITY_PACKET(_P, obj);
 				}
-				//on ajoute le couple tID/qua a la liste des ingrÈdients pour la recherche
+				//on ajoute le couple tID/qua a la liste des ingr√©dients pour la recherche
 				items.put(obj.getTemplate().getID(), e.getValue());
 			}
 			//On retire les items a ignorer pour la recette
@@ -447,25 +447,25 @@ public class Metier {
 				items.remove(7508);
 			//Fin des items a retirer
 			SocketManager.GAME_SEND_Ow_PACKET(_P);
-			
+
 			//On trouve le template corespondant si existant
 			StatsMetier SM = _P.getMetierBySkill(_skID);
 			int tID = World.getObjectByIngredientForJob(SM.getTemplate().getListBySkill(_skID),items);
-			
-			//Recette non existante ou pas adaptÈ au mÈtier
+
+			//Recette non existante ou pas adapt√© au m√©tier
 			if(tID == -1 || !SM.getTemplate().canCraft(_skID, tID))
 			{
 				SocketManager.GAME_SEND_Ec_PACKET(_P,"EI");
 				SocketManager.GAME_SEND_IO_PACKET_TO_MAP(_P.get_curCarte(),_P.get_GUID(),"-");
 				_ingredients.clear();
-				
+
 				return;
 			}
-			
+
 			int chan =  Constants.getChanceByNbrCaseByLvl(SM.get_lvl(),_ingredients.size());
 			int jet = Formulas.getRandomValue(1, 100);
 			boolean success = chan >= jet;
-			
+
 			if(!success)//Si echec
 			{
 				SocketManager.GAME_SEND_Ec_PACKET(_P,"EF");
@@ -474,19 +474,19 @@ public class Metier {
 			}else
 			{
 				Objet newObj = World.getObjTemplate(tID).createNewItem(1, false);
-				//Si signÈ on ajoute la ligne de Stat "FabriquÈ par:"
+				//Si sign√© on ajoute la ligne de Stat "Fabriqu√© par:"
 				if(signed)newObj.getTxtStat().put(988, _P.get_name());
 				boolean add = true;
 				int guid = newObj.getGuid();
-				
+
 				for(Entry<Integer,Objet> entry : _P.getItems().entrySet())
 				{
 					Objet obj = entry.getValue();
 					if(obj.getTemplate().getID() == newObj.getTemplate().getID()
 						&& obj.getStats().isSameStats(newObj.getStats())
-						&& obj.getPosition() == Constants.ITEM_POS_NO_EQUIPED)//Si meme Template et Memes Stats et Objet non ÈquipÈ
+						&& obj.getPosition() == Constants.ITEM_POS_NO_EQUIPED)//Si meme Template et Memes Stats et Objet non √©quip√©
 					{
-						obj.setQuantity(obj.getQuantity()+newObj.getQuantity());//On ajoute QUA item a la quantitÈ de l'objet existant
+						obj.setQuantity(obj.getQuantity()+newObj.getQuantity());//On ajoute QUA item a la quantit√© de l'objet existant
 						SocketManager.GAME_SEND_OBJECT_QUANTITY_PACKET(_P,obj);
 						add = false;
 						guid = obj.getGuid();
@@ -498,15 +498,15 @@ public class Metier {
 					SocketManager.GAME_SEND_OAKO_PACKET(_P,newObj);
 					World.addObjet(newObj, true);
 				}
-				
+
 				//on envoie les Packets
 				SocketManager.GAME_SEND_Ow_PACKET(_P);
 				SocketManager.GAME_SEND_Em_PACKET(_P,"KO+"+guid+"|1|"+tID+"|"+newObj.parseStatsString().replace(";","#"));
 				SocketManager.GAME_SEND_Ec_PACKET(_P,"K;"+tID);
 				SocketManager.GAME_SEND_IO_PACKET_TO_MAP(_P.get_curCarte(),_P.get_GUID(),"+"+tID);
 			}
-			
-			
+
+
 			//On donne l'xp
 			int winXP =  Constants.calculXpWinCraft(SM.get_lvl(),_ingredients.size()) * Ancestra.RATE_METIER;
 			if(success)
@@ -516,20 +516,20 @@ public class Metier {
 				SMs.add(SM);
 				SocketManager.GAME_SEND_JX_PACKET(_P, SMs);
 			}
-			
+
 			_lastCraft.clear();
 			_lastCraft.putAll(_ingredients);
 			_ingredients.clear();
 			//*/
 		}
-		
+
 		private void doFmCraft()
 		{
 			boolean signed = false;
-			Objet obj = null,sign = null,mod = null;// sign = Rune de signature, mod: rune ou Potion, obj : objet modifÈ
+			Objet obj = null,sign = null,mod = null;// sign = Rune de signature, mod: rune ou Potion, obj : objet modif√©
 			int isElementChanging = 0,stat = -1, isStatsChanging = 0, add = 0;
 			double poid = 0;
-			
+
 			for(int guid : _ingredients.keySet())
 			{
 				Objet ing = World.getObjet(guid);
@@ -545,62 +545,62 @@ public class Metier {
 				{
 				//Potions
 				case 1333://Potion Etincelle
-					stat = 99; 
+					stat = 99;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1335://Potion crachin
-					stat = 96; 
+					stat = 96;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1337://Potion de courant d'air
-					stat = 98; 
+					stat = 98;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1338://Potion de secousse
-					stat = 97; 
+					stat = 97;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1340://Potion d'eboulement
-					stat = 97; 
+					stat = 97;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1341://Potion Averse
-					stat = 96; 
+					stat = 96;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1342://Potion de rafale
-					stat = 98; 
+					stat = 98;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
-				case 1343://Potion de FlambÈe
-					stat = 99; 
+				case 1343://Potion de Flamb√©e
+					stat = 99;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1345://Potion Incendie
-					stat = 99; 
+					stat = 99;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1346://Potion Tsunami
-					stat = 96; 
+					stat = 96;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1347://Potion Ouragan
-					stat = 98; 
+					stat = 98;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
 				case 1348://Potion de seisme
-					stat = 97; 
+					stat = 97;
 					isElementChanging = ing.getTemplate().getLevel();
 					mod = ing;
 				break;
@@ -612,13 +612,13 @@ public class Metier {
 				/*
 				RUNES MANQUANTES :
 				Rune Pa Prospe 	+ 3 	9
-				
+
 				Rune Pa Ini 	+ 30 	3
 				Rune Ra Ini 	+ 100 	10
-				
+
 				Rune Pa Do Per 	+ 3 % 	6
 				Rune Ra Do Per 	+ 10 % 	20
-				
+
 				Rune Pa Pi 	+ 3 	45
 				Rune Ra Pi 	+ 10 	?
 
@@ -646,7 +646,7 @@ public class Metier {
 					poid = 10;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 1521://Sagesse
 					mod=ing;
 					stat = 124;
@@ -668,7 +668,7 @@ public class Metier {
 					poid = 30;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 1522://Intel
 					mod=ing;
 					stat = 126;
@@ -690,7 +690,7 @@ public class Metier {
 					poid = 10;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 1523://Vita
 					mod=ing;
 					stat = 125;
@@ -712,7 +712,7 @@ public class Metier {
 					poid = 10;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 1524://Agi
 					mod=ing;
 					stat = 119;
@@ -734,7 +734,7 @@ public class Metier {
 					poid = 10;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 1525://Chance
 					mod=ing;
 					stat = 123;
@@ -755,7 +755,7 @@ public class Metier {
 					poid = 10;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 1557://Ga PA
 					mod=ing;
 					stat = 111;
@@ -770,7 +770,7 @@ public class Metier {
 					poid = 90;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7433://Cri
 					mod=ing;
 					stat = 115;
@@ -778,7 +778,7 @@ public class Metier {
 					poid = 30;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7434://Soins
 					mod=ing;
 					stat = 178;
@@ -786,7 +786,7 @@ public class Metier {
 					poid = 20;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-					
+
 				case 7435://Dommages
 					mod=ing;
 					stat = 112;
@@ -794,7 +794,7 @@ public class Metier {
 					poid = 20;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7436://Domages %
 					mod=ing;
 					stat = 138;
@@ -802,15 +802,15 @@ public class Metier {
 					poid = 2;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
-				case 7437://Domage renvoyÈ
+
+				case 7437://Domage renvoy√©
 					mod=ing;
 					stat = 220;
 					add = 1;
 					poid = 2;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7438://Porter
 					mod=ing;
 					stat = 117;
@@ -818,7 +818,7 @@ public class Metier {
 					poid = 50;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7442://Invoque
 					mod=ing;
 					stat = 182;
@@ -826,7 +826,7 @@ public class Metier {
 					poid = 30;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7443://Pod
 					mod=ing;
 					stat = 158;
@@ -848,22 +848,22 @@ public class Metier {
 					poid = 1; // ?
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
-				case 7446://PiËge
+
+				case 7446://Pi√©ge
 					mod=ing;
 					stat = 225;
 					add = 1;
 					poid = 15;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7447://PiËge %
+				case 7447://Pi√©ge %
 					mod=ing;
 					stat = 226;
 					add = 1;
 					poid = 2;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7448://Initiative
 					mod=ing;
 					stat = 174;
@@ -885,7 +885,7 @@ public class Metier {
 					poid = 10;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
+
 				case 7451://Prospec
 					mod=ing;
 					stat = 176;
@@ -893,77 +893,77 @@ public class Metier {
 					poid = 3;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				
 
 
 
-				case 7455://RÈ Terre
+
+				case 7455://R√© Terre
 					mod=ing;
 					stat = 240;
 					add = 1;
 					poid = 4;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7454://RÈ Eau
+				case 7454://R√© Eau
 					mod=ing;
 					stat = 241;
 					add = 1;
 					poid = 4;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7453://RÈ Air
+				case 7453://R√© Air
 					mod=ing;
 					stat = 242;
 					add = 1;
 					poid = 4;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7452://RÈ Feu
+				case 7452://R√© Feu
 					mod=ing;
 					stat = 243;
 					add = 1;
 					poid = 4;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7456://RÈ Neutre
+				case 7456://R√© Neutre
 					mod=ing;
 					stat = 244;
 					add = 1;
 					poid = 4;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-					
 
 
-				case 7459://RÈ % Terre
+
+				case 7459://R√© % Terre
 					mod=ing;
 					stat = 210;
 					add = 1;
 					poid = 5;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7560://RÈ % Eau
+				case 7560://R√© % Eau
 					mod=ing;
 					stat = 211;
 					add = 1;
 					poid = 5;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7458://RÈ % Air
+				case 7458://R√© % Air
 					mod=ing;
 					stat = 212;
 					add = 1;
 					poid = 5;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7457://RÈ % Feu
+				case 7457://R√© % Feu
 					mod=ing;
 					stat = 213;
 					add = 1;
 					poid = 5;
 					isStatsChanging = ing.getTemplate().getLevel();
 				break;
-				case 7460://RÈ % neutre
+				case 7460://R√© % neutre
 					mod=ing;
 					stat = 214;
 					add = 1;
@@ -980,7 +980,7 @@ public class Metier {
 					signed = true;
 					sign = ing;
 				break;
-				default://Si pas runes ou popo, et qu'il a un cout en PA, alors c'est une arme (une vÈrification du type serait prÈfÈrable)
+				default://Si pas runes ou popo, et qu'il a un cout en PA, alors c'est une arme (une v√©rification du type serait pr√©f√©rable)
 					if(ing.getTemplate().getPACost()>0)obj = ing;
 					if(ing.getTemplate().getType() == 1
 							|| ing.getTemplate().getType() == 2
@@ -1006,7 +1006,7 @@ public class Metier {
 				}
 			}
 			StatsMetier SM = _P.getMetierBySkill(_skID);
-			
+
 			if(SM == null || obj == null || mod == null)
 			{
 				SocketManager.GAME_SEND_Ec_PACKET(_P,"EI");
@@ -1023,15 +1023,15 @@ public class Metier {
 			}
 
 			int chan = 0;
-			
+
 			/* DEBUG
-			System.out.println("ElmChg: "+isElementChanging);//Si > 0 changement d'ÈlÈments
+			System.out.println("ElmChg: "+isElementChanging);//Si > 0 changement d'√©l√©ments
 			System.out.println("StatsChg: "+isStatsChanging);//Si > 0 changement de stats
 			System.out.println("LevelMetier: "+SM.get_lvl());
 			System.out.println("LevelArme: "+obj.getTemplate().getLevel());
 			///*/
-			
-			if(isElementChanging > 0 && isStatsChanging == 0)//Si changement d'ÈlÈment
+
+			if(isElementChanging > 0 && isStatsChanging == 0)//Si changement d'√©l√©ment
 			{
 				chan = Formulas.calculElementChangeChance(SM.get_lvl(), obj.getTemplate().getLevel(), isElementChanging);
 				//Min/max de 5% /95%
@@ -1050,7 +1050,7 @@ public class Metier {
 				int poidBase = obj.getPoidOfBaseItem();//Poid de base de l'item
 				int BaseMaxJet = getBaseMaxJet(obj.getTemplate().getID(), Integer.toHexString(stat));
 				int Puis = poidBase-poidActual;
-				
+
 				if(poidBase <= 0)
 				{
 					poidBase = 0;
@@ -1071,19 +1071,19 @@ public class Metier {
 				{
 					poid = 0;
 				}
-				
+
 				double Coef = 1;
 				if(ViewBaseStatsItem(obj, Integer.toHexString(stat)) == 1 && ViewActualStatsItem(obj, Integer.toHexString(stat)) == 1 || ViewBaseStatsItem(obj, Integer.toHexString(stat)) == 1 && ViewActualStatsItem(obj, Integer.toHexString(stat)) == 0)//Existe sur l'arme de base
 				{
 					Coef = 1;
-				}else if(ViewBaseStatsItem(obj, Integer.toHexString(stat)) == 2 && ViewActualStatsItem(obj, Integer.toHexString(stat)) == 2)//Existe en nÈgatif de base && nÈgatif sur l'arme
+				}else if(ViewBaseStatsItem(obj, Integer.toHexString(stat)) == 2 && ViewActualStatsItem(obj, Integer.toHexString(stat)) == 2)//Existe en n√©gatif de base && n√©gatif sur l'arme
 				{
 					Coef = 0.75;
 				}else if(ViewBaseStatsItem(obj, Integer.toHexString(stat)) == 0 && ViewActualStatsItem(obj, Integer.toHexString(stat)) == 0 || ViewBaseStatsItem(obj, Integer.toHexString(stat)) == 0 && ViewActualStatsItem(obj, Integer.toHexString(stat)) == 1)//N'existe pas sur l'arme de base
 				{
 					Coef = 0.25;
 				}
-				
+
 				//OverMax
 				double JetMax = BaseMaxJet*(2-(obj.getTemplate().getLevel()/100));
 				if(JetMax <=0) JetMax = 1;
@@ -1091,7 +1091,7 @@ public class Metier {
 				Coef = Coef*((JetMax - (double)(ActualJet))/25);
 				if(Coef <= 0) Coef = 0;
 				chan = Formulas.ChanceFM(poidBase, poidActual, BaseMaxJet, ActualJet, poid, Puis, Coef);
-				
+
 				//DEBUG :
 				System.out.println("-OverMax : "+JetMax);
 				System.out.println("-poidBase : "+poidBase);
@@ -1105,67 +1105,67 @@ public class Metier {
 				if(chan <= 0)chan = 1;
 				if(chan >= 100)chan = 100;
 				System.out.println("--chance : "+chan);
-				
-				// 2 cas : RÈussite Totale
-				// ou Èchec total : la FM n'a pas rÈussi et les bonus de toutes les caractÈristiques diminuent proportionnellement ‡ la puissance ‡ la puissance de la rune. Utiliser de grosses runes est donc risquÈ.
+
+				// 2 cas : R√©ussite Totale
+				// ou √©chec total : la FM n'a pas r√©ussi et les bonus de toutes les caract√©ristiques diminuent proportionnellement √© la puissance √© la puissance de la rune. Utiliser de grosses runes est donc risqu√©.
 				//chan = chan-(106-SM.get_lvl());
 			}
 			int jet = Formulas.getRandomValue(1, 100);
 			boolean success = chan >= jet;
 			int tID = obj.getTemplate().getID();
-			
+
 			if(!success)//Si echec
 			{
 				//Baisse des stats ?
 				//OQ82995355|2 Si echec renvoi les runes (une sorte de mise a jour de l'inventaire)
 				//SocketManager.GAME_SEND_OBJECT_QUANTITY_PACKET(_P, mod);
-				
-				//Un echec  nous donne des stats nÈgatif si ceux-ci n'existe pas en positif sur l'arme.
+
+				//Un echec  nous donne des stats n√©gatif si ceux-ci n'existe pas en positif sur l'arme.
 				String HexStatsNegatif = "";
 				if(ViewBaseStatsItem(obj, "98") == 1)
 				{
 					if(ViewActualStatsItem(obj, "98") == 0 && ViewActualStatsItem(obj, "7b") == 0)
 					{
-						HexStatsNegatif += ",98";	
+						HexStatsNegatif += ",98";
 					}
 				}
 				if(ViewBaseStatsItem(obj, "9a") == 1)
 				{
 					if(ViewActualStatsItem(obj, "9a") == 0 && ViewActualStatsItem(obj, "77") == 0)
 					{
-						HexStatsNegatif += ",9a";	
+						HexStatsNegatif += ",9a";
 					}
 				}
 				if(ViewBaseStatsItem(obj, "9b") == 1)
 				{
 					if(ViewActualStatsItem(obj, "9b") == 0 && ViewActualStatsItem(obj, "7e") == 0)
 					{
-						HexStatsNegatif += ",9b";	
+						HexStatsNegatif += ",9b";
 					}
 				}
 				if(ViewBaseStatsItem(obj, "9d") == 1)
 				{
 					if(ViewActualStatsItem(obj, "9d") == 0 && ViewActualStatsItem(obj, "76") == 0)
 					{
-						HexStatsNegatif += ",9d";	
+						HexStatsNegatif += ",9d";
 					}
 				}
 				if(ViewBaseStatsItem(obj, "74") == 1)
 				{
 					if(ViewActualStatsItem(obj, "74") == 0 && ViewActualStatsItem(obj, "75") == 0)
 					{
-						HexStatsNegatif += ",74";	
+						HexStatsNegatif += ",74";
 					}
 				}
 				if(ViewBaseStatsItem(obj, "99") == 1)
 				{
 					if(ViewActualStatsItem(obj, "99") == 0 && ViewActualStatsItem(obj, "7d") == 0)
 					{
-						HexStatsNegatif += ",99";	
+						HexStatsNegatif += ",99";
 					}
 				}
-				
-				if(obj.parseStatsString().isEmpty() && !HexStatsNegatif.isEmpty())//Si l'item est vide et que l'on a l'ajout de stats nÈgatifs
+
+				if(obj.parseStatsString().isEmpty() && !HexStatsNegatif.isEmpty())//Si l'item est vide et que l'on a l'ajout de stats n√©gatifs
 				{
 					if(HexStatsNegatif.contains(","))
 					{
@@ -1175,15 +1175,15 @@ public class Metier {
 						}
 					}
 				}
-				else if(!obj.parseStatsString().isEmpty())//Si l'item possËde dÈj‡ des stats
+				else if(!obj.parseStatsString().isEmpty())//Si l'item poss√©de d√©j√© des stats
 				{
 					Map<Integer,Integer> Map = new TreeMap<Integer, Integer>();
 					Map.putAll(obj.getStats().getMap());
 					for(Entry<Integer,Integer> entry : Map.entrySet())
 					{
-							//En cas d'echec les stats nÈgatives Chance,Agi,Intel,Force,Portee,Vita augmentes
+							//En cas d'echec les stats n√©gatives Chance,Agi,Intel,Force,Portee,Vita augmentes
 							int newstats = 0;
-							
+
 							if(entry.getKey() == 152 ||
 							   entry.getKey() == 154 ||
 							   entry.getKey() == 155 ||
@@ -1195,14 +1195,14 @@ public class Metier {
 								if(a < 1) a = 1;
 								float chute = (float)(entry.getValue()+a);
 								newstats = (int)Math.floor(chute);
-								//On limite la chute du nÈgatif a sont maximum
+								//On limite la chute du n√©gatif a sont maximum
 								if(newstats > Metier.getBaseMaxJet(obj.getTemplate().getID(), Integer.toHexString(entry.getKey())))
 								{
 									newstats = Metier.getBaseMaxJet(obj.getTemplate().getID(), Integer.toHexString(entry.getKey()));
 								}
 							}else
 							{
-								if(entry.getKey() == 127 || entry.getKey() == 101) continue;//PM, pas de nÈgatif ainsi que PA
+								if(entry.getKey() == 127 || entry.getKey() == 101) continue;//PM, pas de n√©gatif ainsi que PA
 								float chute = (float)(entry.getValue()-((entry.getValue()*poid)/100));
 								newstats = (int)Math.floor(chute);
 							}
@@ -1224,27 +1224,27 @@ public class Metier {
 					}
 				}
 				SocketManager.GAME_SEND_REMOVE_ITEM_PACKET(_P, obj.getGuid());//Supprime l'ancien affichage de l'item
-				
+
 				SocketManager.GAME_SEND_Ow_PACKET(_P);
 				SocketManager.GAME_SEND_OAKO_PACKET(_P, obj);
-				
+
 				//SocketManager.GAME_SEND_Em_PACKET(_P,"EC+"+obj.getGuid()+"|1|"+tID+"|"+obj.parseStatsString().replace(";","#"));//On replace l'item dans l'inventaire
 				SocketManager.GAME_SEND_Em_PACKET(_P,"EO+"+obj.getGuid()+"|1|"+tID+"|"+obj.parseStatsString().replace(";","#"));//On replace l'item dans l'inventaire
-				
-				SocketManager.GAME_SEND_Ec_PACKET(_P,"EF"); //La recette et bonne mais a echouÈ
-				
-				SocketManager.GAME_SEND_Im_PACKET(_P, "0183");//Message d'Èchec
-				SocketManager.GAME_SEND_IO_PACKET_TO_MAP(_P.get_curCarte(),_P.get_GUID(),"-"+tID);//Icone d'Èchec
+
+				SocketManager.GAME_SEND_Ec_PACKET(_P,"EF"); //La recette et bonne mais a echou√©
+
+				SocketManager.GAME_SEND_Im_PACKET(_P, "0183");//Message d'√©chec
+				SocketManager.GAME_SEND_IO_PACKET_TO_MAP(_P.get_curCarte(),_P.get_GUID(),"-"+tID);//Icone d'√©chec
 			}else
 			{
 				int coef = 0;
 				if(isElementChanging == 1)coef = 50;
 				if(isElementChanging == 25)coef = 65;
 				if(isElementChanging == 50)coef = 85;
-				//Si signÈ on ajoute la ligne de Stat "ModifiÈ par: "
+				//Si sign√© on ajoute la ligne de Stat "Modifi√© par: "
 				if(signed)obj.getTxtStat().put(985, _P.get_name());
-				
-				if(isElementChanging > 0  && isStatsChanging == 0)//Si on modifier l'ÈlÈment
+
+				if(isElementChanging > 0  && isStatsChanging == 0)//Si on modifier l'√©l√©ment
 				{
 					for(SpellEffect SE : obj.getEffects())
 					{
@@ -1258,14 +1258,14 @@ public class Metier {
 							int max = Integer.parseInt(infos[1],16);
 							int newMin = (int)((min * coef) /100);
 							int newMax = (int)((max * coef) /100);
-	
+
 							if(newMin == 0) newMin = 1;
 							String newJet = "1d"+(newMax-newMin+1)+"+"+(newMin-1);
 							String newArgs = Integer.toHexString(newMin)+";"+Integer.toHexString(newMax)+";-1;-1;0;"+newJet;
-							
-							SE.setArgs(newArgs);//on modifie les propriÈtÈs du SpellEffect
-							SE.setEffectID(stat);//On change l'Èlement d'attaque
-							
+
+							SE.setArgs(newArgs);//on modifie les propri√©t√©s du SpellEffect
+							SE.setEffectID(stat);//On change l'√©lement d'attaque
+
 						}catch(Exception e){e.printStackTrace();};
 					}
 				}
@@ -1274,12 +1274,12 @@ public class Metier {
 					System.out.println("Changement de STATS");
 					System.out.println("Chance : "+chan);
 					System.out.println("Element a modifier : "+stat);
-					
+
 					boolean negatif = false;
-					
-					if(ViewActualStatsItem(obj, Integer.toHexString(stat)) == 2)//Le stats existe actuellement en nÈgatif
+
+					if(ViewActualStatsItem(obj, Integer.toHexString(stat)) == 2)//Le stats existe actuellement en n√©gatif
 					{
-						//RÈduit les stats nÈgatifs si rÈussit jusqu'a leur disparitions
+						//R√©duit les stats n√©gatifs si r√©ussit jusqu'a leur disparitions
 						if(stat == 123)
 						{
 							stat = 152;
@@ -1312,12 +1312,12 @@ public class Metier {
 						}
 						//On change la valeur du stats a modifier
 					}
-					
-					if(ViewActualStatsItem(obj, Integer.toHexString(stat)) == 1 || ViewActualStatsItem(obj, Integer.toHexString(stat)) == 2)//L'item possËde le stats nÈgatif ou positif
+
+					if(ViewActualStatsItem(obj, Integer.toHexString(stat)) == 1 || ViewActualStatsItem(obj, Integer.toHexString(stat)) == 2)//L'item poss√©de le stats n√©gatif ou positif
 					{
 						if(Ancestra.CONFIG_DEBUG) System.out.println("Modification d'un stat existant : "+stat+". Ajout de "+add);
 						int OldStat = obj.getStats().getMap().get(stat);
-						if(negatif && OldStat-add == 0)//Si stat nÈgatif et si on lui retranche le add == 0 alorso n le supprime
+						if(negatif && OldStat-add == 0)//Si stat n√©gatif et si on lui retranche le add == 0 alorso n le supprime
 						{
 							obj.getStats().getMap().remove(stat);
 						}else if(negatif && OldStat-add != 0)
@@ -1330,9 +1330,9 @@ public class Metier {
 							obj.getStats().addOneStat(stat, OldStat+add);
 						}
 					}
-					else//L'item ne possËde pas le stats.
+					else//L'item ne poss√©de pas le stats.
 					{
-						if(Ancestra.CONFIG_DEBUG) System.out.println("Ajout d'un stat inexistant : "+stat+". Ajout de "+add); 
+						if(Ancestra.CONFIG_DEBUG) System.out.println("Ajout d'un stat inexistant : "+stat+". Ajout de "+add);
 						obj.getStats().addOneStat(stat, add);
 					}
 				}
@@ -1341,8 +1341,8 @@ public class Metier {
 				SocketManager.GAME_SEND_Ow_PACKET(_P);//Pods
 				SocketManager.GAME_SEND_OAKO_PACKET(_P, obj);//Nouveau jet
 				SocketManager.GAME_SEND_Em_PACKET(_P,"KO+"+obj.getGuid()+"|1|"+tID+"|"+obj.parseStatsString().replace(";","#"));//On replace l'item dans l'inventaire
-				SocketManager.GAME_SEND_Ec_PACKET(_P,"K;"+tID);//Message de RÈussite
-				SocketManager.GAME_SEND_IO_PACKET_TO_MAP(_P.get_curCarte(),_P.get_GUID(),"+"+tID);//Icone de rÈussite
+				SocketManager.GAME_SEND_Ec_PACKET(_P,"K;"+tID);//Message de R√©ussite
+				SocketManager.GAME_SEND_IO_PACKET_TO_MAP(_P.get_curCarte(),_P.get_GUID(),"+"+tID);//Icone de r√©ussite
 				SQLManager.SAVE_ITEM(obj);//On Save
 				//TODO : Le repeat ?
 		}
@@ -1380,7 +1380,7 @@ public class Metier {
 				}
 			}
 			//fin
-			
+
 			//On sauve le dernier craft
 			_lastCraft.clear();
 			_lastCraft.putAll(_ingredients);
@@ -1390,7 +1390,7 @@ public class Metier {
 		public void repeat(int time,Personnage P)
 		{
 			_craftTimer.stop();
-			// /!\ Time = Nombre RÈel -1
+			// /!\ Time = Nombre R√©el -1
 			_lastCraft.clear();
 			_lastCraft.putAll(_ingredients);
 			for(int a = time; a>=0;a--)
@@ -1413,7 +1413,7 @@ public class Metier {
 		{
 			if(_P == null)return;
 			if(_lastCraft == null)return;
-			if(!_ingredients.isEmpty())return;//OffiLike, mais possible de faire un truc plus propre en enlevant les objets prÈsent et en rajoutant ceux de la recette
+			if(!_ingredients.isEmpty())return;//OffiLike, mais possible de faire un truc plus propre en enlevant les objets pr√©sent et en rajoutant ceux de la recette
 			_ingredients.clear();
 			_ingredients.putAll(_lastCraft);
 			for(Entry<Integer,Integer> e : _ingredients.entrySet())
@@ -1434,7 +1434,7 @@ public class Metier {
 	private int _id;
 	private ArrayList<Integer> _tools = new ArrayList<Integer>();
 	private Map<Integer,ArrayList<Integer>> _crafts = new TreeMap<Integer,ArrayList<Integer>>();
-	
+
 	public Metier(int id,String tools,String crafts)
 	{
 		_id= id;
@@ -1449,7 +1449,7 @@ public class Metier {
 				}catch(Exception e){continue;};
 			}
 		}
-		
+
 		if(!crafts.equals(""))
 		{
 			for(String str : crafts.split("\\|"))
@@ -1464,29 +1464,29 @@ public class Metier {
 			}
 		}
 	}
-	
+
 	public ArrayList<Integer> getListBySkill(int skID)
 	{
 		return _crafts.get(skID);
 	}
-	
+
 	public boolean canCraft(int skill,int template)
 	{
 		if(_crafts.get(skill) != null)for(int a : _crafts.get(skill))if(a == template)return true;
 		return false;
 	}
-	
+
 	public int getId()
 	{
 		return _id;
 	}
-	
+
 	public boolean isValidTool(int t)
 	{
 		for(int a : _tools)if(t == a)return true;
 		return false;
 	}
-	
+
 	public static byte ViewActualStatsItem(Objet obj, String stats)//retourne vrai si le stats est actuellement sur l'item
 	{
 		if(!obj.parseStatsString().isEmpty())
@@ -1536,10 +1536,10 @@ public class Metier {
 			return 0;
 		}
 	}
-	
+
 	public static byte ViewBaseStatsItem(Objet obj, String ItemStats)//retourne vrai si le stats existe de base sur l'item
 	{
-		
+
 		String[] splitted = obj.getTemplate().getStrTemplate().split(",");
 		for(String s : splitted)
 		{
@@ -1582,7 +1582,7 @@ public class Metier {
 		}
 		return 0;
 	}
-	
+
 	public static int getBaseMaxJet(int templateID, String statsModif)
 	{
 		ObjTemplate t = World.getObjTemplate(templateID);
@@ -1603,7 +1603,7 @@ public class Metier {
 		}
 		return 0;
 	}
-	
+
 	public static int getActualJet(Objet obj, String statsModif)
 	{
 		for(Entry<Integer,Integer> entry : obj.getStats().getMap().entrySet())
@@ -1614,11 +1614,11 @@ public class Metier {
 			}
 			else if(Integer.toHexString(entry.getKey()).compareTo(statsModif) == 0)//L'effet existe bien !
 			{
-				int JetActual = entry.getValue();		
+				int JetActual = entry.getValue();
 				return JetActual;
 			}
-		}	
+		}
 		return 0;
 	}
-	
+
 }

@@ -93,3 +93,53 @@ Password: admin
 ## How to add a new server
 
 TODO
+
+## Build jar files from source code
+
+#### Game
+
+1 - Go to sources/Game
+
+```shell
+$ make build
+```
+
+2 - Debug & Test your jar file (optional)
+
+```shell
+$ make debug
+$ make test
+```
+
+3 - Place the `dist/game.jar` under `.docker/game/` directory then build images
+
+```shell
+$ make build-images
+```
+
+You must restart your stack ou update your services in order to make it work
+
+#### Realm
+
+It seems that the source code is not working
+
+1 - Go to sources/Realm
+
+```shell
+$ make build
+```
+
+2 - Debug & Test your jar file (optional)
+
+```shell
+$ make debug
+$ make test
+```
+
+3 - Place the `dist/realm.jar` under `.docker/realm/` directory then build images
+
+```shell
+$ make build-images
+```
+
+You must restart your stack ou update your services in order to make it work

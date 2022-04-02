@@ -14,18 +14,18 @@ public class ConditionParser
 	{
 		if(req == null || req.equals(""))return true;
 		if(req.contains("BI"))return false;
-		
+
 		Jep jep = new Jep();
-		
+
 		req = req.replace("&", "&&").replace("=", "==").replace("|", "||").replace("!", "!=").replace("~", "==");
-		
+
 		if(req.contains("PO"))
 			req = havePO(req, perso);
 		if(req.contains("PN"))
 			req = canPN(req, perso);
 		if(req.contains("PJ"))
 			req = canPJ(req, perso);
-	 	//TODO : Gérer Pj
+	 	//TODO : GÃ©rer Pj
 		try
 		{
 				//Stats stuff compris
@@ -58,7 +58,7 @@ public class ConditionParser
 			 	jep.addVariable("SI", perso.get_curCarte().get_id());
 			 	//Les pierres d'ames sont lancables uniquement par le lanceur.
 			 	jep.addVariable("MiS",perso.get_GUID());
-			 	
+
 			 	jep.parse(req);
 			 	Object result = jep.evaluate();
 			 	boolean ok = false;
@@ -70,7 +70,7 @@ public class ConditionParser
 		}
 		return true;
 	}
-	
+
 	public static String havePO(String cond,Personnage perso)//On remplace les PO par leurs valeurs si possession de l'item
 	{
 		boolean Jump = false;
@@ -78,9 +78,9 @@ public class ConditionParser
 		boolean CutFinalLenght = true;
 		String copyCond = "";
 		int finalLength = 0;
-		
+
 		if(Ancestra.CONFIG_DEBUG) GameServer.addToLog("Entered Cond : "+cond);
-		
+
 		if(cond.contains("&&"))
 		{
 			for(String cur : cond.split("&&"))
@@ -89,7 +89,7 @@ public class ConditionParser
 				{
 					for(String cur2 : cur.split("=="))
 					{
-						if(cur2.contains("PO")) 
+						if(cur2.contains("PO"))
 						{
 							ContainsPO = true;
 							continue;
@@ -121,7 +121,7 @@ public class ConditionParser
 				{
 					for(String cur2 : cur.split("!="))
 					{
-						if(cur2.contains("PO")) 
+						if(cur2.contains("PO"))
 						{
 							ContainsPO = true;
 							continue;
@@ -159,7 +159,7 @@ public class ConditionParser
 				{
 					for(String cur2 : cur.split("=="))
 					{
-						if(cur2.contains("PO")) 
+						if(cur2.contains("PO"))
 						{
 							ContainsPO = true;
 							continue;
@@ -191,7 +191,7 @@ public class ConditionParser
 				{
 					for(String cur2 : cur.split("!="))
 					{
-						if(cur2.contains("PO")) 
+						if(cur2.contains("PO"))
 						{
 							ContainsPO = true;
 							continue;
@@ -228,7 +228,7 @@ public class ConditionParser
 			{
 				for(String cur : cond.split("=="))
 				{
-					if(cur.contains("PO")) 
+					if(cur.contains("PO"))
 					{
 						continue;
 					}
@@ -246,7 +246,7 @@ public class ConditionParser
 			{
 				for(String cur : cond.split("!="))
 				{
-					if(cur.contains("PO")) 
+					if(cur.contains("PO"))
 					{
 						continue;
 					}
@@ -263,19 +263,19 @@ public class ConditionParser
 		}
 		if(CutFinalLenght)
 		{
-			finalLength = (copyCond.length()-2);//On retire les deux derniers carractères (|| ou &&)
+			finalLength = (copyCond.length()-2);//On retire les deux derniers carractÃ©res (|| ou &&)
 			copyCond = copyCond.substring(0, finalLength);
 		}
 		if(Ancestra.CONFIG_DEBUG) GameServer.addToLog("Returned Cond : "+copyCond);
 		return copyCond;
 	}
-	
+
 	public static String canPN(String cond,Personnage perso)//On remplace le PN par 1 et si le nom correspond == 1 sinon == 0
 	{
 		String copyCond = "";
 		for(String cur : cond.split("=="))
 		{
-			if(cur.contains("PN")) 
+			if(cur.contains("PN"))
 			{
 				copyCond += "1==";
 				continue;
@@ -290,13 +290,13 @@ public class ConditionParser
 		}
 		return copyCond;
 	}
-	
+
 	public static String canPJ(String cond,Personnage perso)//On remplace le PJ par 1 et si le metier correspond == 1 sinon == 0
 	{
 		String copyCond = "";
 		for(String cur : cond.split("=="))
 		{
-			if(cur.contains("PJ")) 
+			if(cur.contains("PJ"))
 			{
 				copyCond += "1==";
 				continue;
